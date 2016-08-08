@@ -82,6 +82,7 @@ setup(
     install_requires=[
         'jsonpath_rw',
         'requests',
+        'urllib3',
         'requests_kerberos',
     ],
     tests_require=[
