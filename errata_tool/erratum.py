@@ -687,7 +687,8 @@ https://access.redhat.com/articles/11258")
             s = "\n  CVEs:  " + str(self._cve_bugs) + s
 
         return self.errata_name + ": " + self.synopsis + \
-            "\n  reporter: " + self.package_owner_email + "  qe: " + self.qe_email + \
+            "\n  reporter: " + self.package_owner_email + \
+            "  qe: " + self.qe_email + \
             " qe_group: " + self.qe_group + \
             "\n  url:   " + \
             self.url() + \
