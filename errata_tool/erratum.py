@@ -382,8 +382,12 @@ https://access.redhat.com/articles/11258")
             self._removeBug(b)
 
     # Omitted: RHOS shale's syncBugs()
+    def syncBugs(self):
+        raise NotImplementedError('RHOS-only method')
 
     # Omitted: RHOS shale's findMissingBuilds()
+    def findMissingBuilds(self):
+        raise NotImplementedError('RHOS-only method')
 
     # Adding and removing builds can't be done atomically.  Wondering whether
     def addBuildsDirect(self, buildlist, release, *args):
