@@ -596,7 +596,7 @@ https://access.redhat.com/articles/11258")
         if self._new:
             self._write()
             self.refresh()
-            self.syncBugs()
+            # self.syncBugs() # RHOS shale only
             return
 
         # XXX Not atomic, but we should refresh on commit
