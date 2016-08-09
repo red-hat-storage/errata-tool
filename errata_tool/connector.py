@@ -9,10 +9,6 @@ class ErrataConnector:
     _auth = HTTPKerberosAuth()
     ssl_verify = False  # Shared
 
-    
-    
-    
-
     # Simple wrappers to avoid copying around when auth changes.
     def _post(self, url, **kwargs):
         if kwargs is not None:
