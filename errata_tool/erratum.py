@@ -617,7 +617,7 @@ https://access.redhat.com/articles/11258")
             if sorted(self._original_bugs) != sorted(allbugs) \
                or self._update:
                 self._write()
-                self.syncBugs()
+                # self.syncBugs() # RHOS shale only
                 ret = True
 
             # Perhaps someone did addbugs + setState('QE')
