@@ -16,3 +16,6 @@ Example:
 
     print(e.errata_state)
     # prints "NEW_FILES"
+
+    print(e.url())
+    # prints "https://errata.devel.redhat.com/errata/1234"
