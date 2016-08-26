@@ -19,3 +19,20 @@ Example:
 
     print(e.url())
     # prints "https://errata.devel.redhat.com/errata/1234"
+
+Removing bugs:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    e.removeBugs([12345, 123678])
+
+    # You can simply call "commit()" without checking the return code, or check
+    # it and use refresh() to refresh our local instance data for the errata
+    # advisory.
+    need_refresh = e.commit()
+
+    if need_refresh:
+        print('refreshing')
+        e.refresh()
