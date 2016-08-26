@@ -78,7 +78,6 @@ setup(
     zip_safe=False,
     keywords='packaging, build',
     long_description=LONG_DESCRIPTION,
-    scripts=['bin/rhcephpkg'],
     install_requires=[
         'jsonpath_rw',
         'requests',
