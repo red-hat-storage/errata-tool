@@ -7,7 +7,7 @@ from jsonpath_rw import parse
 class ErrataConnector:
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth()
-    ssl_verify = False  # Shared
+    ssl_verify = True  # Shared
 
     # Simple wrappers to avoid copying around when auth changes.
     def _post(self, url, **kwargs):

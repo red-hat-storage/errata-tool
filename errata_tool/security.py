@@ -5,7 +5,7 @@ import urllib3.exceptions as exceptions  # NOQA
 
 class SecurityParameters():
     _warnings_disabled = False
-    _verify_ssl = False
+    _verify_ssl = True
 
     def __init__(self):
         if self._warnings_disabled is False and self._verify_ssl is False:
