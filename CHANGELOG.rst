@@ -1,5 +1,5 @@
-v1.1.0 (unreleased)
-===================
+v1.1.0
+======
 
 * More documentation in README
 
