@@ -1,3 +1,10 @@
+v1.1.1
+======
+
+* RPM packaging fixes
+
+* Add full MIT license text to git repository and packaging
+
 v1.1.0
 ======
 
