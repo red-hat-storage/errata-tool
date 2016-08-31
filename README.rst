@@ -54,3 +54,10 @@ HTTPS certificate.
 When using RHEL 7's python-requests RPM, requests simply checks
 ``/etc/pki/tls/certs/ca-bundle.crt``, so you'll need to add the IT CA cert to
 that big bundle file.
+
+
+Changelog
+---------
+Check out the `CHANGELOG`_.
+
+.. _CHANGELOG: CHANGELOG.rst
