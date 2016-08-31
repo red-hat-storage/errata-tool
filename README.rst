@@ -36,3 +36,21 @@ Removing bugs:
     if need_refresh:
         print('refreshing')
         e.refresh()
+
+SSL errors
+----------
+
+This library verifies the ET server's HTTPS certificate by default. This is
+more of a python-requests thing, but if you receive an SSL verification error,
+it's probably because you don't have the Red Hat IT CA set up for your Python
+environment. Particularly if you're running this in a virtualenv, you'll want
+to set the following configuration variable::
+
+    REQUESTS_CA_BUNDLE=/etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt
+
+Where "RH-IT-Root-CA.crt" is the public cert that signed the Chacra server's
+HTTPS certificate.
+
+When using RHEL 7's python-requests RPM, requests simply checks
+``/etc/pki/tls/certs/ca-bundle.crt``, so you'll need to add the IT CA cert to
+that big bundle file.
