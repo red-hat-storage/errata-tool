@@ -19,14 +19,18 @@ Source0:        %{pkgname}-%{version}.tar.gz
 BuildArch:      noarch
 %if 0%{?with_python3}
 Requires:  python3-requests-kerberos
+Requires:  python3-jsonpath-rw
 BuildRequires:  python3-devel
+BuildRequires:  python3-jsonpath-rw
 BuildRequires:  python3-pytest
 BuildRequires:  python3-requests-kerberos
 BuildRequires:  python3-setuptools
 %else # python 2
 Requires:  python-requests-kerberos
+Requires:  python-jsonpath-rw
 BuildRequires:  pytest
 BuildRequires:  python2-devel
+BuildRequires:  python-jsonpath-rw
 BuildRequires:  python-requests-kerberos
 BuildRequires:  python-setuptools
 %endif
