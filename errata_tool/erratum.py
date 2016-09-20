@@ -390,11 +390,13 @@ https://access.redhat.com/articles/11258")
         raise NotImplementedError('RHOS-only method')
 
     # Adding and removing builds can't be done atomically.  Wondering whether
-    def addBuildsDirect(self, buildlist, release, *args):
-        if args is None or len(args) == 0 or args[0] is None:
+    def addBuildsDirect(self, buildlist, release, **kwargs):
+        if 'file_types' not in kwargs:
             file_types = None
         else:
-            file_types = args[0]
+            file_types = kwargs['file_types']
+
+        print file_types
 
         blist = []
         if type(buildlist) is str or type(buildlist) is unicode:
@@ -408,10 +410,11 @@ https://access.redhat.com/articles/11258")
         pdata = []
         for b in blist:
             val = {}
-            if file_types is not None:
-                val['file_types'] = file_types
+            if file_types is not None and b in file_types:
+                val['file_types'] = file_types[b]
             val['build'] = b
             val['product_version'] = release
+            print val
             pdata.append(val)
         url = self._url + "/api/v1/erratum/" + str(self.errata_id)
         url += "/add_builds"
@@ -420,16 +423,19 @@ https://access.redhat.com/articles/11258")
         self._buildschanged = True
         return
 
-    def addBuilds(self, buildlist, *args):
+    def addBuilds(self, buildlist, **kwargs):
         if self._new:
             raise ErrataException('Cannot add builds to unfiled erratum')
-        if args is None or len(args) == 0 or args[0] is None:
+        if 'release' not in kwargs:
             if len(self.errata_builds) != 1:
                 raise ErrataException('Need to specify a release')
             return self.addBuildsDirect(buildlist,
-                                        self.errata_builds.keys()[0])
+                                        self.errata_builds.keys()[0],
+                                        **kwargs)
 
-        return self.addBuildsDirect(buildlist, args[0])
+        release = kwargs['release']
+        del kwargs['release']
+        return self.addBuildsDirect(buildlist, release, **kwargs)
 
     def removeBuilds(self, buildlist):
         if type(buildlist) is not str and type(buildlist) is not list:
