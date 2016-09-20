@@ -397,8 +397,6 @@ https://access.redhat.com/articles/11258")
         else:
             file_types = kwargs['file_types']
 
-        print file_types
-
         blist = []
         if type(buildlist) is str or type(buildlist) is unicode:
             blist.append(buildlist)
