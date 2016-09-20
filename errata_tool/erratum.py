@@ -1,3 +1,4 @@
+import os
 import textwrap
 import datetime
 import time
@@ -436,6 +437,36 @@ https://access.redhat.com/articles/11258")
         release = kwargs['release']
         del kwargs['release']
         return self.addBuildsDirect(buildlist, release, **kwargs)
+
+    def setFileInfo(self, file_info):
+        # XXX API broken??
+
+        if type(file_info) is not dict:
+            raise ValueError('file_info is not a dict')
+        if len(file_info) < 1:
+            return
+
+        # Get:
+
+        url = self._url + '/api/v1/erratum/' + str(self.errata_id)
+        url += '/filemeta'
+        r = self._get(url)
+
+        info = []
+        files = [k for k in file_info]
+        for f in r:
+            # print f['file']['path'], f['file']['id']
+            fn = os.path.basename(f['file']['path'])
+            if fn in files:
+                info.append({'file': f['file']['id'],
+                             'title': file_info[fn]['title']})
+
+        # print info
+        # Set:
+
+        # url += '?put_rank=true'
+        r = self._put(url, data=info)
+        self._processResponse(r)
 
     def removeBuilds(self, buildlist):
         if type(buildlist) is not str and type(buildlist) is not list:
