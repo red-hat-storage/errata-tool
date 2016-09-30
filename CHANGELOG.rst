@@ -1,3 +1,23 @@
+v1.2.0
+======
+
+* ``addBuilds()`` handles non-RPMs.
+
+* add ``setFileInfo()``
+
+* This release changes the signature of ``addBuilds()`` slightly. Prior to this
+  release, you could call it like so:
+
+  .. code-block:: python
+
+    advisory.addBuilds(['build1', 'build2'], product_version)
+
+  After this change, release must be specified as a kwarg:
+
+  .. code-block:: python
+
+      advisory.addBuilds(['build1', 'build2'], release=product_version)
+
 v1.1.1
 ======
 
