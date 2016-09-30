@@ -55,6 +55,18 @@ When using RHEL 7's python-requests RPM, requests simply checks
 ``/etc/pki/tls/certs/ca-bundle.crt``, so you'll need to add the IT CA cert to
 that big bundle file.
 
+Building RPMs
+-------------
+
+Install fedpkg, then use the Makefile::
+
+    $ make srpm
+
+You can then upload the SRPM to Copr. Or, to build RPMs on your local
+computer, using mock::
+
+    $ make rpm
+
 
 Changelog
 ---------
