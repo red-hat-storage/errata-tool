@@ -1,3 +1,6 @@
+# Makefile for constructing RPMs.
+# Try "make" (for SRPMS) or "make rpm"
+
 NAME = python-errata-tool
 VERSION := $(shell PYTHONPATH=. python -c \
              'import errata_tool; print errata_tool.__version__')
