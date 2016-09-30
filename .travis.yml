@@ -12,6 +12,11 @@ install:
     #   virtualenv.
   - pip install pytest-flake8
   - pip install pytest-cov python-coveralls
+    # We must explicitly install urllib3 into the virtualenv using pip here,
+    # because setuptools' EasyInstall is not always able to install some
+    # versions of urllib3. Partially explained here:
+    # https://github.com/shazow/urllib3/issues/986
+  - pip install urllib3
 script:
   - python setup.py test -v -a "--cov-config .coveragerc --cov=errata_tool"
 after_success:
