@@ -180,6 +180,15 @@ https://access.redhat.com/articles/11258")
             self.errata_state = v.encode('ascii', 'ignore')
             self._original_state = self.errata_state
 
+            # Check if the erratum is under embargo
+            self.embargoed = False
+            self.release_date = erratum['release_date']
+            if self.release_date is not None:
+                cur = datetime.datetime.utcnow()
+                cur = str(cur).split()[0]
+                if self.release_date > cur:
+                    self.embargoed = True
+
             # Ship date
             d = erratum['publish_date_override']
             if d is not None:
