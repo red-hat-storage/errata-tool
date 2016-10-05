@@ -1,3 +1,9 @@
+v1.2.1
+======
+
+* Erratum instances have a new ``.embargoed`` attribute that is ``True`` if an
+  advisory is embargoed, and ``False`` if an advisory is not embargoed.
+
 v1.2.0
 ======
 
