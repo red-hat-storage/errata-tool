@@ -37,6 +37,18 @@ Removing bugs:
         print('refreshing')
         e.refresh()
 
+Checking whether an advisory is embargoed:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    if e.embargoed:
+        # it's embargoed
+    else:
+        # it's not embargoed
+
+
 SSL errors
 ----------
 
