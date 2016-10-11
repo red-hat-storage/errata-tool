@@ -206,9 +206,6 @@ https://access.redhat.com/articles/11258")
 
             if 'doc_complete' in erratum and erratum['doc_complete'] == 0:
                 self.current_flags.append('needs_docs')
-            if 'security_approved' in erratum and \
-               erratum['security_approved'] == 0:
-                self.current_flags.append('needs_security')
 
             if self.errata_state == 'NEW_FILES':
                 self.current_flags.append('needs_devel')
@@ -246,6 +243,14 @@ https://access.redhat.com/articles/11258")
 
             elif self.errata_state == 'NEW_FILES':
                 self._check_rpmdiff()
+
+            # Check for security review
+            if 'rhsa' in advisory['errata']:
+                sa = advisory['errata']['rhsa']['security_approved']
+                if sa is None:
+                    self.current_flags.append('request_security')
+                elif sa is False:
+                    self.current_flags.append('needs_security')
 
             check_signatures = self.errata_state != 'NEW_FILES'
             self._get_build_list(check_signatures)
