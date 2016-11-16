@@ -39,6 +39,7 @@ class Erratum(ErrataConnector):
         # These should be updated with the 'update()' method, and are provided
         # primarily for debugging/printing by user apps
         self.errata_type = None
+        self.text_only = False
         self.publish_date_override = None
         self.package_owner_email = None
         self.manager_email = None
@@ -58,6 +59,9 @@ class Erratum(ErrataConnector):
                                   'in NEW_FILES state')
         if 'errata_type' in kwargs:
             self.errata_type = kwargs['errata_type']
+            self._update = True
+        if 'text_only' in kwargs:
+            self.errata_type = kwargs['text_only']
             self._update = True
         if 'date' in kwargs:
             try:
@@ -223,6 +227,7 @@ https://access.redhat.com/articles/11258")
             # self.manager_email = ???
 
             # Grab mutable errata content
+            self.text_only = erratum['text_only']
             self.synopsis = erratum['synopsis']
             self.topic = advisory['content']['content']['topic']
             self.description = advisory['content']['content']['description']
@@ -540,6 +545,9 @@ https://access.redhat.com/articles/11258")
 
         # Default from errata tool
         pdata['advisory[errata_type]'] = self.errata_type
+
+        # POST/PUT a 1 or 0 value for this text_only boolean
+        pdata['advisory[text_only]'] = int(self.text_only)
 
         if self.publish_date_override:
             pdata['advisory[publish_date_override]'] = \

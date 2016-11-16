@@ -48,6 +48,17 @@ Checking whether an advisory is embargoed:
     else:
         # it's not embargoed
 
+Checking whether an advisory is text-only:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    if e.text_only:
+        # it's text-only
+    else:
+        # it's not text-only
+
 
 SSL errors
 ----------
