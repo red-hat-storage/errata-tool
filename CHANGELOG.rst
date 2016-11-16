@@ -1,3 +1,11 @@
+v1.2.2
+======
+
+* Erratum instances have a new ``.text_only`` attribute that is ``True`` if an
+  advisory is text-only, and ``False`` if an advisory is a "normal" one. This
+  attribute is writable, and you can also set the ``text_only=True`` kwarg
+  during the ``Erratum`` constructor when creating an entirely new advisory.
+
 v1.2.1
 ======
 
