@@ -25,4 +25,5 @@ class SecurityParameters():
     def ssl_verify(self):
         return self._verify_ssl
 
+
 security_settings = SecurityParameters()
