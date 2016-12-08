@@ -1,3 +1,8 @@
+v1.2.3
+======
+
+* Prepend exceptions with erratum ID if possible
+
 v1.2.2
 ======
 
