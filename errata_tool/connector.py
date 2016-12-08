@@ -118,7 +118,8 @@ class ErrataConnector:
             raise ErrataException(err_msg)
 
         if r.status_code in [401]:
-            # lhh - this is not a typo, and the syntax is correct, I assure you.
+            # lhh - this is not a typo, and the syntax is correct,
+            # I assure you.
             raise ErrataException('Pigeon crap. Did it forget to run kinit?')
 
         if r.status_code in [500]:
