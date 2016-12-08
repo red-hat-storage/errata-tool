@@ -80,13 +80,21 @@ class ErrataConnector:
         if r.status_code in [200, 201, 202, 203, 204]:
             return  # all good
 
+        # If subclassed as an Erratum and we have an ID, add it 
+        # to the error message
+        err_msg = ''
+        try:
+            if type(self.errata_id) is int and self.errata_id > 0:
+                err_msg += 'Erratum ' + str(self.errata_id) + ': '
+        except AttributeError:
+            pass
+
         # Generate a really big message if e.g. bug is in a different
         # erratum
         if r.status_code in [400, 422]:
-            err_msg = ''
             rj = r.json()
             if rj is None:
-                raise Exception('No Json returned')
+                raise Exception(err_msg + 'No Json returned')
             if 'error' in rj:
                 # err_msg += '; '.join(rj['error'])
                 err_msg += str(rj['error'])
@@ -110,18 +118,19 @@ class ErrataConnector:
             raise ErrataException(err_msg)
 
         if r.status_code in [401]:
+            # lhh - this is not a typo, and the syntax is correct, I assure you.
             raise ErrataException('Pigeon crap. Did it forget to run kinit?')
 
         if r.status_code in [500]:
-            err_msg = "Broke errata tool!"
+            err_msg += "Broke errata tool!"
             print r.json()
             raise ErrataException(err_msg)
 
         if r.status_code in [404]:
-            err_msg = 'Bug in your code - wrong method for this api? '
+            err_msg += 'Bug in your code - wrong method for this api? '
             err_msg += 'Wrong location?'
             print r.json()
             raise ErrataException(err_msg)
 
-        raise ErrataException("Unhandled HTTP status code: " +
+        raise ErrataException(err_msg + "Unhandled HTTP status code: " +
                               str(r.status_code))
