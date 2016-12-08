@@ -20,6 +20,24 @@ Example:
     print(e.url())
     # prints "https://errata.devel.redhat.com/errata/1234"
 
+Creating a new advisory:
+
+.. code-block:: python
+
+    e = Erratum(product='RHCEPH',
+                release='RHCEPH-2-RHEL-7',
+                synopsis='Red Hat Ceph Storage 2.1 bug fix update',
+                topic='An update for Red Hat Ceph 2.1 is now available.',
+                description='This update contains the following fixes ...',
+                solution='Before applying this update...',
+                qe_email='someone@redhat.com',
+                errata_type='RHBA',
+                owner_email='kdreyer@redhat.com',
+                manager_email='ohno@redhat.com',
+                )
+    e.commit()
+    print(e.url())
+
 Removing bugs:
 
 .. code-block:: python
