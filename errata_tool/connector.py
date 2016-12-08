@@ -80,7 +80,7 @@ class ErrataConnector:
         if r.status_code in [200, 201, 202, 203, 204]:
             return  # all good
 
-        # If subclassed as an Erratum and we have an ID, add it 
+        # If subclassed as an Erratum and we have an ID, add it
         # to the error message
         err_msg = ''
         try:
