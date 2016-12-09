@@ -1,3 +1,13 @@
+v1.2.4
+======
+
+* Refactor Erratum's internal `_fetch` method (code reorganization). This will
+  make it easier to subclass and extend functionality. New internal methods you   may want to override:
+
+  * ``Erratum._cache_bug_info()``
+
+  * ``Erratum._need_rel_prep()``
+
 v1.2.3
 ======
 
