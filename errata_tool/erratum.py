@@ -293,10 +293,8 @@ https://access.redhat.com/articles/11258")
                     for b in i:
                         builds.append(b)
                         if have_all_sigs and check_signatures:
-                            url = self._url + '/api/v1/build/' + b
-                            nvr_json = self._get(url)
 
-                            if not nvr_json[u'rpms_signed']:
+                            if not self._check_signature_for_build(b):
                                 self.current_flags.append('needs_sigs')
                                 have_all_sigs = False
 
@@ -312,6 +310,18 @@ https://access.redhat.com/articles/11258")
         except Exception:
             # Todo: better handling
             raise
+
+    def _check_signature_for_build(self, build):
+        signed = False
+
+        url = os.path.join(self._url + '/api/v1/build/', build)
+        nvr_json = self._get(url)
+
+        if u'rpms_signed' in nvr_json:
+            if nvr_json[u'rpms_signed']:
+                signed = True
+
+        return signed
 
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
