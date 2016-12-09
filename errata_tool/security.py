@@ -1,6 +1,6 @@
 import warnings
 import urllib3  # NOQA
-import urllib3.exceptions as exceptions  # NOQA
+# import urllib3.exceptions as exceptions  # NOQA
 
 
 class SecurityParameters():
@@ -15,7 +15,7 @@ class SecurityParameters():
             # urllib3.disable_warnings(category=exceptions.SecurityWarning)
             # urllib3.disable_warnings(category=exceptions.InsecureRequestWarning)
             # prod cert lacks subjectAltName
-            urllib3.disable_warnings(r'Certificate has no `subjectAltName`, falling back to check for a `commonName` for now') # NOQA
+            urllib3.disable_warnings(r'Certificate has no `subjectAltName`, falling back to check for a `commonName` for now')  # NOQA
             warnings.filterwarnings('ignore')
 
     def __str__(self):
