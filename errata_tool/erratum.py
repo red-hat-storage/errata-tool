@@ -236,7 +236,7 @@ https://access.redhat.com/articles/11258")
                                 in advisory['bugs']['bugs']]
             self._original_bugs = list(self.errata_bugs)
 
-            # Omitted: RHOS shale's use of bz_cache here.
+            self._cache_bug_info(self._original_bugs)
 
             # Try to check to see if we need devel assistance, qe assistance or
             # rel prep assistance
@@ -322,6 +322,10 @@ https://access.redhat.com/articles/11258")
                 signed = True
 
         return signed
+
+    def _cache_bug_info(self, bug_id_list):
+        # Omitted: RHOS shale's use of bz_cache here.
+        pass
 
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
