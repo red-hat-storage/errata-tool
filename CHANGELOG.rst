@@ -1,3 +1,8 @@
+v1.2.5
+======
+
+* Remove extra print from ``errataum.addBuildsDirect()``
+
 v1.2.4
 ======
 
