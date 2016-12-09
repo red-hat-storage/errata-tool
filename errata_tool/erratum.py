@@ -241,18 +241,7 @@ https://access.redhat.com/articles/11258")
             # Try to check to see if we need devel assistance, qe assistance or
             # rel prep assistance
             if self.errata_state == 'QE':
-                # Check for TPS failure (QE state only)
-                url = self._url + '/advisory/'
-                url += str(self.errata_id) + '/tps_jobs.json'
-                r = self._get(url)
-                for tps in r:
-                    if tps['state'] == 'BAD' or \
-                       'failed to generate' in tps['state']:
-                        if 'tps_errors' not in self.current_flags:
-                            self.current_flags.append('tps_errors')
-                    if tps['state'] in ('BUSY', 'NOT_STARTED'):
-                        if 'tps_wait' not in self.current_flags:
-                            self.current_flags.append('tps_wait')
+                self._check_tps()
                 self._check_need_rel_prep()
 
             elif self.errata_state == 'NEW_FILES':
@@ -325,6 +314,20 @@ https://access.redhat.com/articles/11258")
     def _cache_bug_info(self, bug_id_list):
         # Omitted: RHOS shale's use of bz_cache here.
         pass
+
+    def _check_tps(self):
+        # Check for TPS failure (QE state only)
+        url = self._url + '/advisory/'
+        url += str(self.errata_id) + '/tps_jobs.json'
+        r = self._get(url)
+        for tps in r:
+            if tps['state'] == 'BAD' or \
+               'failed to generate' in tps['state']:
+                if 'tps_errors' not in self.current_flags:
+                    self.current_flags.append('tps_errors')
+            if tps['state'] in ('BUSY', 'NOT_STARTED'):
+                if 'tps_wait' not in self.current_flags:
+                    self.current_flags.append('tps_wait')
 
     def _check_need_rel_prep(self):
         # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
