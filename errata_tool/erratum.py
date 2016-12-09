@@ -245,27 +245,7 @@ https://access.redhat.com/articles/11258")
                 self._check_need_rel_prep()
 
             elif self.errata_state == 'NEW_FILES':
-                # Check for rpmdiff failures (NEW_FILES state only)
-                # rpmdiff_runs.json
-                url = self._url + "/advisory/" + str(self.errata_id)
-                url += '/rpmdiff_runs.json'
-                r = self._get(url)
-                if r is not None:
-                    for rpmdiff in r:
-                        rpmdiff_run = rpmdiff['rpmdiff_run']
-                        if rpmdiff_run['obsolete'] == 1:
-                            continue
-                        if rpmdiff_run['overall_score'] == 3 or \
-                           rpmdiff_run['overall_score'] == 4:
-                            self.current_flags.append('rpmdiff_errors')
-                            break
-                        if rpmdiff_run['overall_score'] == 499 or \
-                           rpmdiff_run['overall_score'] == 500:
-                            if 'rpmdiff_wait' not in self.current_flags:
-                                self.current_flags.append('rpmdiff_wait')
-
-            # Grab build list; store on a per-key basis
-            # REFERENCE
+                self._check_rpmdiff()
 
             # Item 5.2.10.3. GET /advisory/{id}/builds.json
             # Then try to check to see if they are signed or not
@@ -314,6 +294,26 @@ https://access.redhat.com/articles/11258")
     def _cache_bug_info(self, bug_id_list):
         # Omitted: RHOS shale's use of bz_cache here.
         pass
+
+    def _check_rpmdiff(self):
+        # Check for rpmdiff failures (NEW_FILES state only)
+        # rpmdiff_runs.json
+        url = self._url + "/advisory/" + str(self.errata_id)
+        url += '/rpmdiff_runs.json'
+        r = self._get(url)
+        if r is not None:
+            for rpmdiff in r:
+                rpmdiff_run = rpmdiff['rpmdiff_run']
+                if rpmdiff_run['obsolete'] == 1:
+                    continue
+                if rpmdiff_run['overall_score'] == 3 or \
+                   rpmdiff_run['overall_score'] == 4:
+                    self.current_flags.append('rpmdiff_errors')
+                    break
+                if rpmdiff_run['overall_score'] == 499 or \
+                   rpmdiff_run['overall_score'] == 500:
+                    if 'rpmdiff_wait' not in self.current_flags:
+                        self.current_flags.append('rpmdiff_wait')
 
     def _check_tps(self):
         # Check for TPS failure (QE state only)
