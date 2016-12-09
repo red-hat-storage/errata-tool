@@ -242,6 +242,7 @@ https://access.redhat.com/articles/11258")
             # rel prep assistance
             if self.errata_state == 'QE':
                 self._check_tps()
+                self._check_bugs()
                 self._check_need_rel_prep()
 
             elif self.errata_state == 'NEW_FILES':
@@ -311,6 +312,9 @@ https://access.redhat.com/articles/11258")
             if tps['state'] in ('BUSY', 'NOT_STARTED'):
                 if 'tps_wait' not in self.current_flags:
                     self.current_flags.append('tps_wait')
+
+    def _check_bugs(self):
+        pass
 
     def _check_need_rel_prep(self):
         # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
