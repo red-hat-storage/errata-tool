@@ -247,26 +247,9 @@ https://access.redhat.com/articles/11258")
             elif self.errata_state == 'NEW_FILES':
                 self._check_rpmdiff()
 
-            # Item 5.2.10.3. GET /advisory/{id}/builds.json
-            # Then try to check to see if they are signed or not
-            # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
-            url = self._url + "/advisory/" + str(self.errata_id)
-            url += "/builds.json"
-            rj = self._get(url)
-            have_all_sigs = True
             check_signatures = self.errata_state != 'NEW_FILES'
-            for k in rj:
-                builds = []
-                for i in rj[k]:
-                    for b in i:
-                        builds.append(b)
-                        if have_all_sigs and check_signatures:
+            self._get_build_list(check_signatures)
 
-                            if not self._check_signature_for_build(b):
-                                self.current_flags.append('needs_sigs')
-                                have_all_sigs = False
-
-                self.errata_builds[k] = builds
             return
 
         except RuntimeError:
@@ -332,6 +315,30 @@ https://access.redhat.com/articles/11258")
     def _check_need_rel_prep(self):
         # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
         pass
+
+    def _get_build_list(self, check_signatures=False):
+        # Grab build list; store on a per-key basis
+        # REFERENCE
+
+        # Item 5.2.10.3. GET /advisory/{id}/builds.json
+        # Then try to check to see if they are signed or not
+        # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
+        url = self._url + "/advisory/" + str(self.errata_id)
+        url += "/builds.json"
+        rj = self._get(url)
+        have_all_sigs = True
+        for k in rj:
+            builds = []
+            for i in rj[k]:
+                for b in i:
+                    builds.append(b)
+                    if have_all_sigs and check_signatures:
+
+                        if not self._check_signature_for_build(b):
+                            self.current_flags.append('needs_sigs')
+                            have_all_sigs = False
+
+            self.errata_builds[k] = builds
 
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
