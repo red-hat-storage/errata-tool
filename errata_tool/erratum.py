@@ -454,7 +454,6 @@ https://access.redhat.com/articles/11258")
                 val['file_types'] = file_types[b]
             val['build'] = b
             val['product_version'] = release
-            print val
             pdata.append(val)
         url = self._url + "/api/v1/erratum/" + str(self.errata_id)
         url += "/add_builds"
