@@ -236,71 +236,20 @@ https://access.redhat.com/articles/11258")
                                 in advisory['bugs']['bugs']]
             self._original_bugs = list(self.errata_bugs)
 
-            # Omitted: RHOS shale's use of bz_cache here.
+            self._cache_bug_info(self._original_bugs)
 
             # Try to check to see if we need devel assistance, qe assistance or
             # rel prep assistance
             if self.errata_state == 'QE':
-                # Check for TPS failure (QE state only)
-                url = self._url + '/advisory/'
-                url += str(self.errata_id) + '/tps_jobs.json'
-                r = self._get(url)
-                for tps in r:
-                    if tps['state'] == 'BAD' or \
-                       'failed to generate' in tps['state']:
-                        if 'tps_errors' not in self.current_flags:
-                            self.current_flags.append('tps_errors')
-                    if tps['state'] in ('BUSY', 'NOT_STARTED'):
-                        if 'tps_wait' not in self.current_flags:
-                            self.current_flags.append('tps_wait')
-
-            # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
+                self._check_tps()
+                self._check_need_rel_prep()
 
             elif self.errata_state == 'NEW_FILES':
-                # Check for rpmdiff failures (NEW_FILES state only)
-                # rpmdiff_runs.json
-                url = self._url + "/advisory/" + str(self.errata_id)
-                url += '/rpmdiff_runs.json'
-                r = self._get(url)
-                if r is not None:
-                    for rpmdiff in r:
-                        rpmdiff_run = rpmdiff['rpmdiff_run']
-                        if rpmdiff_run['obsolete'] == 1:
-                            continue
-                        if rpmdiff_run['overall_score'] == 3 or \
-                           rpmdiff_run['overall_score'] == 4:
-                            self.current_flags.append('rpmdiff_errors')
-                            break
-                        if rpmdiff_run['overall_score'] == 499 or \
-                           rpmdiff_run['overall_score'] == 500:
-                            if 'rpmdiff_wait' not in self.current_flags:
-                                self.current_flags.append('rpmdiff_wait')
+                self._check_rpmdiff()
 
-            # Grab build list; store on a per-key basis
-            # REFERENCE
-
-            # Item 5.2.10.3. GET /advisory/{id}/builds.json
-            # Then try to check to see if they are signed or not
-            # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
-            url = self._url + "/advisory/" + str(self.errata_id)
-            url += "/builds.json"
-            rj = self._get(url)
-            have_all_sigs = True
             check_signatures = self.errata_state != 'NEW_FILES'
-            for k in rj:
-                builds = []
-                for i in rj[k]:
-                    for b in i:
-                        builds.append(b)
-                        if have_all_sigs and check_signatures:
-                            url = self._url + '/api/v1/build/' + b
-                            nvr_json = self._get(url)
+            self._get_build_list(check_signatures)
 
-                            if not nvr_json[u'rpms_signed']:
-                                self.current_flags.append('needs_sigs')
-                                have_all_sigs = False
-
-                self.errata_builds[k] = builds
             return
 
         except RuntimeError:
@@ -312,6 +261,84 @@ https://access.redhat.com/articles/11258")
         except Exception:
             # Todo: better handling
             raise
+
+    def _check_signature_for_build(self, build):
+        signed = False
+
+        url = os.path.join(self._url + '/api/v1/build/', build)
+        nvr_json = self._get(url)
+
+        if u'rpms_signed' in nvr_json:
+            if nvr_json[u'rpms_signed']:
+                signed = True
+
+        return signed
+
+    def _cache_bug_info(self, bug_id_list):
+        # Omitted: RHOS shale's use of bz_cache here.
+        pass
+
+    def _check_rpmdiff(self):
+        # Check for rpmdiff failures (NEW_FILES state only)
+        # rpmdiff_runs.json
+        url = self._url + "/advisory/" + str(self.errata_id)
+        url += '/rpmdiff_runs.json'
+        r = self._get(url)
+        if r is not None:
+            for rpmdiff in r:
+                rpmdiff_run = rpmdiff['rpmdiff_run']
+                if rpmdiff_run['obsolete'] == 1:
+                    continue
+                if rpmdiff_run['overall_score'] == 3 or \
+                   rpmdiff_run['overall_score'] == 4:
+                    self.current_flags.append('rpmdiff_errors')
+                    break
+                if rpmdiff_run['overall_score'] == 499 or \
+                   rpmdiff_run['overall_score'] == 500:
+                    if 'rpmdiff_wait' not in self.current_flags:
+                        self.current_flags.append('rpmdiff_wait')
+
+    def _check_tps(self):
+        # Check for TPS failure (QE state only)
+        url = self._url + '/advisory/'
+        url += str(self.errata_id) + '/tps_jobs.json'
+        r = self._get(url)
+        for tps in r:
+            if tps['state'] == 'BAD' or \
+               'failed to generate' in tps['state']:
+                if 'tps_errors' not in self.current_flags:
+                    self.current_flags.append('tps_errors')
+            if tps['state'] in ('BUSY', 'NOT_STARTED'):
+                if 'tps_wait' not in self.current_flags:
+                    self.current_flags.append('tps_wait')
+
+    def _check_need_rel_prep(self):
+        # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
+        pass
+
+    def _get_build_list(self, check_signatures=False):
+        # Grab build list; store on a per-key basis
+        # REFERENCE
+
+        # Item 5.2.10.3. GET /advisory/{id}/builds.json
+        # Then try to check to see if they are signed or not
+        # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
+        url = self._url + "/advisory/" + str(self.errata_id)
+        url += "/builds.json"
+        rj = self._get(url)
+        have_all_sigs = True
+        for k in rj:
+            builds = []
+            for i in rj[k]:
+                for b in i:
+                    builds.append(b)
+                    if have_all_sigs and check_signatures:
+
+                        if not self._check_signature_for_build(b):
+                            self.current_flags.append('needs_sigs')
+                            have_all_sigs = False
+
+            self.errata_builds[k] = builds
 
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
