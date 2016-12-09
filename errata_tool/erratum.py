@@ -253,8 +253,7 @@ https://access.redhat.com/articles/11258")
                     if tps['state'] in ('BUSY', 'NOT_STARTED'):
                         if 'tps_wait' not in self.current_flags:
                             self.current_flags.append('tps_wait')
-
-            # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
+                self._check_need_rel_prep()
 
             elif self.errata_state == 'NEW_FILES':
                 # Check for rpmdiff failures (NEW_FILES state only)
@@ -325,6 +324,10 @@ https://access.redhat.com/articles/11258")
 
     def _cache_bug_info(self, bug_id_list):
         # Omitted: RHOS shale's use of bz_cache here.
+        pass
+
+    def _check_need_rel_prep(self):
+        # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
         pass
 
     def _fetch_by_bug(self, bug_id):
