@@ -309,14 +309,29 @@ https://access.redhat.com/articles/11258")
         url = self._url + '/advisory/'
         url += str(self.errata_id) + '/tps_jobs.json'
         r = self._get(url)
+        distqa_tps = 0
+        distqa_passing = 0
         for tps in r:
+            if tps['rhnqa'] is True:
+                distqa_tps = distqa_tps + 1
             if tps['state'] == 'BAD' or \
                'failed to generate' in tps['state']:
                 if 'tps_errors' not in self.current_flags:
                     self.current_flags.append('tps_errors')
+                continue
             if tps['state'] in ('BUSY', 'NOT_STARTED'):
                 if 'tps_wait' not in self.current_flags:
                     self.current_flags.append('tps_wait')
+                continue
+            if tps['rhnqa'] is True:
+                distqa_passing = distqa_passing + 1
+
+        # Assume testing is done... ;)
+        if distqa_tps > 0 and distqa_passing != distqa_tps:
+            self.current_flags.append('needs_distqa')
+            self.need_rel_prep = False
+        else:
+            self.need_rel_prep = True
 
     def _check_bugs(self):
         pass
