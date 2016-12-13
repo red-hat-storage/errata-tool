@@ -1,3 +1,12 @@
+v1.2.6
+======
+
+* New internal method you may want to override in a subclass:
+  ``Erratum._check_bugs()``
+
+* If an advisory is an RHSA, the ``current_flags`` attribute can contain
+  either ``request_security`` or ``needs_security``.
+
 v1.2.5
 ======
 
