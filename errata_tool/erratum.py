@@ -473,6 +473,10 @@ https://access.redhat.com/articles/11258")
         # List of dicts.
         pdata = []
         for b in blist:
+            # Avoid double-add
+            if release in self.errata_builds and \
+               b in self.errata_builds[release]:
+                    continue
             val = {}
             if file_types is not None and b in file_types:
                 val['file_types'] = file_types[b]
