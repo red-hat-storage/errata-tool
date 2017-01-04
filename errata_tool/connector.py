@@ -4,7 +4,7 @@ from requests_kerberos import HTTPKerberosAuth
 from jsonpath_rw import parse
 
 
-class ErrataConnector:
+class ErrataConnector(object):
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth()
     ssl_verify = True  # Shared
