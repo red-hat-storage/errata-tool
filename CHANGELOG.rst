@@ -1,3 +1,16 @@
+v1.3.0
+======
+
+* Add needs_distqa flag checking
+
+* Don't double-add builds (avoids traceback)
+
+* ``ErrataConnector`` is now a proper new-style class, to make it easier to
+  inherit with child classes.
+
+* packaging: ``setup.py bump`` now takes a --version flag, to make it easier to
+  adopt semver
+
 v1.2.6
 ======
 

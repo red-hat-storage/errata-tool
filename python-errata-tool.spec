@@ -6,7 +6,7 @@
 %global pkgname errata-tool
 
 Name:           python-%{pkgname}
-Version:        1.2.6
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        Modern Python API to Red Hat's Errata Tool
 Group:          Development/Languages
