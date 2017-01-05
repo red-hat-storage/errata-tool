@@ -78,6 +78,37 @@ Checking whether an advisory is text-only:
         # it's not text-only
 
 
+Debugging many Errata Tool API calls
+------------------------------------
+
+Maybe your application makes many API calls (lots of advisories, builds, etc),
+When processing large numbers of errata from higher-level tools, it's helpful
+to understand where the time is spent to see if multiple calls can be avoided.
+
+Set ``ErrataConnector.debug = True``, and then your connector object will
+record information about each call it makes.  Each GET/PUT/POST is recorded,
+along with totals / mean / min / max.
+
+URL APIs are deduplicated based on their name, so two calls to different
+errata on the same API is recorded as a single API.
+
+To extract the information and print it, one might use PrettyTable:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+    pt = PrettyTable()
+    for c in ErrataConnector.timings:
+        for u in ErrataConnector.timings[c]:
+            pt.add_row([c, u,
+                       ErrataConnector.timings[c][u]['count'],
+                       ErrataConnector.timings[c][u]['total'],
+                       ErrataConnector.timings[c][u]['mean'],
+                       ErrataConnector.timings[c][u]['min'],
+                       ErrataConnector.timings[c][u]['max']])
+    print(pt.get_string())
+
+
 SSL errors
 ----------
 
