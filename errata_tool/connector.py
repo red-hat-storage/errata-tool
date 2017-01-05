@@ -2,31 +2,114 @@ from errata_tool import ErrataException
 import requests
 from requests_kerberos import HTTPKerberosAuth
 from jsonpath_rw import parse
+import re
+import time
 
 
 class ErrataConnector(object):
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth()
     ssl_verify = True  # Shared
+    debug = False
+
+    # Timings are only recorded if debug is set to True
+    timings = {'GET': {}, 'POST': {}, 'PUT': {}}
 
     # Simple wrappers to avoid copying around when auth changes.
+    def _record(self, call, url, t):
+        #
+        # Debugging needs to be turned on prior to calling any APIs
+        # if you want to time errata calls. e.g.:
+        #    erratum.ErrataConnector.debug = True
+        #
+        if not self.debug:
+            return
+
+        url = str(url)
+        info = None
+
+        # Unlikely, but possible
+        if url in self.timings[call]:
+            info = self.timings[call][url]
+        else:
+            #
+            # Errata API calls are differentiated by a bugzilla #,
+            # a build, or an erratum.  Normalize calls to match
+            # URLs except for those specific differences.
+            #
+            api = url[8:]
+            same = set(re.split('[/]|(\.json)', api))
+            same = same - set(['', None])
+            newurl = None
+            for u in self.timings[call]:
+                rapi = set(re.split('[/]|(\.json)', u[8:]))
+                rapi = rapi - set(['', None])
+                if len(rapi) != len(same):
+                    continue
+                delta = same ^ rapi
+                if len(delta) != 2:
+                    continue
+
+                # Oops, the exception that proves the rule
+                # about API locations above
+                if delta == set(['tps_jobs', 'builds']):
+                    continue
+                info = self.timings[call][u]
+                if '***' not in delta:
+                    for i in delta:
+                        if i in rapi:
+                            url = u
+                            newurl = u.replace(str(i), '***')
+                            break
+                else:
+                    url = u
+                    break
+                if newurl is not None:
+                    break
+            if newurl is not None:
+                del self.timings[call][url]
+                self.timings[call][newurl] = info
+                url = newurl
+
+        if info is None:
+            info = {'max': t, 'count': 0, 'min': t, 'mean': t, 'total': 0}
+
+        info['count'] = info['count'] + 1
+
+        if t < info['min']:
+            info['min'] = t
+        if t > info['max']:
+            info['max'] = t
+
+        info['total'] = info['total'] + t
+        info['mean'] = info['total'] / info['count']
+
+        self.timings[call][url] = info
+
     def _post(self, url, **kwargs):
+        start = time.time()
+        ret = None
         if kwargs is not None:
             if 'data' in kwargs:
-                return requests.post(url,
-                                     auth=self._auth,
-                                     data=kwargs['data'],
-                                     verify=self.ssl_verify)
+                ret = requests.post(url,
+                                    auth=self._auth,
+                                    data=kwargs['data'],
+                                    verify=self.ssl_verify)
             elif 'json' in kwargs:
-                return requests.post(url,
-                                     auth=self._auth,
-                                     json=kwargs['json'],
-                                     verify=self.ssl_verify)
-        return requests.post(url, auth=self._auth, verify=self.ssl_verify)
+                ret = requests.post(url,
+                                    auth=self._auth,
+                                    json=kwargs['json'],
+                                    verify=self.ssl_verify)
+        if ret is not None:
+            ret = requests.post(url, auth=self._auth, verify=self.ssl_verify)
+
+        self._record('POST', url, time.time() - start)
+        return ret
 
     def _get(self, url, **kwargs):
         ret_data = None
         ret_json = None
+        start = time.time()
         if kwargs is not None:
             if 'data' in kwargs:
                 ret_data = requests.get(url,
@@ -42,6 +125,8 @@ class ErrataConnector(object):
         if ret_data is None:
             ret_data = requests.get(url, auth=self._auth,
                                     verify=self.ssl_verify)
+
+        self._record('GET', url, time.time() - start)
 
         if ret_json is None and ret_data is not None:
             if ret_data.status_code == 200:
@@ -63,18 +148,24 @@ class ErrataConnector(object):
         return ret_json
 
     def _put(self, url, **kwargs):
+        start = time.time()
+        ret = None
         if kwargs is not None:
             if 'data' in kwargs:
-                return requests.put(url,
-                                    auth=self._auth,
-                                    data=kwargs['data'],
-                                    verify=self.ssl_verify)
+                ret = requests.put(url,
+                                   auth=self._auth,
+                                   data=kwargs['data'],
+                                   verify=self.ssl_verify)
             elif 'json' in kwargs:
-                return requests.put(url,
-                                    auth=self._auth,
-                                    json=kwargs['json'],
-                                    verify=self.ssl_verify)
-        return requests.put(url, auth=self._auth, verify=self.ssl_verify)
+                ret = requests.put(url,
+                                   auth=self._auth,
+                                   json=kwargs['json'],
+                                   verify=self.ssl_verify)
+
+        if ret is not None:
+            ret = requests.put(url, auth=self._auth, verify=self.ssl_verify)
+        self._record('PUT', url, time.time() - start)
+        return ret
 
     def _processResponse(self, r):
         if r.status_code in [200, 201, 202, 203, 204]:
