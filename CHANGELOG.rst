@@ -1,3 +1,9 @@
+v1.4.0
+======
+
+* Add errata call timings (see ``ErrataConnector.debug`` and
+  ``ErrataConnector.timings`` documentation in README)
+
 v1.3.0
 ======
 
