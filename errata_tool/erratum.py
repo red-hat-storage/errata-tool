@@ -409,9 +409,13 @@ https://access.redhat.com/articles/11258")
         elif self.errata_state.upper() == 'QE':
             if state.upper() == 'NEW_FILES':
                 self.errata_state = 'NEW_FILES'
+            if state.upper() == 'REL_PREP':
+                self.errata_state = 'REL_PREP'
         elif self.errata_state.upper() == 'REL_PREP':
             if state.upper() == 'NEW_FILES':
                 self.errata_state = 'NEW_FILES'
+            if state.upper() == 'QE':
+                self.errata_state = 'QE'
         else:
             raise ErrataException('Cannot change state from ' +
                                   self.errata_state.upper() + " to " +
