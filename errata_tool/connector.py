@@ -100,7 +100,7 @@ class ErrataConnector(object):
                                     auth=self._auth,
                                     json=kwargs['json'],
                                     verify=self.ssl_verify)
-        if ret is not None:
+        if ret is None:
             ret = requests.post(url, auth=self._auth, verify=self.ssl_verify)
 
         self._record('POST', url, time.time() - start)
@@ -162,7 +162,7 @@ class ErrataConnector(object):
                                    json=kwargs['json'],
                                    verify=self.ssl_verify)
 
-        if ret is not None:
+        if ret is None:
             ret = requests.put(url, auth=self._auth, verify=self.ssl_verify)
         self._record('PUT', url, time.time() - start)
         return ret
