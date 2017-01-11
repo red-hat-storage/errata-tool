@@ -77,6 +77,14 @@ Checking whether an advisory is text-only:
     else:
         # it's not text-only
 
+Adding builds:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
+
 
 Debugging many Errata Tool API calls
 ------------------------------------
