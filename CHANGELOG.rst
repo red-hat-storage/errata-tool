@@ -1,3 +1,10 @@
+v1.4.1
+======
+
+* connector: Fix logic causing extraneous tracebacks on PUT/POST
+
+* Allow setting to REL_PREP state
+
 v1.4.0
 ======
 
