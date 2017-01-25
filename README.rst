@@ -86,6 +86,27 @@ Adding builds:
     e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
 
 
+Using the staging server
+------------------------
+
+To use the staging Errata Tool environment without affecting production, set
+the ``ErrataConnector._url`` member variable to the staging URL.
+
+.. code-block:: python
+
+    from errata_tool import ErrataConnector, Erratum
+
+    ErrataConnector._url = 'https://errata.stage.engineering.redhat.com/'
+    # Now try something like creating an advisory, and it will not show up in
+    # prod, or bother people with emails, etc.
+    e = Erratum(product='RHCEPH',
+                release='RHCEPH-2-RHEL-7',
+                synopsis='Red Hat Ceph Storage 2.1 bug fix update',
+                ...
+                )
+    e.commit()
+
+
 Debugging many Errata Tool API calls
 ------------------------------------
 
