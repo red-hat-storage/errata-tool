@@ -100,6 +100,11 @@ class ReleaseCommand(Command):
         # print(' '.join(cmd))
         # subprocess.check_call(cmd)
 
+        # Push master to the remote
+        cmd = ['git', 'push', 'origin', 'master']
+        print(' '.join(cmd))
+        subprocess.check_call(cmd)
+
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
