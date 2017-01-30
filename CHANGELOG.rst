@@ -1,3 +1,12 @@
+v1.5.0
+======
+
+* Drop the client-side check to make sure advisory was NEW_FILES before it
+  would attempt to change anything.
+
+  This appears to be a legacy check that is no longer needed. We now let the
+  Errata Tool return server-side errors if an update is not allowed.
+
 v1.4.1
 ======
 
