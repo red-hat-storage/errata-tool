@@ -54,9 +54,6 @@ class Erratum(ErrataConnector):
         self.current_flags = []
 
     def update(self, **kwargs):
-        if self.errata_state != 'NEW_FILES':
-            raise ErrataException('Can\'t update errata fields if not ' +
-                                  'in NEW_FILES state')
         if 'errata_type' in kwargs:
             self.errata_type = kwargs['errata_type']
             self._update = True
