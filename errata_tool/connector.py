@@ -7,6 +7,7 @@ import time
 
 
 class ErrataConnector(object):
+    # Staging is https://errata.stage.engineering.redhat.com
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth()
     ssl_verify = True  # Shared
