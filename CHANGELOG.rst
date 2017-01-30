@@ -1,3 +1,8 @@
+v1.5.1
+======
+
+* Document example of using the staging ET server
+
 v1.5.0
 ======
 
