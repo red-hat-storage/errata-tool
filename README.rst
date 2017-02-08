@@ -85,6 +85,14 @@ Adding builds:
 
     e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
 
+Changing state:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    e.setState('QE')
+
 
 Using the staging server
 ------------------------
