@@ -16,6 +16,12 @@ class ErrataConnector(object):
     # Timings are only recorded if debug is set to True
     timings = {'GET': {}, 'POST': {}, 'PUT': {}}
 
+    # Shortcut
+    def canonical_url(self, u):
+        if u[:8] != 'https://' and u[:1] == '/':
+            return self._url + u
+        return u
+
     # Simple wrappers to avoid copying around when auth changes.
     def _record(self, call, url, t):
         #
@@ -87,7 +93,8 @@ class ErrataConnector(object):
 
         self.timings[call][url] = info
 
-    def _post(self, url, **kwargs):
+    def _post(self, u, **kwargs):
+        url = self.canonical_url(u)
         start = time.time()
         ret = None
         if kwargs is not None:
@@ -107,7 +114,8 @@ class ErrataConnector(object):
         self._record('POST', url, time.time() - start)
         return ret
 
-    def _get(self, url, **kwargs):
+    def _get(self, u, **kwargs):
+        url = self.canonical_url(u)
         ret_data = None
         ret_json = None
         start = time.time()
@@ -148,7 +156,8 @@ class ErrataConnector(object):
 
         return ret_json
 
-    def _put(self, url, **kwargs):
+    def _put(self, u, **kwargs):
+        url = self.canonical_url(u)
         start = time.time()
         ret = None
         if kwargs is not None:

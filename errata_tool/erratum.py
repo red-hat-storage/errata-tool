@@ -155,11 +155,10 @@ https://access.redhat.com/articles/11258")
             advisory = None
             erratum = None
             for endpoint in endpoint_list:
-                url = self._url + endpoint
-                r = self._get(url)
+                r = self._get(endpoint)
                 if r is None:
                     continue
-                if advisory is None and 'erratum' in url:
+                if advisory is None and 'erratum' in endpoint:
                     advisory = r
                     continue
                 # Fallthrough
@@ -268,7 +267,7 @@ https://access.redhat.com/articles/11258")
     def _check_signature_for_build(self, build):
         signed = False
 
-        url = os.path.join(self._url + '/api/v1/build/', build)
+        url = os.path.join('/api/v1/build/', build)
         nvr_json = self._get(url)
 
         if u'rpms_signed' in nvr_json:
@@ -284,7 +283,7 @@ https://access.redhat.com/articles/11258")
     def _check_rpmdiff(self):
         # Check for rpmdiff failures (NEW_FILES state only)
         # rpmdiff_runs.json
-        url = self._url + "/advisory/" + str(self.errata_id)
+        url = "/advisory/" + str(self.errata_id)
         url += '/rpmdiff_runs.json'
         r = self._get(url)
         if r is not None:
@@ -303,7 +302,7 @@ https://access.redhat.com/articles/11258")
 
     def _check_tps(self):
         # Check for TPS failure (QE state only)
-        url = self._url + '/advisory/'
+        url = '/advisory/'
         url += str(self.errata_id) + '/tps_jobs.json'
         r = self._get(url)
         distqa_tps = 0
@@ -344,7 +343,7 @@ https://access.redhat.com/articles/11258")
         # Item 5.2.10.3. GET /advisory/{id}/builds.json
         # Then try to check to see if they are signed or not
         # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
-        url = self._url + "/advisory/" + str(self.errata_id)
+        url = "/advisory/" + str(self.errata_id)
         url += "/builds.json"
         rj = self._get(url)
         have_all_sigs = True
@@ -364,7 +363,7 @@ https://access.redhat.com/articles/11258")
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
         try:
-            url = self._url + "/bugs/" + str(bug_id) + "/advisories.json"
+            url = "/bugs/" + str(bug_id) + "/advisories.json"
             rj = self._get(url)
 
             stored = False
@@ -484,7 +483,7 @@ https://access.redhat.com/articles/11258")
             val['build'] = b
             val['product_version'] = release
             pdata.append(val)
-        url = self._url + "/api/v1/erratum/" + str(self.errata_id)
+        url = "/api/v1/erratum/" + str(self.errata_id)
         url += "/add_builds"
         r = self._post(url, json=pdata)
         self._processResponse(r)
@@ -515,7 +514,7 @@ https://access.redhat.com/articles/11258")
 
         # Get:
 
-        url = self._url + '/api/v1/erratum/' + str(self.errata_id)
+        url = '/api/v1/erratum/' + str(self.errata_id)
         url += '/filemeta'
         r = self._get(url)
 
@@ -550,7 +549,7 @@ https://access.redhat.com/articles/11258")
         for b in builds:
             val = {}
             val['nvr'] = b
-            url = self._url + "/api/v1/erratum/" + str(self.errata_id)
+            url = "/api/v1/erratum/" + str(self.errata_id)
             url += "/remove_build"
             r = self._post(url, data=val)
             self._processResponse(r)
@@ -627,7 +626,7 @@ https://access.redhat.com/articles/11258")
         # Sync bug states
 
         if len(allbugs):
-            # url = self._url + '/api/v1/bug/refresh'
+            # url = '/api/v1/bug/refresh'
             # print allbugs
             # r = self._post(url, data=allbugs)
             # self._processResponse(r)
@@ -636,7 +635,7 @@ https://access.redhat.com/articles/11258")
             # XXX Sync bug states by force using UI
             bug_list = {}
             bug_list['issue_list'] = idsfixed
-            url = self._url + "/bugs/sync_bug_list"
+            url = "/bugs/sync_bug_list"
             r = self._post(url, data=bug_list)
 
         # Push it
@@ -644,7 +643,7 @@ https://access.redhat.com/articles/11258")
             # REFERENCE
 
             # New is 'POST'
-            url = self._url + "/api/v1/erratum"
+            url = "/api/v1/erratum"
             r = self._post(url, data=pdata)
             self._processResponse(r)
             rj = r.json()
@@ -659,7 +658,7 @@ https://access.redhat.com/articles/11258")
             # REFERENCE
 
             # Update is 'PUT'
-            url = self._url + "/api/v1/erratum/" + str(self.errata_id)
+            url = "/api/v1/erratum/" + str(self.errata_id)
             r = self._put(url, data=pdata)
         self._processResponse(r)
 
@@ -668,13 +667,13 @@ https://access.redhat.com/articles/11258")
         if last_bug is not None:
             # This doesn't work to remove the last bug, nor does setting
             # idsfixed to empty-string
-            # url = (self._url + "/api/v1/erratum/" +
+            # url = ("/api/v1/erratum/" +
             #        str(self.errata_id) + "/remove_bug")
             # pdata = {'bug': str(last_bug)}
 
             # Solution: Use hacks to pretend we're using the remove-bugs
             # web UI :(
-            url = (self._url + '/bugs/remove_bugs_from_errata/' +
+            url = ('/bugs/remove_bugs_from_errata/' +
                    str(self.errata_id))
             pdata = {}
             pdata['bug[' + str(last_bug) + ']'] = 1
@@ -692,7 +691,7 @@ https://access.redhat.com/articles/11258")
         # State change is 'POST'
         pdata = {}
         pdata['new_state'] = self.errata_state
-        url = self._url + "/api/v1/erratum/" + str(self.errata_id)
+        url = "/api/v1/erratum/" + str(self.errata_id)
         url += "/change_state"
         r = self._post(url, data=pdata)
         self._processResponse(r)
@@ -762,7 +761,8 @@ https://access.redhat.com/articles/11258")
         print self.solution
 
     def url(self):
-        return self._url + "/advisory/" + str(self.errata_id)
+        return super(Erratum, self).canonical_url("/advisory/" +
+                                                  str(self.errata_id))
 
     def __lt__(self, other):
         return self.errata_id < other.errata_id
