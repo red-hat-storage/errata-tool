@@ -455,6 +455,37 @@ https://access.redhat.com/articles/11258")
     def findMissingBuilds(self):
         raise NotImplementedError('RHOS-only method')
 
+    #
+    # Flag list could be replaced with a set at some
+    # point.
+    #
+    # Some flags are tracked and managed here in
+    # errata-tool, but users can add their own as well.
+    #
+    def addFlags(self, flags):
+        if type(flags) is not list:
+            flags = [flags]
+        # Two loops intentionally. First one is for
+        # input validation.
+        for f in flags:
+            if type(f) is not str:
+                raise ValueError('flag ' + str(f) + ' is not a string')
+        for f in flags:
+            if f not in self.current_flags:
+                self.current_flags.append(f)
+
+    def removeFlags(self, flags):
+        if type(flags) is not list:
+            flags = [flags]
+        # Two loops intentionally. First one is for
+        # input validation.
+        for f in flags:
+            if type(f) is not str:
+                raise ValueError('flag ' + str(f) + ' is not a string')
+        for f in flags:
+            if f in self.current_flags:
+                self.current_flags.remove(f)
+
     # Adding and removing builds can't be done atomically.  Wondering whether
     def addBuildsDirect(self, buildlist, release, **kwargs):
         if 'file_types' not in kwargs:
