@@ -198,13 +198,13 @@ https://access.redhat.com/articles/11258")
             # Baseline flags.
             if self.errata_state in ('QE'):
                 if 'rhnqa' in erratum and erratum['rhnqa'] == 0:
-                    self.current_flags.append('needs_distqa')
+                    self.addFlags('needs_distqa')
 
             if 'doc_complete' in erratum and erratum['doc_complete'] == 0:
-                self.current_flags.append('needs_docs')
+                self.addFlags('needs_docs')
 
             if self.errata_state == 'NEW_FILES':
-                self.current_flags.append('needs_devel')
+                self.addFlags('needs_devel')
 
             # Note: new errata return values will have other bits.
             self.errata_name = erratum['fulladvisory']
@@ -245,9 +245,9 @@ https://access.redhat.com/articles/11258")
             if 'rhsa' in advisory['errata']:
                 sa = advisory['errata']['rhsa']['security_approved']
                 if sa is None:
-                    self.current_flags.append('request_security')
+                    self.addFlags('request_security')
                 elif sa is False:
-                    self.current_flags.append('needs_security')
+                    self.addFlags('needs_security')
 
             check_signatures = self.errata_state != 'NEW_FILES'
             self._get_build_list(check_signatures)
@@ -293,12 +293,11 @@ https://access.redhat.com/articles/11258")
                     continue
                 if rpmdiff_run['overall_score'] == 3 or \
                    rpmdiff_run['overall_score'] == 4:
-                    self.current_flags.append('rpmdiff_errors')
+                    self.addFlags('rpmdiff_errors')
                     break
                 if rpmdiff_run['overall_score'] == 499 or \
                    rpmdiff_run['overall_score'] == 500:
-                    if 'rpmdiff_wait' not in self.current_flags:
-                        self.current_flags.append('rpmdiff_wait')
+                    self.addFlags('rpmdiff_wait')
 
     def _check_tps(self):
         # Check for TPS failure (QE state only)
@@ -312,19 +311,17 @@ https://access.redhat.com/articles/11258")
                 distqa_tps = distqa_tps + 1
             if tps['state'] == 'BAD' or \
                'failed to generate' in tps['state']:
-                if 'tps_errors' not in self.current_flags:
-                    self.current_flags.append('tps_errors')
+                self.addFlags('tps_errors')
                 continue
             if tps['state'] in ('BUSY', 'NOT_STARTED'):
-                if 'tps_wait' not in self.current_flags:
-                    self.current_flags.append('tps_wait')
+                self.addFlags('tps_wait')
                 continue
             if tps['rhnqa'] is True:
                 distqa_passing = distqa_passing + 1
 
         # Assume testing is done... ;)
         if distqa_tps > 0 and distqa_passing != distqa_tps:
-            self.current_flags.append('needs_distqa')
+            self.addFlags('needs_distqa')
             self.need_rel_prep = False
         else:
             self.need_rel_prep = True
@@ -355,7 +352,7 @@ https://access.redhat.com/articles/11258")
                     if have_all_sigs and check_signatures:
 
                         if not self._check_signature_for_build(b):
-                            self.current_flags.append('needs_sigs')
+                            self.addFlags('needs_sigs')
                             have_all_sigs = False
 
             self.errata_builds[k] = builds
