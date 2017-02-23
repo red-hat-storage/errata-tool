@@ -747,6 +747,9 @@ https://access.redhat.com/articles/11258")
         if len(self.current_flags) > 0:
             print "Flags:", ' '.join(self.current_flags)
         print "Synopsis:", self.synopsis
+        if self.publish_date_override is not None:
+            print
+            print "Ship Target: {0}".format(self.publish_date_override)
         print
         print "Topic"
         print "====="
@@ -800,6 +803,7 @@ https://access.redhat.com/articles/11258")
             "\n  url:   " + \
             self.url() + \
             "\n  state: " + self.errata_state + \
+            "\n  ship target: " + str(self.publish_date_override) + \
             "\n  bugs:  " + str(self.errata_bugs) + \
             s
 
