@@ -359,6 +359,8 @@ https://access.redhat.com/articles/11258")
                             have_all_sigs = False
 
             self.errata_builds[k] = builds
+        if have_all_sigs:
+            self.removeFlags(['request_sigs', 'needs_sigs'])
 
     def _fetch_by_bug(self, bug_id):
         # print "fetch_by_bug"
