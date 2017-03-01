@@ -197,6 +197,9 @@ https://access.redhat.com/articles/11258")
 
             # Baseline flags.
             if self.errata_state in ('QE'):
+                if 'sign_requested' in erratum and \
+                   erratum['sign_requested'] == 0:
+                    self.addFlags('request_sigs')
                 if 'rhnqa' in erratum and erratum['rhnqa'] == 0:
                     self.addFlags('needs_distqa')
 
