@@ -3,7 +3,7 @@ import re
 import subprocess
 import sys
 from setuptools.command.test import test as TestCommand
-from setuptools import Command
+from setuptools import setup, Command
 try:
     # Python 2 backwards compat
     from __builtin__ import raw_input as input
@@ -123,8 +123,6 @@ class PyTest(TestCommand):
         errno = pytest.main('errata_tool --flake8 ' + self.pytest_args)
         sys.exit(errno)
 
-
-from setuptools import setup
 
 setup(
     name='errata-tool',
