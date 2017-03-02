@@ -31,6 +31,7 @@ Creating a new advisory:
                 description='This update contains the following fixes ...',
                 solution='Before applying this update...',
                 qe_email='someone@redhat.com',
+                qe_group='RHC (Ceph) QE',
                 errata_type='RHBA',
                 owner_email='kdreyer@redhat.com',
                 manager_email='ohno@redhat.com',

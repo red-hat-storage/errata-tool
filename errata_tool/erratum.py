@@ -614,8 +614,8 @@ https://access.redhat.com/articles/11258")
 
         if self.qe_email is not None:
             pdata['advisory[assigned_to_email]'] = self.qe_email
-        # if self.qe_group is not None:
-        #     pdata['advisory[assigned_to]'] = self.qe_group
+        if self.qe_group is not None:
+            pdata['advisory[quality_responsibility_name]'] = self.qe_group
 
         if self.synopsis is None:
             raise ErrataException("Can't write erratum without synopsis")
