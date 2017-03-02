@@ -158,7 +158,7 @@ to set the following configuration variable::
 
     REQUESTS_CA_BUNDLE=/etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt
 
-Where "RH-IT-Root-CA.crt" is the public cert that signed the Chacra server's
+Where "RH-IT-Root-CA.crt" is the public cert that signed the ET server's
 HTTPS certificate.
 
 When using RHEL 7's python-requests RPM, requests simply checks
