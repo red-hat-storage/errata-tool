@@ -6,6 +6,13 @@
 
 Modern Python API to Red Hat's Errata Tool.
 
+python-errata-tool is a Python library that wraps the Errata Tool's REST API.
+It uses `requests_kerberos <https://pypi.python.org/pypi/requests-kerberos>`_
+to authenticate and parses JSON responses into ``Erratum`` objects. You can
+use it to create new advisories, or read and update existing advisories. The
+``ErratumConnector`` class also provides lower-level access to all of the
+Errata Tool's REST API.
+
 Example:
 
 .. code-block:: python
