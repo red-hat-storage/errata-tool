@@ -1,3 +1,19 @@
+v1.6.0
+======
+
+* Centralize URL construction logic in ``connector.py``. Methods can now
+  use ErrataConnector's ``canonical_url()`` to determine the proper URL for an
+  API endpoint.
+
+* Document ``setState()`` method, and give an example of setting an advisory to
+  "QE" state.
+
+* Add ``addFlags()`` and ``removeFlags()`` Erratum methods.
+
+* Add ship target (``published_date_override``) to Erratum debug output.
+
+* Support setting an Erratum's QE group.
+
 v1.5.1
 ======
 
