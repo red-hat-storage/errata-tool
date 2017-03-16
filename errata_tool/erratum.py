@@ -612,9 +612,9 @@ https://access.redhat.com/articles/11258")
             pdata['advisory[package_owner_email]'] = self.package_owner_email
             pdata['advisory[manager_email]'] = self.manager_email
 
-        if self.qe_email is not None:
+        if self.qe_email is not None and self.qe_email != '':
             pdata['advisory[assigned_to_email]'] = self.qe_email
-        if self.qe_group is not None:
+        if self.qe_group is not None and self.qe_group != '':
             pdata['advisory[quality_responsibility_name]'] = self.qe_group
 
         if self.synopsis is None:
