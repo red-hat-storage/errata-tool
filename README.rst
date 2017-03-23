@@ -25,7 +25,7 @@ Example:
     # prints "NEW_FILES"
 
     print(e.url())
-    # prints "https://errata.devel.redhat.com/errata/1234"
+    # prints "https://errata.devel.redhat.com/advisory/1234"
 
 Creating a new advisory:
 
