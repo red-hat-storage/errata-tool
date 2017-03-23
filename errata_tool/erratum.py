@@ -175,9 +175,8 @@ https://access.redhat.com/articles/11258")
                 break
 
             self.errata_id = erratum['id']
-            # NEW_FILES QE etc. - decode from unicode
-            v = erratum['status']
-            self.errata_state = v.encode('ascii', 'ignore')
+            # NEW_FILES QE etc.
+            self.errata_state = erratum['status']
             self._original_state = self.errata_state
 
             # Check if the erratum is under embargo
