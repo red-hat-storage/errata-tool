@@ -1,0 +1,160 @@
+{
+  "RHEL-7-CEPH-2": [
+    {
+      "ceph-10.2.5-37.el7cp": {
+        "7Server-RH7-CEPH-OSD-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-test-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-osd-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        },
+        "7ComputeNode-RH7-CEPH-TOOLS-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "rbd-mirror-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-mds-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-radosgw-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-fuse-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        },
+        "7Server-RH7-CEPH-MON-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-test-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-mon-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        },
+        "7Server-RH7-CEPH-TOOLS-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "rbd-mirror-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-mds-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-radosgw-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-fuse-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        },
+        "7Workstation-RH7-CEPH-TOOLS-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "rbd-mirror-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-mds-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-radosgw-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-fuse-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        },
+        "7Client-RH7-CEPH-TOOLS-2": {
+          "x86_64": [
+            "ceph-common-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-10.2.5-37.el7cp.x86_64.rpm",
+            "rbd-mirror-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-mds-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rados-10.2.5-37.el7cp.x86_64.rpm",
+            "librados2-10.2.5-37.el7cp.x86_64.rpm",
+            "python-rbd-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-radosgw-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-selinux-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-base-10.2.5-37.el7cp.x86_64.rpm",
+            "python-cephfs-10.2.5-37.el7cp.x86_64.rpm",
+            "libcephfs1-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-devel-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-debuginfo-10.2.5-37.el7cp.x86_64.rpm",
+            "librgw2-10.2.5-37.el7cp.x86_64.rpm",
+            "ceph-fuse-10.2.5-37.el7cp.x86_64.rpm",
+            "librbd1-devel-10.2.5-37.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-10.2.5-37.el7cp.src.rpm"
+          ]
+        }
+      }
+    }
+  ]
+}
