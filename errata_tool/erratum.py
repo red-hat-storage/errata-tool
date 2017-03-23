@@ -4,6 +4,7 @@ import textwrap
 import datetime
 import time
 import requests_kerberos
+import six
 
 from errata_tool import ErrataException, ErrataConnector, security
 
@@ -496,7 +497,7 @@ https://access.redhat.com/articles/11258")
             file_types = kwargs['file_types']
 
         blist = []
-        if type(buildlist) is str or type(buildlist) is unicode:
+        if isinstance(buildlist, six.string_types):
             blist.append(buildlist)
         else:
             blist = buildlist
@@ -574,7 +575,7 @@ https://access.redhat.com/articles/11258")
         # Removing builds
         # REFERENCE
 
-        if type(buildlist) is str or type(buildlist) is unicode:
+        if isinstance(buildlist, six.string_types):
             builds = []
             builds.append(buildlist)
         else:
@@ -822,7 +823,7 @@ https://access.redhat.com/articles/11258")
         s = "\n  builds: \n"
         for k in self.errata_builds:
             s = s + "    " + k + "\n"
-            for b in sorted(self.errata_builds[k], key=unicode.lower):
+            for b in sorted(self.errata_builds[k], key=lambda x: x.lower()):
                 s = s + "      " + b + "\n"
         if len(self.current_flags) > 0:
             s = "\n  Flags: " + ' '.join(self.current_flags) + s

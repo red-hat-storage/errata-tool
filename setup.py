@@ -141,6 +141,7 @@ setup(
         'requests',
         'urllib3',
         'requests_kerberos',
+        'six',
     ],
     tests_require=[
         'pytest',

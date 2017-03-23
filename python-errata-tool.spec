@@ -20,19 +20,23 @@ BuildArch:      noarch
 %if 0%{?with_python3}
 Requires:  python3-requests-kerberos
 Requires:  python3-jsonpath-rw
+Requires:  python3-six
 BuildRequires:  python3-devel
 BuildRequires:  python3-jsonpath-rw
 BuildRequires:  python3-pytest
 BuildRequires:  python3-requests-kerberos
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-six
 %else # python 2
 Requires:  python-requests-kerberos
 Requires:  python-jsonpath-rw
+Requires:  python-six
 BuildRequires:  pytest
 BuildRequires:  python2-devel
 BuildRequires:  python-jsonpath-rw
 BuildRequires:  python-requests-kerberos
 BuildRequires:  python-setuptools
+BuildRequires:  python-six
 %endif
 
 %description

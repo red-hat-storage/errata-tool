@@ -5,6 +5,7 @@ from requests_kerberos import HTTPKerberosAuth
 from jsonpath_rw import parse
 import re
 import time
+import six
 
 
 class ErrataConnector(object):
@@ -209,8 +210,7 @@ class ErrataConnector(object):
                         err_msg += k + ": "
                         petmp = parse('errors.' + k + '[*]')
                         for m in petmp.find(rj):
-                            if type(m.value) is str or \
-                               type(m.value) is unicode:
+                            if isinstance(m.value, six.string_types):
                                 err_msg += m.value + "\n"
                             elif type(m.value) is int:
                                 err_msg += str(m.value) + "\n"
