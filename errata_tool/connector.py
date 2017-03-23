@@ -1,3 +1,4 @@
+from __future__ import print_function
 from errata_tool import ErrataException
 import requests
 from requests_kerberos import HTTPKerberosAuth
@@ -150,8 +151,8 @@ class ErrataConnector(object):
                 raise LookupError('No matching errata')
 
             else:
-                print "Result not handled:", ret_data
-                print "While fetching:", url
+                print("Result not handled: " + str(ret_data))
+                print("While fetching: " + url)
                 raise ErrataException(str(ret_data))
 
         return ret_json
@@ -225,13 +226,13 @@ class ErrataConnector(object):
 
         if r.status_code in [500]:
             err_msg += "Broke errata tool!"
-            print r.json()
+            print(r.json())
             raise ErrataException(err_msg)
 
         if r.status_code in [404]:
             err_msg += 'Bug in your code - wrong method for this api? '
             err_msg += 'Wrong location?'
-            print r.json()
+            print(r.json())
             raise ErrataException(err_msg)
 
         raise ErrataException(err_msg + "Unhandled HTTP status code: " +

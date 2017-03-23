@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import textwrap
 import datetime
@@ -165,7 +166,7 @@ https://access.redhat.com/articles/11258")
                 if advisory_old is None:
                     advisory_old = r
             if advisory is None:
-                print 'do not have requested data bailing'
+                print('do not have requested data bailing')
                 return None
 
             # Short circuit to get the advisory
@@ -362,7 +363,7 @@ https://access.redhat.com/articles/11258")
             self.removeFlags(['request_sigs', 'needs_sigs'])
 
     def _fetch_by_bug(self, bug_id):
-        # print "fetch_by_bug"
+        # print("fetch_by_bug")
         try:
             url = "/bugs/" + str(bug_id) + "/advisories.json"
             rj = self._get(url)
@@ -373,8 +374,8 @@ https://access.redhat.com/articles/11258")
                     stored = True
                     self._fetch(e['id'])
                 else:
-                    print 'Warning: Ignoring additional erratum ' + \
-                        str(e['id']) + ' for bug ', str(bug_id)
+                    print('Warning: Ignoring additional erratum ' +
+                          str(e['id']) + ' for bug ', str(bug_id))
 
         except RuntimeError:
             # Requests seems to loop infinitely if this happens...
@@ -553,13 +554,13 @@ https://access.redhat.com/articles/11258")
         info = []
         files = [k for k in file_info]
         for f in r:
-            # print f['file']['path'], f['file']['id']
+            # print(f['file']['path'] + f['file']['id'])
             fn = os.path.basename(f['file']['path'])
             if fn in files:
                 info.append({'file': f['file']['id'],
                              'title': file_info[fn]['title']})
 
-        # print info
+        # print(info)
         # Set:
 
         # url += '?put_rank=true'
@@ -659,7 +660,7 @@ https://access.redhat.com/articles/11258")
 
         if len(allbugs):
             # url = '/api/v1/bug/refresh'
-            # print allbugs
+            # print(allbugs)
             # r = self._post(url, data=allbugs)
             # self._processResponse(r)
             # ^ XXX broken
@@ -771,29 +772,29 @@ https://access.redhat.com/articles/11258")
         return ret
 
     def dump(self):
-        print self
-        print "Package Owner Email:", self.package_owner_email
-        print "Manager Email:", self.manager_email
-        print "QE:", self.qe_email, " ", self.qe_group
-        print "Type:", self.errata_type
+        print(self)
+        print("Package Owner Email: " + self.package_owner_email)
+        print("Manager Email: " + self.manager_email)
+        print("QE: " + self.qe_email + " " + self.qe_group)
+        print("Type: " + self.errata_type)
         if len(self.current_flags) > 0:
-            print "Flags:", ' '.join(self.current_flags)
-        print "Synopsis:", self.synopsis
+            print("Flags: " + ' '.join(self.current_flags))
+        print("Synopsis: " + self.synopsis)
         if self.publish_date_override is not None:
-            print
-            print "Ship Target: {0}".format(self.publish_date_override)
-        print
-        print "Topic"
-        print "====="
-        print self.topic
-        print
-        print "Description"
-        print "==========="
-        print self.description
-        print
-        print "Solution"
-        print "========"
-        print self.solution
+            print('')
+            print("Ship Target: {0}".format(self.publish_date_override))
+        print('')
+        print("Topic")
+        print("=====")
+        print(self.topic)
+        print('')
+        print("Description")
+        print("===========")
+        print(self.description)
+        print('')
+        print("Solution")
+        print("========")
+        print(self.solution)
 
     def url(self):
         return super(Erratum, self).canonical_url("/advisory/" +
