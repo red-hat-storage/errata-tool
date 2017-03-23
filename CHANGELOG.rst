@@ -1,3 +1,9 @@
+v1.6.1
+======
+
+* When creating or updating an advisory, do not update the QE Owner or QE Group
+  if ``qe_email`` or ``qe_group`` have been set to empty strings.
+
 v1.6.0
 ======
 
