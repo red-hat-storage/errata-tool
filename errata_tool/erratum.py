@@ -45,6 +45,8 @@ class Erratum(ErrataConnector):
         self.publish_date_override = None
         self.package_owner_email = None
         self.manager_email = None
+        self.product_id = 0
+        self.release_id = 0
         self.qe_email = ''
         self.qe_group = ''
         self.synopsis = None
@@ -216,6 +218,10 @@ https://access.redhat.com/articles/11258")
             # Grab immutable fields
             self._product = advisory_old['product']['short_name']
             self._release = advisory_old['release']['name']
+
+            # store product and release IDs
+            self.product_id = advisory_old['product']['id']
+            self.release_id = advisory_old['release']['id']
 
             # XXX Errata tool doesn't report package owner or manager?
             self.package_owner_email = advisory_old['people']['reporter']
