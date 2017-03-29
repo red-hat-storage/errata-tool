@@ -225,8 +225,6 @@ class ProductList(ErrataConnector):
                 self.versions[v]['releases'] = {}
                 for r in self.releases:
                     rel = self.releases[r]
-                    if rel['id'] in prod['releases']:
-                        rel['products'][prod['id']] = prod['name']
                     for rv in rel['versions']:
                         self.versions[v]['products'][prod['id']] = prod['name']
                         if v == rv:
@@ -234,6 +232,7 @@ class ProductList(ErrataConnector):
                             prod['releases'][r] = rel['name']
                             # And tie to specific version...
                             self.versions[v]['releases'][r] = rel['name']
+                            rel['products'][prod['id']] = prod['name']
 
     def _prune_releases(self, releases, **kwargs):
         if releases is None:
