@@ -1,6 +1,7 @@
 import json
 import os
 from errata_tool import ErrataConnector, Erratum
+from errata_tool.products import ProductList
 import requests
 import pytest
 
@@ -55,3 +56,11 @@ def advisory(monkeypatch):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=26175)
+
+
+@pytest.fixture
+def productlist(monkeypatch):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return ProductList()

@@ -1,0 +1,44 @@
+[
+  {
+    "product_version": {
+      "allow_rhn_debuginfo": true,
+      "base_product_version_id": null,
+      "default_brew_tag": "rhos-11.0-rhel-7-candidate",
+      "description": "Red Hat OpenStack Platform 11.0 (Ocata)",
+      "enabled": 1,
+      "forbid_ftp": false,
+      "id": 624,
+      "is_oval_product": false,
+      "is_rhel_addon": false,
+      "is_server_only": 1,
+      "name": "RHEL-7-OS-11",
+      "permitted_build_flags": [],
+      "product_id": 78,
+      "rhel_release_id": 27,
+      "sig_key_id": 8,
+      "supports_cdn": true,
+      "unused_push_types": []
+    }
+  },
+  {
+    "product_version": {
+      "allow_rhn_debuginfo": true,
+      "base_product_version_id": null,
+      "default_brew_tag": "rhos-11.0-optools-rhel-7-candidate",
+      "description": "Red Hat OpenStack Platform 11.0 Operational Tools for RHEL 7",
+      "enabled": 1,
+      "forbid_ftp": false,
+      "id": 625,
+      "is_oval_product": false,
+      "is_rhel_addon": false,
+      "is_server_only": 1,
+      "name": "RHEL-7-OS-11-OPTOOLS",
+      "permitted_build_flags": [],
+      "product_id": 78,
+      "rhel_release_id": 27,
+      "sig_key_id": 8,
+      "supports_cdn": true,
+      "unused_push_types": []
+    }
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "product": {
+      "build_path": null,
+      "cdw_flag_prefix": null,
+      "default_solution_id": 2,
+      "description": "Red Hat OpenStack product",
+      "ftp_path": "",
+      "ftp_subdir": "RHOS",
+      "id": 78,
+      "is_internal": false,
+      "isactive": 1,
+      "move_bugs_on_qe": false,
+      "name": "Red Hat Enterprise Linux OpenStack Platform",
+      "path": null,
+      "short_name": "RHOS",
+      "state_machine_rule_set_id": 1,
+      "text_only_advisories_require_dists": true,
+      "valid_bug_states": [
+        "MODIFIED",
+        "VERIFIED"
+      ]
+    }
+  },
+  {
+    "product": {
+      "build_path": null,
+      "cdw_flag_prefix": null,
+      "default_solution_id": 2,
+      "description": "Red Hat Ceph Storage",
+      "ftp_path": "",
+      "ftp_subdir": "RHCEPH",
+      "id": 104,
+      "is_internal": false,
+      "isactive": 1,
+      "move_bugs_on_qe": false,
+      "name": "Red Hat Ceph Storage",
+      "path": null,
+      "short_name": "RHCEPH",
+      "state_machine_rule_set_id": 4,
+      "text_only_advisories_require_dists": true,
+      "valid_bug_states": [
+        "NEW",
+        "ON_DEV",
+        "ASSIGNED",
+        "MODIFIED",
+        "POST",
+        "VERIFIED",
+        "ON_QA"
+      ]
+    }
+  }
+]

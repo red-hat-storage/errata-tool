@@ -1,0 +1,72 @@
+{
+  "data": [
+    {
+      "id": 654,
+      "type": "releases",
+      "attributes": {
+        "name": "ceph-2.1-updates",
+        "description": "Red Hat Ceph Storage 2.1 updates",
+        "type": "Zstream",
+        "allow_pkg_dupes": false,
+        "ship_date": "2016-11-28T00:00:00Z",
+        "is_active": true,
+        "enabled": true,
+        "enable_batching": false,
+        "is_async": true,
+        "is_deferred": false,
+        "allow_shadow": false,
+        "allow_blocker": false,
+        "allow_exception": false,
+        "blocker_flags": [
+          "ceph-2.y",
+          "devel_ack",
+          "qa_ack",
+          "pm_ack"
+        ]
+      },
+      "relationships": {
+        "brew_tags": [],
+        "product_versions": [
+          {
+            "id": 509,
+            "name": "RHEL-7-CEPH-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": 655,
+      "type": "releases",
+      "attributes": {
+        "name": "ceph-2.2",
+        "description": "Red Hat Ceph Storage 2.2",
+        "type": "QuarterlyUpdate",
+        "allow_pkg_dupes": true,
+        "ship_date": "2017-03-01T00:00:00Z",
+        "is_active": true,
+        "enabled": true,
+        "enable_batching": false,
+        "is_async": false,
+        "is_deferred": false,
+        "allow_shadow": false,
+        "allow_blocker": false,
+        "allow_exception": false,
+        "blocker_flags": [
+          "ceph-2.y",
+          "devel_ack",
+          "qa_ack",
+          "pm_ack"
+        ]
+      },
+      "relationships": {
+        "brew_tags": [],
+        "product_versions": [
+          {
+            "id": 509,
+            "name": "RHEL-7-CEPH-2"
+          }
+        ]
+      }
+    }
+  ]
+}
