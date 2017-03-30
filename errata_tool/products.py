@@ -7,7 +7,7 @@ from errata_tool import security  # NOQA
 # Change this if you change the structure of the tables we assemble
 # here.  This is added to export() and checked on import().
 #
-_product_table_version = 1
+_product_table_version = 2
 
 
 class ProductList(ErrataConnector):
@@ -85,7 +85,7 @@ class ProductList(ErrataConnector):
                 'versions' not in import_info or \
                 'releases' not in import_info or \
                 'product_ids' not in import_info:
-            raise ValueError('Malformed import_info')
+            return False
 
         if import_info['prodinfo_version'] != _product_table_version:
             return False
@@ -135,6 +135,11 @@ class ProductList(ErrataConnector):
                 info['brew_tags'] = {}
                 for t in r['relationships']['brew_tags']:
                     info['brew_tags'][int(t['id'])] = t['name']
+
+                info['bz_flags'] = []
+                for f in attrs['blocker_flags']:
+                    if f not in ('devel_ack', 'pm_ack', 'qa_ack'):
+                        info['bz_flags'].append(f)
 
                 info['versions'] = {}
                 info['products'] = {}
@@ -246,6 +251,17 @@ class ProductList(ErrataConnector):
             ret[r] = releases[r]
         return ret
 
+    def _normalize_id(self, val):
+        if type(val) is int:
+            return val
+        if type(val) is str:
+            try:
+                if str(int(val)) == str(val):
+                    return int(val)
+            except ValueError:
+                pass
+        return val
+
     #
     # Return a dict of releases in the form of:
     #  { id: 'name', id2: 'name2' }
@@ -281,12 +297,41 @@ class ProductList(ErrataConnector):
         return {val: key for key, val in ret.items()}
 
     #
+    # For a product:
     # Return a dict of releases in the form of:
     #  { id: 'name', id2: 'name2' }
     #
     def get_versions(self, product, **kwargs):
         prod = self.__getitem__(product)
         return prod['versions']
+
+    #
+    # Find a single release by its ID or name
+    #
+    def get_release(self, release, **kwargs):
+        release = self._normalize_id(release)
+        if type(release) is int:
+            return self.releases[release]
+        for r in self.releases:
+            if self.releases[r]['name'] == release:
+                return self.releases[r]
+
+    #
+    # Find a single version by its ID or name
+    #
+    def get_version(self, version, **kwargs):
+        version = self._normalize_id(version)
+        if type(version) is int:
+            return self.versions[version]
+        for v in self.versions:
+            if self.versions[v]['name'] == version:
+                return self.versions[v]
+
+    #
+    # For uniformity...
+    #
+    def get_product(self, prod, **kwargs):
+        return self.__getitem__(prod)
 
     #
     # Return a dict of releases in the form of:
@@ -297,6 +342,7 @@ class ProductList(ErrataConnector):
         return {val: key for key, val in ret.items()}
 
     def __getitem__(self, prod):
+        prod = self._normalize_id(prod)
         if type(prod) is int:
             if prod not in self.products:
                 raise ValueError('No such product: ' + str(prod))
