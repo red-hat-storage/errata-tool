@@ -101,6 +101,14 @@ Changing state:
 
     e.setState('QE')
 
+Changing docs reviewer:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    e.changeDocsReviewer('kdreyer@redhat.com')
+
 
 Using the staging server
 ------------------------

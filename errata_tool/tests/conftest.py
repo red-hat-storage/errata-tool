@@ -59,6 +59,11 @@ def mock_get():
 
 
 @pytest.fixture
+def mock_post():
+    return RequestRecorder()
+
+
+@pytest.fixture
 def advisory(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)

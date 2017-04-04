@@ -464,6 +464,12 @@ https://access.redhat.com/articles/11258")
     def findMissingBuilds(self):
         raise NotImplementedError('RHOS-only method')
 
+    def changeDocsReviewer(self, login_name):
+        val = {'login_name': login_name}
+        url = '/api/v1/erratum/%d/change_docs_reviewer' % self.errata_id
+        r = self._post(url, data=val)
+        self._processResponse(r)
+
     #
     # Flag list could be replaced with a set at some
     # point.
