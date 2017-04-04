@@ -19,7 +19,7 @@ Example:
 
     from errata_tool import Erratum
 
-    e = Erratum(1234)
+    e = Erratum(errata_id=1234)
 
     print(e.errata_state)
     # prints "NEW_FILES"
