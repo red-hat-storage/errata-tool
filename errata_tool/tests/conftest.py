@@ -43,15 +43,23 @@ class MockResponse(object):
             raise
 
 
-def mock_get(url, **kwargs):
-    """ mocking requests.get() """
-    m = MockResponse()
-    m.url = url
-    return m
+class RequestRecorder(object):
+    """ Record args to requests.get() or requests.post() """
+    def __call__(self, url, **kwargs):
+        """ mocking requests.get() or requests.post() """
+        self.response = MockResponse()
+        self.response.url = url
+        self.kwargs = kwargs
+        return self.response
 
 
 @pytest.fixture
-def advisory(monkeypatch):
+def mock_get():
+    return RequestRecorder()
+
+
+@pytest.fixture
+def advisory(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(requests, 'get', mock_get)
@@ -59,7 +67,7 @@ def advisory(monkeypatch):
 
 
 @pytest.fixture
-def productlist(monkeypatch):
+def productlist(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(requests, 'get', mock_get)
