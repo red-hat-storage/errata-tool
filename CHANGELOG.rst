@@ -1,3 +1,19 @@
+v1.7.0
+======
+
+* Add ``changeDocsReviewer()`` method to set the docs reviewer on advisories.
+
+* Add product, release, and version handling (new ``ProductList`` class).
+
+* Add Python 3 support.
+
+* Build both python2 and python3 subpackages on Fedora so that
+  errata-tool can be integrated with other py2 libraries and scripts.
+
+* Add basic unit tests.
+
+* Fix code examples in README.
+
 v1.6.1
 ======
 
