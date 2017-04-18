@@ -54,6 +54,15 @@ class TestAdvisory(object):
     def test_publish_date_override(self, advisory):
         assert advisory.publish_date_override is None
 
+    def test_creation_date(self, advisory):
+        assert advisory.creation_date == '2017-Jan-10'
+
+    def test_ship_date(self, advisory):
+        assert advisory.ship_date == '2017-Mar-14'
+
+    def test_age(self, advisory):
+        assert advisory.age == 63
+
     def test_errata_bugs(self, advisory):
         # Only sanity-check one for brevity.
         assert 1425771 in advisory.errata_bugs
