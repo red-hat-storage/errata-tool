@@ -43,6 +43,9 @@ class Erratum(ErrataConnector):
         self.errata_type = None
         self.text_only = False
         self.publish_date_override = None
+        self.creation_date = None
+        self.ship_date = None           # Set if SHIPPED_LIVE
+        self.age = 0                    # Erratum age in days
         self.package_owner_email = None
         self.manager_email = None
         self.product_id = 0
@@ -192,11 +195,31 @@ https://access.redhat.com/articles/11258")
                 if self.release_date > cur:
                     self.embargoed = True
 
-            # Ship date
+            # Target Ship date
             d = erratum['publish_date_override']
             if d is not None:
                 pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
                 self.publish_date_override = time.strftime('%Y-%b-%d', pd)
+
+            # Actual ship date (if in SHIPPED_LIVE)
+            if self.errata_state in ('SHIPPED_LIVE'):
+                d = erratum['actual_ship_date']
+                d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                self.ship_date = time.strftime('%Y-%b-%d', d)
+
+            # File date
+            d = erratum['created_at']
+            d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+            self.creation_date = time.strftime('%Y-%b-%d', d)
+
+            d = time.strftime('%Y-%b-%d', time.gmtime())
+            if self.ship_date is not None:
+                d = self.ship_date
+
+            filed = datetime.datetime.strptime(self.creation_date, '%Y-%b-%d')
+            ship = datetime.datetime.strptime(d, '%Y-%b-%d')
+            age = ship - filed
+            self.age = age.days
 
             # Baseline flags.
             if self.errata_state in ('QE'):
@@ -784,6 +807,10 @@ https://access.redhat.com/articles/11258")
         print("Manager Email: " + self.manager_email)
         print("QE: " + self.qe_email + " " + self.qe_group)
         print("Type: " + self.errata_type)
+        print("Created: " + self.creation_date)
+        if self.errata_state == 'SHIPPED_LIVE':
+            print("Shipped: " + self.ship_date)
+        print("Age: " + self.age + " days")
         if len(self.current_flags) > 0:
             print("Flags: " + ' '.join(self.current_flags))
         print("Synopsis: " + self.synopsis)
@@ -843,7 +870,10 @@ https://access.redhat.com/articles/11258")
             "\n  url:   " + \
             self.url() + \
             "\n  state: " + self.errata_state + \
+            "\n  created:     " + str(self.creation_date) + \
             "\n  ship target: " + str(self.publish_date_override) + \
+            "\n  ship date:   " + str(self.ship_date) + \
+            "\n  age:         " + str(self.age) + " days" \
             "\n  bugs:  " + str(self.errata_bugs) + \
             s
 
