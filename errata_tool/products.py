@@ -7,7 +7,7 @@ from errata_tool import security  # NOQA
 # Change this if you change the structure of the tables we assemble
 # here.  This is added to export() and checked on import().
 #
-_product_table_version = 2
+_product_table_version = 3
 
 
 class ProductList(ErrataConnector):
@@ -117,13 +117,7 @@ class ProductList(ErrataConnector):
 
             for r in ret['data']:
                 attrs = r['attributes']
-                if r['type'] != 'releases' or not attrs['enabled']:
-                    continue
-
-                #
-                # Ignore this specific release (intentional)
-                #
-                if r['id'] == 21:
+                if r['type'] != 'releases':
                     continue
 
                 info = {}
@@ -135,6 +129,11 @@ class ProductList(ErrataConnector):
                 info['brew_tags'] = {}
                 for t in r['relationships']['brew_tags']:
                     info['brew_tags'][int(t['id'])] = t['name']
+
+                if attrs['enabled']:
+                    info['enabled'] = True
+                else:
+                    info['enabled'] = False
 
                 info['bz_flags'] = []
                 for f in attrs['blocker_flags']:
@@ -191,11 +190,13 @@ class ProductList(ErrataConnector):
         versions = {}
         for v in ret:
             release = v['product_version']
-            if int(release['enabled']) == 0:
-                continue
 
             info = {}
             n = int(release['id'])
+            if int(release['enabled']) == 0:
+                info['enabled'] = False
+            else:
+                info['enabled'] = True
             info['name'] = release['name']
             info['brew_tag'] = release['default_brew_tag']
             info['description'] = release['description']
@@ -214,6 +215,17 @@ class ProductList(ErrataConnector):
         for p in self.products:
             n = self.products[p]['short_name']
             self.fetch_versions(n)
+
+    #
+    # Certain releases are cross-product and sometimes
+    # confuse users' tools, so allow users to drop releases
+    #
+    def drop_release(self, release):
+        r = self.get_release(release)
+        if r is None:
+            return
+        del self.releases[r['id']]
+        self.coallate_data()
 
     #
     # Build up links between products/releases/versions
@@ -242,11 +254,14 @@ class ProductList(ErrataConnector):
     def _prune_releases(self, releases, **kwargs):
         if releases is None:
             return None
-        if 'async' not in kwargs or kwargs['async'] is True:
-            return releases
+
+        disabled = False
+        if 'disabled' in kwargs and kwargs['disabled'] is True:
+            disabled = True
+
         ret = {}
         for r in releases:
-            if self.releases[r]['async'] is True:
+            if self.releases[r]['enabled'] is False and disabled is False:
                 continue
             ret[r] = releases[r]
         return ret
@@ -261,6 +276,21 @@ class ProductList(ErrataConnector):
             except ValueError:
                 pass
         return val
+
+    def _prune_versions(self, versions, **kwargs):
+        if versions is None:
+            return None
+
+        disabled = False
+        if 'disabled' in kwargs and kwargs['disabled'] is True:
+            disabled = True
+
+        ret = {}
+        for v in versions:
+            if self.versions[v]['enabled'] is False and disabled is False:
+                continue
+            ret[v] = versions[v]
+        return ret
 
     #
     # Return a dict of releases in the form of:
@@ -303,7 +333,7 @@ class ProductList(ErrataConnector):
     #
     def get_versions(self, product, **kwargs):
         prod = self.__getitem__(product)
-        return prod['versions']
+        return self._prune_versions(prod['versions'], **kwargs)
 
     #
     # Find a single release by its ID or name
