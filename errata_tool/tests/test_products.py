@@ -12,7 +12,7 @@ class TestProductList(object):
 
     def test_export_prodinfo_version(self, productlist):
         result = productlist.export()
-        assert result['prodinfo_version'] == 2
+        assert result['prodinfo_version'] == 3
 
     def test_export_products(self, productlist):
         result = productlist.export()
@@ -44,6 +44,7 @@ class TestProductList(object):
              'bz_flags': [u'ceph-2.y'],
              'description': u'Red Hat Ceph Storage 2.1 updates',
              'id': 654,
+             'enabled': True,
              'name': u'ceph-2.1-updates',
              'products': {104: u'Red Hat Ceph Storage'},
              'versions': {509: u'RHEL-7-CEPH-2'}}
@@ -53,6 +54,7 @@ class TestProductList(object):
              'bz_flags': [u'ceph-2.y'],
              'description': u'Red Hat Ceph Storage 2.2',
              'id': 655,
+             'enabled': True,
              'name': u'ceph-2.2',
              'products': {104: u'Red Hat Ceph Storage'},
              'versions': {509: u'RHEL-7-CEPH-2'}}
@@ -65,6 +67,7 @@ class TestProductList(object):
              'description': u'Red Hat Ceph Storage 2 for Red Hat '
                             'Enterprise Linux 7',
              'id': 509,
+             'enabled': True,
              'name': u'RHEL-7-CEPH-2',
              'products': {104: u'Red Hat Ceph Storage'},
              'releases': {654: u'ceph-2.1-updates', 655: u'ceph-2.2'}}
