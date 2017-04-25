@@ -813,7 +813,8 @@ https://access.redhat.com/articles/11258")
         print("Manager Email: " + self.manager_email)
         print("QE: " + self.qe_email + " " + self.qe_group)
         print("Type: " + self.errata_type)
-        print("Created: " + self.creation_date)
+        if self.creation_date is not None:
+            print("Created: " + self.creation_date)
         if self.errata_state == 'SHIPPED_LIVE':
             print("Shipped: " + self.ship_date)
         print("Age: " + self.age + " days")
