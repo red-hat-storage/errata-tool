@@ -817,7 +817,7 @@ https://access.redhat.com/articles/11258")
             print("Created: " + self.creation_date)
         if self.errata_state == 'SHIPPED_LIVE':
             print("Shipped: " + self.ship_date)
-        print("Age: " + self.age + " days")
+        print("Age: " + str(self.age) + " days")
         if len(self.current_flags) > 0:
             print("Flags: " + ' '.join(self.current_flags))
         print("Synopsis: " + self.synopsis)
