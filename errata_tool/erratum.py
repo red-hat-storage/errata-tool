@@ -493,6 +493,13 @@ https://access.redhat.com/articles/11258")
         r = self._post(url, data=val)
         self._processResponse(r)
 
+    def addCC(self, email):
+        """ Add someone to the CC list for this advisory. """
+        val = {'id': self.errata_id, 'email': email}
+        url = '/carbon_copies/add_to_cc_list'
+        r = self._post(url, data=val)
+        self._processResponse(r)
+
     #
     # Flag list could be replaced with a set at some
     # point.

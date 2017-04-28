@@ -109,6 +109,14 @@ Changing docs reviewer:
 
     e.changeDocsReviewer('kdreyer@redhat.com')
 
+Adding someone to the CC list:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    e.addCC('kdreyer@redhat.com')
+
 
 Using the staging server
 ------------------------
