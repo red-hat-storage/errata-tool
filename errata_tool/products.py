@@ -347,6 +347,19 @@ class ProductList(ErrataConnector):
                 return self.releases[r]
 
     #
+    # Return a dict of releases with an associated bugzilla flag
+    #
+    def get_releases_by_flag(self, flag, **kwargs):
+        ret = {}
+        for release in self.releases:
+            for f in self.releases[release]['bz_flags']:
+                if flag == f:
+                    ret[release] = self.releases[release]
+        if ret == {}:
+            return None
+        return ret
+
+    #
     # Find a single version by its ID or name
     #
     def get_version(self, version, **kwargs):
