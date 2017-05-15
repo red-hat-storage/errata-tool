@@ -699,20 +699,25 @@ https://access.redhat.com/articles/11258")
         idsfixed = ' '.join(str(i) for i in allbugs)
         pdata['advisory[idsfixed]'] = idsfixed
 
-        # Sync bug states
-
-        if len(allbugs):
+        # Sync newly added bug states
+        newbugs = list(set(allbugs) - set(self._original_bugs))
+        if len(newbugs):
             # url = '/api/v1/bug/refresh'
             # print(allbugs)
-            # r = self._post(url, data=allbugs)
+            # r = self._post(url, data=newbugs)
             # self._processResponse(r)
             # ^ XXX broken
             #
             # XXX Sync bug states by force using UI
+            # Note: UI limits syncs to 100 bugs per run, so split
+            # up into chunks
+            syncs = [newbugs[x:x + 100] for x in xrange(0, len(newbugs), 100)]
             bug_list = {}
-            bug_list['issue_list'] = idsfixed
-            url = "/bugs/sync_bug_list"
-            r = self._post(url, data=bug_list)
+            for s in syncs:
+                bug_list['issue_list'] = ' '.join(str(i) for i in s)
+                url = "/bugs/sync_bug_list"
+                r = self._post(url, data=bug_list)
+                # XXX should we process return code?
 
         # Push it
         if self._new:
