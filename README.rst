@@ -4,6 +4,9 @@
 .. image:: https://travis-ci.org/ktdreyer/errata-tool.svg?branch=master
           :target: https://travis-ci.org/ktdreyer/errata-tool
 
+.. image:: https://badge.fury.io/py/errata-tool.svg
+             :target: https://badge.fury.io/py/errata-tool
+
 Modern Python API to Red Hat's Errata Tool.
 
 python-errata-tool is a Python library that wraps the Errata Tool's REST API.
