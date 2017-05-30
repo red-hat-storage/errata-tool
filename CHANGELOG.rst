@@ -1,3 +1,30 @@
+v1.8.0
+======
+
+* Add ``.creation_date``, ``.ship_date``, and ``.age`` attributes to
+  advisories.
+
+  Age is the number of days between creation and ship date,
+  or creation date and "today" if an erratum is not shipped.
+
+  This is useful for assembling historical data.
+
+* Product list functional changes
+
+  1) Fetch all versions and releases for active products,
+     even disabled ones,
+  2) Assume users don't want inactive versions or releases,
+     but allow them to query them using disabled=True when
+     passed to get_versions() and get_releases()
+  3) Allow users to drop certain releases if they want,
+  4) Don't muck with async releases by default.
+
+  Product table version bumped since 'enabled' is now part
+  of version/release information.
+
+* Add new ``addCC()`` method to advisories.  Use this to add someone to the CC
+  list for an advisory.
+
 v1.7.0
 ======
 
