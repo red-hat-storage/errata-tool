@@ -129,7 +129,7 @@ setup(
     description='Python API for Red Hat Errata Tool',
     packages=['errata_tool'],
     author='Ken Dreyer',
-    author_email='kdreyer [at] redhat.com',
+    author_email='kdreyer@redhat.com',
     url='https://github.com/ktdreyer/errata-tool',
     version=metadata['version'],
     license='MIT',
