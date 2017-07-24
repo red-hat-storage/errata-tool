@@ -1,3 +1,8 @@
+v1.8.1
+======
+
+* Fix setuptools packaging problem with latest requests and urllib3.
+
 v1.8.0
 ======
 
