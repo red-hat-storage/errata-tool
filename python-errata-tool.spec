@@ -12,7 +12,7 @@ Summary:        Modern Python API to Red Hat's Errata Tool
 Group:          Development/Languages
 
 License:        MIT
-URL:            https://github.com/ktdreyer/errata-tool
+URL:            https://github.com/red-hat-storage/errata-tool
 
 Source0:        %{pkgname}-%{version}.tar.gz
 

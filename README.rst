@@ -1,8 +1,8 @@
 ``errata-tool``
 ===============
 
-.. image:: https://travis-ci.org/ktdreyer/errata-tool.svg?branch=master
-          :target: https://travis-ci.org/ktdreyer/errata-tool
+.. image:: https://travis-ci.org/red-hat-storage/errata-tool.svg?branch=master
+          :target: https://travis-ci.org/red-hat-storage/errata-tool
 
 .. image:: https://badge.fury.io/py/errata-tool.svg
              :target: https://badge.fury.io/py/errata-tool

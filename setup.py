@@ -130,7 +130,7 @@ setup(
     packages=['errata_tool'],
     author='Ken Dreyer',
     author_email='kdreyer@redhat.com',
-    url='https://github.com/ktdreyer/errata-tool',
+    url='https://github.com/red-hat-storage/errata-tool',
     version=metadata['version'],
     license='MIT',
     zip_safe=False,
