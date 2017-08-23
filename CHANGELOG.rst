@@ -1,3 +1,11 @@
+v1.8.2
+======
+
+* New project URL: https://github.com/red-hat-storage/errata-tool
+
+* Avoid re-adding the RHSA severity prefix to an advisory's synopsis when
+  making unrelated updates.
+
 v1.8.1
 ======
 
