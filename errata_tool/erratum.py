@@ -5,6 +5,7 @@ import datetime
 import time
 import requests_kerberos
 import six
+import re
 
 from errata_tool import ErrataException, ErrataConnector, security
 
@@ -683,6 +684,12 @@ https://access.redhat.com/articles/11258")
             pdata['advisory[publish_date_override]'] = \
                 self.publish_date_override
 
+        # ET automagicaly handles the severity for the synopsis in RHSA's
+        # but will still see it as a docs change if we write the same one
+        # back again, so remove it.
+        if self.errata_type == 'RHSA':
+            severity = r'^(Low|Moderate|Important|Critical): '
+            self.synopsis = re.sub(severity, "", self.synopsis)
         pdata['advisory[synopsis]'] = self.synopsis
         pdata['advisory[topic]'] = self.topic
         pdata['advisory[description]'] = self.description
