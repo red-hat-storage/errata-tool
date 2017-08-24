@@ -191,6 +191,18 @@ When using RHEL 7's python-requests RPM, requests simply checks
 ``/etc/pki/tls/certs/ca-bundle.crt``, so you'll need to add the IT CA cert to
 that big bundle file.
 
+If you've already added the Red Hat IT CA to your system-wide bundle, you can
+have your Python code always use this file:
+
+.. code-block:: python
+
+    if 'REQUESTS_CA_BUNDLE' not in os.environ:
+        os.environ['REQUESTS_CA_BUNDLE'] = '/etc/pki/tls/certs/ca-bundle.crt'
+
+This will make requests behave the same inside or outside your virtualenv. In
+other words, with this code, your program will always validate the Red Hat IT
+CA.
+
 Building RPMs
 -------------
 
