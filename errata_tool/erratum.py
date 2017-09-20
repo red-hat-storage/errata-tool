@@ -66,7 +66,7 @@ class Erratum(ErrataConnector):
             self.errata_type = kwargs['errata_type']
             self._update = True
         if 'text_only' in kwargs:
-            self.errata_type = kwargs['text_only']
+            self.text_only = kwargs['text_only']
             self._update = True
         if 'date' in kwargs:
             try:
