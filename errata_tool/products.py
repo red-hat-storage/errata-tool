@@ -142,8 +142,9 @@ class ProductList(ErrataConnector):
 
                 info['versions'] = {}
                 info['products'] = {}
-                for t in r['relationships']['product_versions']:
-                    info['versions'][int(t['id'])] = t['name']
+                if 'product_versions' in r['relationships']:
+                    for t in r['relationships']['product_versions']:
+                        info['versions'][int(t['id'])] = t['name']
 
                 releases[int(r['id'])] = info
 
