@@ -23,6 +23,7 @@ def read_spec_contents():
     with open('python-errata-tool.spec') as spec:
         return spec.read()
 
+
 module_file = read_module_contents()
 metadata = dict(re.findall("__([a-z]+)__\s*=\s*'([^']+)'", module_file))
 version = metadata['version']
