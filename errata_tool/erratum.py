@@ -685,7 +685,7 @@ https://access.redhat.com/articles/11258")
             pdata['advisory[publish_date_override]'] = \
                 self.publish_date_override
 
-        # ET automagicaly handles the severity for the synopsis in RHSA's
+        # ET automagically handles the severity for the synopsis in RHSA's
         # but will still see it as a docs change if we write the same one
         # back again, so remove it.
         if self.errata_type == 'RHSA':
