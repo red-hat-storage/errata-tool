@@ -317,8 +317,7 @@ https://access.redhat.com/articles/11258")
     def _check_rpmdiff(self):
         # Check for rpmdiff failures (NEW_FILES state only)
         # rpmdiff_runs.json
-        url = "/advisory/" + str(self.errata_id)
-        url += '/rpmdiff_runs.json'
+        url = "/advisory/%i/rpmdiff_runs.json" % self.errata_id
         r = self._get(url)
         if r is not None:
             for rpmdiff in r:
@@ -335,8 +334,7 @@ https://access.redhat.com/articles/11258")
 
     def _check_tps(self):
         # Check for TPS failure (QE state only)
-        url = '/advisory/'
-        url += str(self.errata_id) + '/tps_jobs.json'
+        url = '/advisory/%i/tps_jobs.json' % self.errata_id
         r = self._get(url)
         distqa_tps = 0
         distqa_passing = 0
@@ -374,8 +372,7 @@ https://access.redhat.com/articles/11258")
         # Item 5.2.10.3. GET /advisory/{id}/builds.json
         # Then try to check to see if they are signed or not
         # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
-        url = "/advisory/" + str(self.errata_id)
-        url += "/builds.json"
+        url = "/advisory/%i/builds.json" % self.errata_id
         rj = self._get(url)
         have_all_sigs = True
         for k in rj:
@@ -396,7 +393,7 @@ https://access.redhat.com/articles/11258")
     def _fetch_by_bug(self, bug_id):
         # print("fetch_by_bug")
         try:
-            url = "/bugs/" + str(bug_id) + "/advisories.json"
+            url = "/bugs/%i/advisories.json" % bug_id
             rj = self._get(url)
 
             stored = False
@@ -560,8 +557,7 @@ https://access.redhat.com/articles/11258")
             val['build'] = b
             val['product_version'] = release
             pdata.append(val)
-        url = "/api/v1/erratum/" + str(self.errata_id)
-        url += "/add_builds"
+        url = "/api/v1/erratum/%i/add_builds" % self.errata_id
         r = self._post(url, json=pdata)
         self._processResponse(r)
         self._buildschanged = True
@@ -591,8 +587,7 @@ https://access.redhat.com/articles/11258")
 
         # Get:
 
-        url = '/api/v1/erratum/' + str(self.errata_id)
-        url += '/filemeta'
+        url = '/api/v1/erratum/%i/filemeta' % self.errata_id
         r = self._get(url)
 
         info = []
@@ -626,8 +621,7 @@ https://access.redhat.com/articles/11258")
         for b in builds:
             val = {}
             val['nvr'] = b
-            url = "/api/v1/erratum/" + str(self.errata_id)
-            url += "/remove_build"
+            url = "/api/v1/erratum/%i/remove_build" % self.errata_id
             r = self._post(url, data=val)
             self._processResponse(r)
         self._buildschanged = True
@@ -746,7 +740,7 @@ https://access.redhat.com/articles/11258")
             # REFERENCE
 
             # Update is 'PUT'
-            url = "/api/v1/erratum/" + str(self.errata_id)
+            url = "/api/v1/erratum/%i" % self.errata_id
             r = self._put(url, data=pdata)
         self._processResponse(r)
 
@@ -755,14 +749,12 @@ https://access.redhat.com/articles/11258")
         if last_bug is not None:
             # This doesn't work to remove the last bug, nor does setting
             # idsfixed to empty-string
-            # url = ("/api/v1/erratum/" +
-            #        str(self.errata_id) + "/remove_bug")
+            # url = "/api/v1/erratum/%i/remove_bug" % self.errata_id
             # pdata = {'bug': str(last_bug)}
 
             # Solution: Use hacks to pretend we're using the remove-bugs
             # web UI :(
-            url = ('/bugs/remove_bugs_from_errata/' +
-                   str(self.errata_id))
+            url = '/bugs/remove_bugs_from_errata/%i' % self.errata_id
             pdata = {}
             pdata['bug[' + str(last_bug) + ']'] = 1
 
@@ -779,7 +771,7 @@ https://access.redhat.com/articles/11258")
         # State change is 'POST'
         pdata = {}
         pdata['new_state'] = self.errata_state
-        url = "/api/v1/erratum/" + str(self.errata_id)
+        url = "/api/v1/erratum/%i" % self.errata_id
         url += "/change_state"
         r = self._post(url, data=pdata)
         self._processResponse(r)
