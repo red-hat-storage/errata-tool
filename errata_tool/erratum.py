@@ -180,6 +180,13 @@ https://access.redhat.com/articles/11258")
             for key in advisory['errata']:
                 erratum = advisory['errata'][key]
                 self.errata_type = key.upper()
+                # We cannot PUT a "PDC_"-prefixed value back to the server.
+                # The server expects "RHBA", not "PDC_RHBA". We will just
+                # remove the type internally here.
+                # (See bz 1493773 for background on why the key has the pdc_
+                # prefix here.)
+                if self.errata_type.startswith('PDC_'):
+                    self.errata_type = self.errata_type[4:]
                 break
 
             self.errata_id = erratum['id']
