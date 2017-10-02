@@ -16,3 +16,14 @@ class TestAddBuilds(object):
             "build": "ceph-10.2.3-17.el7cp",
         }
         assert mock_post.kwargs['json'] == [expected]
+
+    def test_builds_pdc_data(self, monkeypatch, mock_post, advisory):
+        monkeypatch.setattr(requests, 'post', mock_post)
+        # Point at a PDC-based release fixture for this test:
+        advisory.release_id = 783
+        advisory.addBuilds(['ceph-12.2.1-1.el7cp'], release='ceph-3.0@rhel-7')
+        expected = {
+            "pdc_release": "ceph-3.0@rhel-7",
+            "build": "ceph-12.2.1-1.el7cp",
+        }
+        assert mock_post.kwargs['json'] == [expected]

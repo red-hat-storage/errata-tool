@@ -38,6 +38,7 @@ class Erratum(ErrataConnector):
         self._update = False            # Set to true if you update any fields
         self._format = True             # Format fields on update (new adv.)
         self._buildschanged = False     # Set to true if you changed builds
+        self._is_pdc = None             # Experimental, subject to change...
 
         # These should be updated with the 'update()' method, and are provided
         # primarily for debugging/printing by user apps
@@ -186,6 +187,7 @@ https://access.redhat.com/articles/11258")
                 # (See bz 1493773 for background on why the key has the pdc_
                 # prefix here.)
                 if self.errata_type.startswith('PDC_'):
+                    self._is_pdc = True
                     self.errata_type = self.errata_type[4:]
                 break
 
@@ -505,6 +507,22 @@ https://access.redhat.com/articles/11258")
         r = self._post(url, data=val)
         self._processResponse(r)
 
+    def _isPDC(self):
+        """ Is this advisory a PDC advisory?
+
+        Warning: this method is experimental. The exact heruistics here are
+        subject to change, and this method may go away entirely in a future
+        version.
+
+        :return: ``True`` or ``False``
+        """
+        if self._is_pdc is None:
+            # Fetch data for this release. See bz 1493773 for discussion.
+            url = '/api/v1/releases/%i' % self.release_id
+            r = self._get(url)
+            self._is_pdc = r['data']['attributes']['is_pdc']
+        return self._is_pdc
+
     #
     # Flag list could be replaced with a set at some
     # point.
@@ -562,7 +580,10 @@ https://access.redhat.com/articles/11258")
             if file_types is not None and b in file_types:
                 val['file_types'] = file_types[b]
             val['build'] = b
-            val['product_version'] = release
+            if self._isPDC():
+                val['pdc_release'] = release
+            else:
+                val['product_version'] = release
             pdata.append(val)
         url = "/api/v1/erratum/%i/add_builds" % self.errata_id
         r = self._post(url, json=pdata)
