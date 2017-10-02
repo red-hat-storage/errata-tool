@@ -729,13 +729,18 @@ https://access.redhat.com/articles/11258")
             r = self._post(url, data=pdata)
             self._processResponse(r)
             rj = r.json()
-            self.errata_id = \
-                rj['errata'][self.errata_type.lower()]['errata_id']
+            # This might need a "pdc_" prefix, rhbz 1493773 for background
+            json_errata_type = self.errata_type.lower()
+            try:
+                rj['errata'][json_errata_type]
+            except KeyError:
+                json_errata_type = 'pdc_%s' % json_errata_type
+                rj['errata'][json_errata_type]
+            self.errata_id = rj['errata'][json_errata_type]['errata_id']
             # XXX return JSON returns full advisory name but not
             # typical advisory name - e.g. RHSA-2015:19999-01, but not
             # RHSA-2015:19999, but it's close enough
-            self.errata_name = \
-                rj['errata'][self.errata_type.lower()]['fulladvisory']
+            self.errata_name = rj['errata'][json_errata_type]['fulladvisory']
         else:
             # REFERENCE
 
