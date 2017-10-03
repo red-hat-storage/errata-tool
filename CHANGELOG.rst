@@ -1,3 +1,12 @@
+v1.9.0
+======
+
+* Fix traceback in ``ProductList`` if a release has no versions associated.
+
+* Fix ability to change an existing advisory to be text-only or non-text-only.
+
+* Basic PDC support: Gracefully handle PDC prefixes for advisory types.
+
 v1.8.2
 ======
 
