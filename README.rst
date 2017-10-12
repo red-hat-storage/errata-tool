@@ -49,6 +49,25 @@ Creating a new advisory:
     e.commit()
     print(e.url())
 
+Getting an errata's name:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    print(e.errata_name)
+    # prints "RH*A-YYYY:NNNNN", for example "RHBA-2018:12345"
+
+Adding bugs:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    e.addBugs([12345, 123678])
+
+    e.commit()
+
 Removing bugs:
 
 .. code-block:: python
@@ -94,6 +113,10 @@ Adding builds:
 
     e = Erratum(errata_id=24075)
 
+    # For non-PDC advisories, the "release" kwarg is the Errata Tools's
+    # "product version", in composedb, for example "RHEL-7-CEPH-2".
+    # For PDC advisories, the "release" kwarg is the PDC identifier,
+    # for example "rhceph-2.4@rhel-7".
     e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
 
 Changing state:
