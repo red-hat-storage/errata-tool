@@ -113,6 +113,10 @@ Adding builds:
 
     e = Erratum(errata_id=24075)
 
+    # For non-PDC advisories, the "release" kwarg is the Errata Tools's
+    # "product version", in composedb, for example "RHEL-7-CEPH-2".
+    # For PDC advisories, the "release" kwarg is the PDC identifier,
+    # for example "rhceph-2.4@rhel-7".
     e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
 
 Changing state:
