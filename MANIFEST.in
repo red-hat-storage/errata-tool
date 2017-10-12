@@ -1,0 +1,2 @@
+recursive-include errata_tool/tests *
+include LICENSE
