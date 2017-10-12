@@ -49,6 +49,15 @@ Creating a new advisory:
     e.commit()
     print(e.url())
 
+Getting an errata's name:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    print(e.errata_name)
+    # prints "RH*A-YYYY:NNNNN", for example "RHBA-2018:12345"
+
 Adding bugs:
 
 .. code-block:: python
