@@ -49,6 +49,16 @@ Creating a new advisory:
     e.commit()
     print(e.url())
 
+Adding bugs:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=22986)
+
+    e.addBugs([12345, 123678])
+
+    e.commit()
+
 Removing bugs:
 
 .. code-block:: python
