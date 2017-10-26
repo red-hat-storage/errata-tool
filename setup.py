@@ -25,7 +25,7 @@ def read_spec_contents():
 
 
 module_file = read_module_contents()
-metadata = dict(re.findall("__([a-z]+)__\s*=\s*'([^']+)'", module_file))
+metadata = dict(re.findall(r"__([a-z]+)__\s*=\s*'([^']+)'", module_file))
 version = metadata['version']
 
 
