@@ -3,9 +3,9 @@ import os
 import textwrap
 import datetime
 import time
+import re
 import requests_kerberos
 import six
-import re
 
 from errata_tool import ErrataException, ErrataConnector, security
 
