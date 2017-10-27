@@ -573,15 +573,19 @@ https://access.redhat.com/articles/11258")
     def addBuilds(self, buildlist, **kwargs):
         if self._new:
             raise ErrataException('Cannot add builds to unfiled erratum')
-        if 'release' not in kwargs:
-            if len(self.errata_builds) != 1:
-                raise ErrataException('Need to specify a release')
-            return self.addBuildsDirect(buildlist,
-                                        self.errata_builds.keys()[0],
-                                        **kwargs)
 
-        release = kwargs['release']
-        del kwargs['release']
+        release = None
+
+        if 'release' in kwargs:
+            release = kwargs['release']
+            del kwargs['release']
+
+        if release is None and len(self.errata_builds.keys()) == 1:
+            release = self.errata_builds.keys()[0]
+
+        if release is None:
+            raise ErrataException('Need to specify a release')
+
         return self.addBuildsDirect(buildlist, release, **kwargs)
 
     def setFileInfo(self, file_info):
