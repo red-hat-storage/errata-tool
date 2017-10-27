@@ -629,6 +629,10 @@ https://access.redhat.com/articles/11258")
             builds.append(buildlist)
         else:
             builds = buildlist
+
+        if len(builds) == 0:
+            raise IndexError
+
         for b in builds:
             val = {}
             val['nvr'] = b
