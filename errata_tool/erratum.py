@@ -626,7 +626,9 @@ https://access.redhat.com/articles/11258")
 
         if isinstance(buildlist, six.string_types):
             builds = []
-            builds.append(buildlist)
+            if len(buildlist.strip()) == 0:
+                raise IndexError
+            builds.append(buildlist.strip())
         else:
             builds = buildlist
 

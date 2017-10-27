@@ -36,6 +36,18 @@ class TestRemoveBuilds(object):
             advisory.removeBuilds(None)
         assert advisory._buildschanged is False
 
+    def test_builds_empty_string(self, monkeypatch, mock_post, advisory):
+        monkeypatch.setattr(requests, 'post', mock_post)
+        with pytest.raises(IndexError):
+            advisory.removeBuilds('')
+        assert advisory._buildschanged is False
+
+    def test_builds_whitespace_string(self, monkeypatch, mock_post, advisory):
+        monkeypatch.setattr(requests, 'post', mock_post)
+        with pytest.raises(IndexError):
+            advisory.removeBuilds(' ')
+        assert advisory._buildschanged is False
+
     def test_builds_empty_set(self, monkeypatch, mock_post, advisory):
         monkeypatch.setattr(requests, 'post', mock_post)
         with pytest.raises(IndexError):
