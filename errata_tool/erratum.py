@@ -581,7 +581,7 @@ https://access.redhat.com/articles/11258")
             del kwargs['release']
 
         if release is None and len(self.errata_builds.keys()) == 1:
-            release = self.errata_builds.keys()[0]
+            release = list(self.errata_builds.keys())[0]
 
         if release is None:
             raise ErrataException('Need to specify a release')
