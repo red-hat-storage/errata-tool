@@ -2,6 +2,8 @@ import json
 import os
 from errata_tool import ErrataConnector, Erratum
 from errata_tool.products import ProductList
+from errata_tool.product import Product
+from errata_tool.release import Release
 import requests
 import pytest
 
@@ -91,3 +93,19 @@ def productlist(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(requests, 'get', mock_get)
     return ProductList()
+
+
+@pytest.fixture
+def product(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Product('RHCEPH')
+
+
+@pytest.fixture
+def release(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Release(name='rhceph-3.0')

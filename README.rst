@@ -144,6 +144,63 @@ Adding someone to the CC list:
     e.addCC('kdreyer@redhat.com')
 
 
+Working with products
+---------------------
+
+The ``errata_tool.product.Product`` class can look up existing products.
+
+Looking up a product:
+
+.. code-block:: python
+
+    from errata_tool.product import Product
+
+    p = Product('RHCEPH')
+    print(p.id)  # 104
+    print(p.name)  # "RHCEPH"
+    print(p.description)  # "Red Hat Ceph Storage"
+    print(p.supports_pdc)  # True
+
+
+Working with releases
+---------------------
+
+The ``errata_tool.release.Release`` class can look up existing releases or
+create new release entries.
+
+Looking up a release:
+
+.. code-block:: python
+
+    from errata_tool.release import Release
+
+    r = Release(name='rhceph-2.4')
+    print(r.id)  # 792
+    print(r.name)  # "rhceph-2.4"
+    print(r.description)  # "Red Hat Ceph Storage 2.4"
+    print(r.type)  # "QuarterlyUpdate"
+    print(r.is_active)  # True
+    print(r.enabled)  # True
+    print(r.blocker_flags)  # ['ceph-2.y', 'pm_ack', 'devel_ack', 'qa_ack']
+    print(r.is_pdc)  # True
+    print(r.edit_url)  # https://errata.devel.redhat.com/release/edit/792
+
+Creating a new release (this requires the "releng" role in the Errata Tool):
+
+.. code-block:: python
+
+    from errata_tool.release import Release
+    r = Release.create(
+        name='rhceph-3.0',
+        product='RHCEPH',
+        type='QuarterlyUpdate',
+        program_manager='anharris',
+        blocker_flags='ceph-3.0',
+    )
+    print('created new rhceph-3.0 release')
+    print('visit %s to add PDC associations' % r.edit_url)
+
+
 Using the staging server
 ------------------------
 
