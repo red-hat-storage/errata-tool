@@ -279,9 +279,6 @@ https://access.redhat.com/articles/11258")
                 self._check_bugs()
                 self._check_need_rel_prep()
 
-            elif self.errata_state == 'NEW_FILES':
-                self._check_rpmdiff()
-
             # Check for security review
             if 'rhsa' in advisory['errata']:
                 sa = advisory['errata']['rhsa']['security_approved']
@@ -320,24 +317,6 @@ https://access.redhat.com/articles/11258")
     def _cache_bug_info(self, bug_id_list):
         # Omitted: RHOS shale's use of bz_cache here.
         pass
-
-    def _check_rpmdiff(self):
-        # Check for rpmdiff failures (NEW_FILES state only)
-        # rpmdiff_runs.json
-        url = "/advisory/%i/rpmdiff_runs.json" % self.errata_id
-        r = self._get(url)
-        if r is not None:
-            for rpmdiff in r:
-                rpmdiff_run = rpmdiff['rpmdiff_run']
-                if rpmdiff_run['obsolete'] == 1:
-                    continue
-                if rpmdiff_run['overall_score'] == 3 or \
-                   rpmdiff_run['overall_score'] == 4:
-                    self.addFlags('rpmdiff_errors')
-                    break
-                if rpmdiff_run['overall_score'] == 499 or \
-                   rpmdiff_run['overall_score'] == 500:
-                    self.addFlags('rpmdiff_wait')
 
     def _check_tps(self):
         # Check for TPS failure (QE state only)
