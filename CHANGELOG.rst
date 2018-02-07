@@ -1,3 +1,18 @@
+v1.10.0
+======
+
+* Add new Product, User, and Release classes
+
+* Disable mutual auth for all HTTPS requests
+
+* Code linting cleanup
+
+* Include tests and license in source distribution
+
+* Remove rpmdiff support (rpmdiff is now decoupled from ET)
+
+* More examples in README
+
 v1.9.0
 ======
 
