@@ -30,12 +30,13 @@ Example:
     print(e.url())
     # prints "https://errata.devel.redhat.com/advisory/1234"
 
-Creating a new advisory:
+Creating a new bugfix advisory:
 
 .. code-block:: python
 
     e = Erratum(product='RHCEPH',
                 release='RHCEPH-2-RHEL-7',
+                #errata_type='RHBA'         # Default; may be omitted
                 synopsis='Red Hat Ceph Storage 2.1 bug fix update',
                 topic='An update for Red Hat Ceph 2.1 is now available.',
                 description='This update contains the following fixes ...',
@@ -49,7 +50,51 @@ Creating a new advisory:
     e.commit()
     print(e.url())
 
-Getting an errata's name:
+Creating a new enhancement (feature) advisory:
+
+.. code-block:: python
+
+    e = Erratum(product='RHCEPH',
+                release='RHCEPH-2-RHEL-7',
+                errata_type='RHEA',          # Set to RHEA for RHEA
+                synopsis='Red Hat Ceph Storage 2.1 enhancement update',
+                topic='An update for Red Hat Ceph 2.1 is now available.',
+                description='This update contains the following features ...',
+                solution='Before applying this update...',
+                qe_email='someone@redhat.com',
+                qe_group='RHC (Ceph) QE',
+                errata_type='RHBA',
+                owner_email='kdreyer@redhat.com',
+                manager_email='ohno@redhat.com',
+                )
+    e.commit()
+    print(e.url())
+
+Creating a new security advisory. Note that RHSA (Security)
+advisories are given one of four impacts (Low, Moderate,
+Important, and Critical). See this link for more information:
+    https://access.redhat.com/security/updates/classification
+
+.. code-block:: python
+
+    e = Erratum(product='RHCEPH',
+                release='RHCEPH-2-RHEL-7',
+                errata_type='RHSA',          # Set to RHSA for RHSA
+                security_impact='Moderate',  # Required for RHSA
+                synopsis='Red Hat Ceph Storage 2.1 security update',
+                topic='An update for Red Hat Ceph 2.1 is now available.',
+                description='This update contains the following fixes ...',
+                solution='Before applying this update...',
+                qe_email='someone@redhat.com',
+                qe_group='RHC (Ceph) QE',
+                errata_type='RHBA',
+                owner_email='kdreyer@redhat.com',
+                manager_email='ohno@redhat.com',
+                )
+    e.commit()
+    print(e.url())
+
+Getting an erratum's name:
 
 .. code-block:: python
 
