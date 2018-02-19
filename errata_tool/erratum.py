@@ -57,6 +57,7 @@ class Erratum(ErrataConnector):
         self.topic = None
         self.description = None
         self.solution = None
+        self.security_impact = None
         self.errata_bugs = []
         self.errata_builds = {}
         self.current_flags = []
@@ -64,6 +65,9 @@ class Erratum(ErrataConnector):
     def update(self, **kwargs):
         if 'errata_type' in kwargs:
             self.errata_type = kwargs['errata_type']
+            self._update = True
+        if 'security_impact' in kwargs:
+            self.security_impact = kwargs['security_impact']
             self._update = True
         if 'text_only' in kwargs:
             self.text_only = kwargs['text_only']
@@ -282,6 +286,8 @@ https://access.redhat.com/articles/11258")
             # Check for security review
             if 'rhsa' in advisory['errata']:
                 sa = advisory['errata']['rhsa']['security_approved']
+                self.security_impact = advisory['errata']['rhsa']['security_impact']  # NOQA
+
                 if sa is None:
                     self.addFlags('request_security')
                 elif sa is False:
@@ -641,6 +647,13 @@ https://access.redhat.com/articles/11258")
                                       "release specified")
             if self.errata_type is None:
                 self.errata_type = 'RHBA'
+
+            if self.errata_type == 'RHSA':
+                val = 'None'
+                if self.security_impact is not None:
+                    val = self.security_impact
+                pdata['advisory[security_impact]'] = val
+
             pdata['product'] = self._product
             pdata['release'] = self._release
             pdata['advisory[package_owner_email]'] = self.package_owner_email
@@ -878,9 +891,10 @@ https://access.redhat.com/articles/11258")
             for b in sorted(self.errata_builds[k], key=lambda x: x.lower()):
                 s = s + "      " + b + "\n"
         if len(self.current_flags) > 0:
-            s = "\n  Flags: " + ' '.join(self.current_flags) + s
+            s = "\n  Flags:  " + ' '.join(self.current_flags) + s
         if len(self._cve_bugs) > 0:
-            s = "\n  CVEs:  " + str(self._cve_bugs) + s
+            s = "\n  Impact: " + str(self.security_impact) + s
+            s = "\n  CVEs:   " + str(self._cve_bugs) + s
 
         return self.errata_name + ": " + self.synopsis + \
             "\n  reporter: " + self.package_owner_email + \
@@ -893,7 +907,7 @@ https://access.redhat.com/articles/11258")
             "\n  ship target: " + str(self.publish_date_override) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
-            "\n  bugs:  " + str(self.errata_bugs) + \
+            "\n  bugs:   " + str(self.errata_bugs) + \
             s
 
     def __int__(self):
