@@ -22,9 +22,13 @@ class MockResponse(object):
     @property
     def _fixture(self):
         """ Return path to our static fixture file. """
-        return self.url.replace('https://errata.devel.redhat.com/',
-                                os.path.join(FIXTURES_DIR,
-                                             'errata.devel.redhat.com/'))
+        fdir = os.path.join(FIXTURES_DIR, 'errata.devel.redhat.com/')
+        filename = self.url.replace('https://errata.devel.redhat.com/', fdir)
+        # If we need to represent this API endpoint as both a directory and a
+        # file, check for a ".body" file.
+        if os.path.isdir(filename):
+            return filename + '.body'
+        return filename
 
     def json(self):
         try:
