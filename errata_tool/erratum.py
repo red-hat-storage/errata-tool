@@ -414,6 +414,18 @@ https://access.redhat.com/articles/11258")
         if self.errata_id != 0:
             self._fetch(self.errata_id)
 
+    def reloadBuilds(self,
+                     no_rpm_listing_only=False,
+                     no_current_files_only=False):
+        val = {
+            'no_rpm_listing_only': int(no_rpm_listing_only),
+            'no_current_files_only': int(no_current_files_only),
+        }
+        url = '/api/v1/erratum/%d/reload_builds' % self.errata_id
+        r = self._post(url, data=val)
+        self._processResponse(r)
+        return r.json()
+
     def setState(self, state):
         if self._new:
             raise ErrataException('Cannot simultaneously create and change ' +

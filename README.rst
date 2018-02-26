@@ -188,6 +188,15 @@ Adding someone to the CC list:
 
     e.addCC('kdreyer@redhat.com')
 
+Reloading the all specific builds that lack product listings:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    result = e.reloadBuilds(no_rpm_listing_only=True)
+    # result is a dict for this job tracker
+
 
 Working with products
 ---------------------
