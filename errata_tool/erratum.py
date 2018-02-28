@@ -365,11 +365,11 @@ https://access.redhat.com/articles/11258")
         # Then try to check to see if they are signed or not
         # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
         url = "/advisory/%i/builds.json" % self.errata_id
-        rj = self._get(url)
+        product_versions = self._get(url)
         have_all_sigs = True
-        for k in rj:
+        for k in product_versions:
             builds = []
-            for i in rj[k]:
+            for i in product_versions[k]:
                 for b in i:
                     builds.append(b)
                     if have_all_sigs and check_signatures:
