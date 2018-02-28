@@ -369,8 +369,8 @@ https://access.redhat.com/articles/11258")
         have_all_sigs = True
         for product_version in product_versions:
             builds = []
-            for i in product_versions[product_version]:
-                for b in i:
+            for pv_builds in product_versions[product_version]:
+                for b in pv_builds:
                     builds.append(b)
                     if have_all_sigs and check_signatures:
 
