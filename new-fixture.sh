@@ -21,6 +21,9 @@ DIRNAME=$(dirname $FIXTURE)
 
 cd errata_tool/tests/fixtures/
 mkdir -p $DIRNAME
+if [ -d $FIXTURE ]; then
+  FIXTURE=$FIXTURE.body
+fi
 curl -g --negotiate -u : -q $URL > $FIXTURE
 
 git add $FIXTURE
