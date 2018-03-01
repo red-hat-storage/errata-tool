@@ -171,6 +171,7 @@ Changing state:
     e = Erratum(errata_id=24075)
 
     e.setState('QE')
+    e.commit()
 
 Changing docs reviewer:
 
