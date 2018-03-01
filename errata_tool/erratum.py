@@ -254,6 +254,9 @@ https://access.redhat.com/articles/11258")
             self._product = advisory_old['product']['short_name']
             self._release = advisory_old['release']['name']
 
+            # A maybe-empty list, containing eg. "rpm" or "docker"
+            self.content_types = erratum['content_types']
+
             # store product and release IDs
             self.product_id = advisory_old['product']['id']
             self.release_id = advisory_old['release']['id']

@@ -198,6 +198,15 @@ Reloading the all specific builds that lack product listings:
     result = e.reloadBuilds(no_rpm_listing_only=True)
     # result is a dict for this job tracker
 
+Determining if an advisory has RPMs or containers:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    content_types = e.content_types
+    # result is a list, like ["rpm"], or ["docker"]
+
 
 Working with products
 ---------------------

@@ -74,3 +74,6 @@ class TestAdvisory(object):
 
     def test_current_flags(self, advisory):
         assert advisory.current_flags == []
+
+    def test_content_types(self, advisory):
+        assert advisory.content_types == ['rpm']
