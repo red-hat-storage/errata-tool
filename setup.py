@@ -141,6 +141,7 @@ setup(
         'jsonpath_rw',
         'requests',
         'requests_kerberos',
+        'kerberos',
         'six',
     ],
     tests_require=[

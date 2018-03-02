@@ -1,6 +1,7 @@
 from datetime import date
 import requests
 from errata_tool.release import Release
+from errata_tool.connector import ErrataConnector
 
 
 class TestGet(object):
@@ -52,6 +53,7 @@ class TestCreate(object):
     def test_create_url(self, monkeypatch, mock_get, mock_post):
         monkeypatch.setattr(requests, 'get', mock_get)
         monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector, '_username', 'test')
         Release.create(**self.create_kwargs)
         expected = 'https://errata.devel.redhat.com/release/create'
         assert mock_post.response.url == expected
@@ -59,6 +61,7 @@ class TestCreate(object):
     def test_create_data(self, monkeypatch, mock_get, mock_post):
         monkeypatch.setattr(requests, 'get', mock_get)
         monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector, '_username', 'test')
         Release.create(**self.create_kwargs)
         today = date.today()
         ship_date = today.strftime("%Y-%b-%d")
