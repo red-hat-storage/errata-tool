@@ -365,12 +365,12 @@ https://access.redhat.com/articles/11258")
         # Then try to check to see if they are signed or not
         # Item 5.2.2.1. GET /api/v1/build/{id_or_nvr}
         url = "/advisory/%i/builds.json" % self.errata_id
-        rj = self._get(url)
+        product_versions = self._get(url)
         have_all_sigs = True
-        for k in rj:
+        for product_version in product_versions:
             builds = []
-            for i in rj[k]:
-                for b in i:
+            for pv_builds in product_versions[product_version]:
+                for b in pv_builds:
                     builds.append(b)
                     if have_all_sigs and check_signatures:
 
@@ -378,7 +378,7 @@ https://access.redhat.com/articles/11258")
                             self.addFlags('needs_sigs')
                             have_all_sigs = False
 
-            self.errata_builds[k] = builds
+            self.errata_builds[product_version] = builds
         if have_all_sigs:
             self.removeFlags(['request_sigs', 'needs_sigs'])
 
