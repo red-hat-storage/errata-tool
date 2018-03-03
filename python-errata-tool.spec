@@ -28,6 +28,7 @@ BuildRequires:  python3-six
 Requires:  python-requests-kerberos
 Requires:  python-jsonpath-rw
 Requires:  python-six
+Requires:  python-kerberos
 BuildRequires:  pytest
 BuildRequires:  python2-devel
 BuildRequires:  python-jsonpath-rw

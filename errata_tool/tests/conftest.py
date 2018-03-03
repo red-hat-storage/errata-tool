@@ -78,6 +78,7 @@ def mock_put():
 def advisory(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=26175)
 
@@ -87,6 +88,7 @@ def rhsa(monkeypatch, mock_get):
     """ Like the advisory() fixture above, but an RHSA. """
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=25856)
 
@@ -95,6 +97,7 @@ def rhsa(monkeypatch, mock_get):
 def productlist(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return ProductList()
 
@@ -103,6 +106,7 @@ def productlist(monkeypatch, mock_get):
 def product(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Product('RHCEPH')
 
@@ -111,5 +115,6 @@ def product(monkeypatch, mock_get):
 def release(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Release(name='rhceph-3.0')
