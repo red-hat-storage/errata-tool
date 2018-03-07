@@ -207,6 +207,19 @@ Determining if an advisory has RPMs or containers:
     content_types = e.content_types
     # result is a list, like ["rpm"], or ["docker"]
 
+Get active RPMDiff results for an advisory:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    bad = []
+    for result in e.externalTests(test_type='rpmdiff'):
+        if result['attributes']['status'] not in ('PASSED', 'WAIVED'):
+            # See result['attributes']['external_id'] for the integer to pass
+            # into RPMDiff's run API.
+            bad.append(result)
+
 
 Working with products
 ---------------------

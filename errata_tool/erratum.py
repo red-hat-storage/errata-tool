@@ -360,6 +360,21 @@ https://access.redhat.com/articles/11258")
         # Omitted: RHOS shale's "need_rel_prep" here, uses bz_cache.
         pass
 
+    def externalTests(self, test_type=None):
+        """
+        Get active external test results for this advisory.
+
+        :param test_type: str, like "rpmdiff" or "covscan"
+        :returns: a possibly-empty list of dicts, one per result.
+        """
+        tmpl = '/api/v1/external_tests/?filter[active]=true'
+        tmpl += '&filter[errata_id]={errata_id}'
+        if test_type:
+            tmpl += '&filter[test_type]={test_type}'
+        url = tmpl.format(errata_id=self.errata_id, test_type=test_type)
+        response = self._get(url)
+        return response['data']
+
     def _get_build_list(self, check_signatures=False):
         # Grab build list; store on a per-key basis
         # REFERENCE
