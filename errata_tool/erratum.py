@@ -327,6 +327,32 @@ https://access.redhat.com/articles/11258")
         # Omitted: RHOS shale's use of bz_cache here.
         pass
 
+    def metadataCdnRepos(self, enable=[], disable=[]):
+        """ Get or set the CDN repos for this advisory.
+
+        Note: This method applies only for advisories containing Docker images.
+
+        When called with no arguments, this method returns all available CDN
+        repos for advisory metadata. Otherwise you may enable or disable repos
+        here.
+
+        :param enable: (optional) A list of CDN repos to enable.
+                       Example: ["rhel-7-server-rhceph-3-mon-rpms__x86_64"]
+        :param disable: (optional) A list of CDN repos to disable.
+        :returns: a list of dicts about each available repo, and whether they
+                  are enabled or disabled.
+        """
+        url = '/api/v1/erratum/%d/metadata_cdn_repos' % self.errata_id
+        if not enable and not disable:
+            return self._get(url)
+        payload = [{'enabled': True, 'repo': repo} for repo in enable]
+        payload += [{'enabled': False, 'repo': repo} for repo in disable]
+        result = self._put(url, json=payload)
+        # XXX we should fix error handling and return values in _put() to work
+        # like _get() currently does.
+        result.raise_for_status()
+        return result.json()
+
     def _check_tps(self):
         # Check for TPS failure (QE state only)
         url = '/advisory/%i/tps_jobs.json' % self.errata_id

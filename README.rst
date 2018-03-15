@@ -221,6 +221,17 @@ Get active RPMDiff results for an advisory:
             bad.append(result)
 
 
+Set the CDN repos for a container advisory (only applies for advisories
+containing Docker images):
+
+.. code-block:: python
+
+    e = Erratum(errata_id=24075)
+
+    assert 'docker' in e.content_types
+    e.metadataCdnRepos(enable='rhel-7-server-rhceph-3-mon-rpms__x86_64')
+
+
 Working with products
 ---------------------
 
