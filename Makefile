@@ -4,13 +4,16 @@
 NAME = python-errata-tool
 VERSION := $(shell PYTHONPATH=. python -c \
              'import errata_tool; print errata_tool.__version__')
+RELEASE := $(shell rpmspec \
+             --define "dist .el7" \
+             -q --srpm --qf "%{release}\n" python-errata-tool.spec)
 
 all: srpm
 
 clean:
 	rm -rf dist/
 	rm -rf errata-tool-$(VERSION).tar.gz
-	rm -rf $(NAME)-$(VERSION)-1.el7.src.rpm
+	rm -rf $(NAME)-$(VERSION)-$(RELEASE).src.rpm
 
 dist:
 	python setup.py sdist \
@@ -20,6 +23,6 @@ srpm: dist
 	fedpkg --dist epel7 srpm
 
 rpm: dist
-	mock -r epel-7-x86_64 rebuild $(NAME)-$(VERSION)-1.el7.src.rpm
+	mock -r epel-7-x86_64 rebuild $(NAME)-$(VERSION)-$(RELEASE).src.rpm
 
 .PHONY: dist rpm srpm
