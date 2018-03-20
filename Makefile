@@ -22,7 +22,7 @@ dist:
 srpm: dist
 	fedpkg --dist epel7 srpm
 
-rpm: dist
+rpm: srpm
 	mock -r epel-7-x86_64 rebuild $(NAME)-$(VERSION)-$(RELEASE).src.rpm
 
 .PHONY: dist rpm srpm
