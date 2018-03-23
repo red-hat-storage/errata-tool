@@ -1,0 +1,1 @@
+[{"id":32972,"advisory_name":"RHSA-2018:0546","product":"Red Hat Ceph Storage","release":"rhceph-3.0","synopsis":"Important: ceph security update","release_date":null,"qe_owner":"someone@redhat.com","qe_group":"RHC (Ceph) QE","status":"SHIPPED_LIVE","status_time":"March 15, 2018 18:29"}]

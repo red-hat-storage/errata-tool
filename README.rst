@@ -273,6 +273,18 @@ Looking up a release:
     print(r.is_pdc)  # True
     print(r.edit_url)  # https://errata.devel.redhat.com/release/edit/792
 
+Finding all "NEW_FILES" advisories for a release:
+
+.. code-block:: python
+
+    from errata_tool.release import Release
+
+    rel = Release(name='rhceph-3.0')
+
+    advisories = rel.errata_for_release()
+    new_files = [a for a in advisories if a['status'] == 'NEW_FILES']
+    print(new_files)  # prints the list of advisories' data
+
 Creating a new release (this requires the "releng" role in the Errata Tool):
 
 .. code-block:: python

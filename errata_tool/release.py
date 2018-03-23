@@ -53,6 +53,29 @@ class Release(ErrataConnector):
         # For displaying in scripts/logs:
         self.edit_url = self._url + '/release/edit/%d' % self.id
 
+    def errata_for_release(self):
+        """
+        Find all advisories for this release.
+
+        :returns: a list of dicts, one per advisory.
+                  For example:
+                  [{
+                      "id": 32972,
+                      "advisory_name": "RHSA-2018:0546",
+                      "product": "Red Hat Ceph Storage",
+                      "release": "rhceph-3.0",
+                      "synopsis": "Important: ceph security update",
+                      "release_date": None,
+                      "qe_owner": "someone@redhat.com",
+                      "qe_group": "RHC (Ceph) QE",
+                      "status": "SHIPPED_LIVE",
+                      "status_time": "March 15, 2018 18:29"
+                  }]
+
+        """
+        url = '/errata/errata_for_release/%d.json' % self.id
+        return self._get(url)
+
     @classmethod
     def create(klass, name, product, type, program_manager, blocker_flags,
                ship_date=None):

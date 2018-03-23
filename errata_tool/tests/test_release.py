@@ -39,6 +39,29 @@ class TestGet(object):
         assert release.edit_url == expected
 
 
+class TestErrata_for_release(object):
+    def test_errata_for_release(self, release, monkeypatch, mock_get):
+        monkeypatch.setattr(requests, 'get', mock_get)
+        result = release.errata_for_release()
+        # Validate URL
+        expected_url = 'https://errata.devel.redhat.com/errata/errata_for_release/783.json'  # NOQA: E501
+        assert mock_get.response.url == expected_url
+        # Validate return data
+        expected = [{
+                      "id": 32972,
+                      "advisory_name": "RHSA-2018:0546",
+                      "product": "Red Hat Ceph Storage",
+                      "release": "rhceph-3.0",
+                      "synopsis": "Important: ceph security update",
+                      "release_date": None,
+                      "qe_owner": "someone@redhat.com",
+                      "qe_group": "RHC (Ceph) QE",
+                      "status": "SHIPPED_LIVE",
+                      "status_time": "March 15, 2018 18:29"
+                  }]
+        assert result == expected
+
+
 class TestCreate(object):
     # Note: we must be able to "GET" this release from a fixture file
     #       because we call GET at the end of Release.create().
