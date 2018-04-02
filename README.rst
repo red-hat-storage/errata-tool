@@ -43,7 +43,6 @@ Creating a new bugfix advisory:
                 solution='Before applying this update...',
                 qe_email='someone@redhat.com',
                 qe_group='RHC (Ceph) QE',
-                errata_type='RHBA',
                 owner_email='kdreyer@redhat.com',
                 manager_email='ohno@redhat.com',
                 )
@@ -63,7 +62,6 @@ Creating a new enhancement (feature) advisory:
                 solution='Before applying this update...',
                 qe_email='someone@redhat.com',
                 qe_group='RHC (Ceph) QE',
-                errata_type='RHBA',
                 owner_email='kdreyer@redhat.com',
                 manager_email='ohno@redhat.com',
                 )
@@ -87,7 +85,6 @@ Important, and Critical). See this link for more information:
                 solution='Before applying this update...',
                 qe_email='someone@redhat.com',
                 qe_group='RHC (Ceph) QE',
-                errata_type='RHBA',
                 owner_email='kdreyer@redhat.com',
                 manager_email='ohno@redhat.com',
                 )
