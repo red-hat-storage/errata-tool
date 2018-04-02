@@ -35,7 +35,7 @@ Creating a new bugfix advisory:
 .. code-block:: python
 
     e = Erratum(product='RHCEPH',
-                release='RHCEPH-2-RHEL-7',
+                release='rhceph-2.1',
                 #errata_type='RHBA'         # Default; may be omitted
                 synopsis='Red Hat Ceph Storage 2.1 bug fix update',
                 topic='An update for Red Hat Ceph 2.1 is now available.',
@@ -55,7 +55,7 @@ Creating a new enhancement (feature) advisory:
 .. code-block:: python
 
     e = Erratum(product='RHCEPH',
-                release='RHCEPH-2-RHEL-7',
+                release='rhceph-2.1',
                 errata_type='RHEA',          # Set to RHEA for RHEA
                 synopsis='Red Hat Ceph Storage 2.1 enhancement update',
                 topic='An update for Red Hat Ceph 2.1 is now available.',
@@ -78,7 +78,7 @@ Important, and Critical). See this link for more information:
 .. code-block:: python
 
     e = Erratum(product='RHCEPH',
-                release='RHCEPH-2-RHEL-7',
+                release='rhceph-2.1',
                 errata_type='RHSA',          # Set to RHSA for RHSA
                 security_impact='Moderate',  # Required for RHSA
                 synopsis='Red Hat Ceph Storage 2.1 security update',
@@ -341,7 +341,7 @@ the ``ErrataConnector._url`` member variable to the staging URL.
     # Now try something like creating an advisory, and it will not show up in
     # prod, or bother people with emails, etc.
     e = Erratum(product='RHCEPH',
-                release='RHCEPH-2-RHEL-7',
+                release='rhceph-2.1',
                 synopsis='Red Hat Ceph Storage 2.1 bug fix update',
                 ...
                 )
