@@ -94,6 +94,32 @@ Important, and Critical). See this link for more information:
     e.commit()
     print(e.url())
 
+
+errata-tool command-line interface
+----------------------------------
+
+The ``errata-tool`` CLI is a thin wrapper around the classes. You can use it to
+query information from the Errata Tool or create new releases (releng)::
+
+    errata-tool -h
+
+    usage: errata-tool [-h] [--stage] [--dry-run] {advisory,product,release} ...
+
+    positional arguments:
+      {advisory,product,release}
+        advisory            Get or create an advisory
+        product             Get a product
+        release             Get or create a release (RCM)
+
+    optional arguments:
+      --stage               use staging ET instance
+      --dry-run             show what would happen, but don't do it
+
+
+
+More Python Examples
+--------------------
+
 Getting an erratum's name:
 
 .. code-block:: python
