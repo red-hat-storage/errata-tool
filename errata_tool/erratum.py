@@ -888,6 +888,30 @@ https://access.redhat.com/articles/11258")
             self.refresh()
         return ret
 
+    def push(self, target='stage'):
+        # Accept 'stage', 'live', or a set of specific options
+        if self.errata_id == 0:
+            return False
+
+        # Basic mode: 'stage' or 'live'
+        url = '/api/v1/erratum/' + str(self.errata_id) + '/push'
+        if isinstance(target, str):
+            if target != 'stage' and target != 'live':
+                raise ValueError('Wrong value for target: expected ' +
+                                 '\'stage\', \'live\', or a list')
+
+            r = self._post(url + '?defaults=' + str(target))
+            self._processResponse(r)
+            return r.json()
+
+        # Advanced mode: see ET documentation.
+        if not isinstance(target, list):
+            raise ValueError('Wrong value for target: expected ' +
+                             '\'stage\', \'live\', or a list')
+        r = self._post(url, data=target)
+        self._processResponse(r)
+        return r.json()
+
     def dump(self):
         print(self)
         print("Package Owner Email: " + self.package_owner_email)
