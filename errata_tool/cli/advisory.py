@@ -46,16 +46,30 @@ def add_parser(subparsers):
                                help='eg. "ohno@redhat.com"')
     create_parser.set_defaults(func=create)
 
+    # "push"
+    push_parser = sub.add_parser('push')
+    push_parser.add_argument('errata_id', help='advisory id, "12345"')
+    push_parser.add_argument('--target', choices=('stage', 'live'),
+                             default='stage',
+                             help='stage (default) or live')
+    push_parser.set_defaults(func=push)
+
     # TODO:
     # "new-state"           Change erratum state
     # "add-bugs"            Add bugs to erratum
     # "remove-bugs"         Provide a list of bugs to remove from erratum
     # "add-builds"          Add build to erratum (you may specify nvr)
+    # "remove-builds"       Remove build from erratum
 
 
 def get(args):
     e = Erratum(errata_id=args.errata_id)
     print(e)
+
+
+def push(args):
+    e = Erratum(errata_id=args.errata_id)
+    e.push(target=args.target)
 
 
 def create(args):
