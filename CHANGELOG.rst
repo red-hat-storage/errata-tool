@@ -1,3 +1,8 @@
+v1.11.1
+=======
+
+* Build system: avoid stray files in tarball during sdist build
+
 v1.11.0
 =======
 
