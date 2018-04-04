@@ -1,3 +1,8 @@
+v1.11.3
+=======
+
+* Build system: install errata_tool.cli
+
 v1.11.2
 =======
 
