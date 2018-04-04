@@ -1,3 +1,8 @@
+v1.11.2
+=======
+
+* Build system: fix syntax error in Makefile
+
 v1.11.1
 =======
 
