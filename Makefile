@@ -16,7 +16,7 @@ clean:
 	rm -rf $(NAME)-$(VERSION)-$(RELEASE).src.rpm
 
 dist:
-	find errata_tool -name __pycache__ -o -name '*.pyc' | xargs rm -rf
+	find errata_tool -name __pycache__ -o -name '*.pyc' | xargs rm -rf \
 	  && python setup.py sdist \
 	  && mv dist/errata-tool-$(VERSION).tar.gz .
 
