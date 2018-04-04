@@ -1,3 +1,32 @@
+v1.11.0
+=======
+
+* Add RHSA support (new ``security_impact`` kwarg when creating advisories)
+
+* Add a new ``reloadBuilds()`` method to the ``Erratum`` class to reload an
+  advisory's product listings.
+
+* Discover the Kerberos username in the ``ErrataConnector`` class.
+
+* Add a new ``.content_types`` attribute to the ``Erratum`` class to discover
+  if an advisory is an RPM or Docker advisory.
+
+* Add a new ``metadataCdnRepos()`` method to the ``Erratum`` class to set or
+  get the CDN repositories for a container advisory.
+
+* Add a new ``externalTests()`` method to the ``Erratum`` class to discover the
+  state of RPMDiff tests.
+
+* Add a new ``advisories()`` method to the ``Release`` class to discover all
+  advisories for a release.
+
+* Add a new ``push()`` method to the ``Erratum`` class to push content to the
+  stage or live CDN.
+
+* Add basic ``errata-tool`` CLI.
+
+* Several documentation fixes
+
 v1.10.0
 =======
 
