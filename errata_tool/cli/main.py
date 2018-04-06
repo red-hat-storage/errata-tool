@@ -1,5 +1,6 @@
 import argparse
 import errata_tool.cli.advisory
+import errata_tool.cli.build
 import errata_tool.cli.product
 import errata_tool.cli.release
 
@@ -16,6 +17,7 @@ def main():
 
     # add arguments for each subcommand:
     errata_tool.cli.advisory.add_parser(subparsers)
+    errata_tool.cli.build.add_parser(subparsers)
     errata_tool.cli.product.add_parser(subparsers)
     errata_tool.cli.release.add_parser(subparsers)
 
