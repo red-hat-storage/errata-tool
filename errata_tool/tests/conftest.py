@@ -1,6 +1,7 @@
 import json
 import os
 from errata_tool import ErrataConnector, Erratum
+from errata_tool.build import Build
 from errata_tool.products import ProductList
 from errata_tool.product import Product
 from errata_tool.release import Release
@@ -118,3 +119,12 @@ def release(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Release(name='rhceph-3.0')
+
+
+@pytest.fixture
+def build(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Build('ceph-10.2.5-37.el7cp')
