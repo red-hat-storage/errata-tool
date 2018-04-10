@@ -68,9 +68,11 @@ class TestCreate(object):
     create_kwargs = dict(
         name='rhceph-3.0',
         product='RHCEPH',
+        product_versions=['RHEL-7-CEPH-3'],
         type='QuarterlyUpdate',
         program_manager='anharris',
         blocker_flags='ceph-3.0',
+        default_brew_tag='ceph-3.0-rhel-7-candidate',
     )
 
     def test_create_url(self, monkeypatch, mock_get, mock_post):
@@ -96,13 +98,15 @@ class TestCreate(object):
             'release[allow_shadow]': 0,
             'release[blocker_flags]': 'ceph-3.0',
             'release[description]': 'Red Hat Ceph Storage 3.0',
+            'release[default_brew_tag]': 'ceph-3.0-rhel-7-candidate',
             'release[enable_batching]': 0,
             'release[enabled]': 1,
             'release[is_deferred]': 0,
-            'release[is_pdc]': 1,
+            'release[is_pdc]': 0,
             'release[name]': 'rhceph-3.0',
             'release[product_id]': 104,
             'release[program_manager_id]': 3003046,
+            'release[product_version_ids][]': set([665]),
             'release[ship_date]': ship_date,
             'release[type]': 'QuarterlyUpdate',
         }

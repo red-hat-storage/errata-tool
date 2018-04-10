@@ -26,12 +26,17 @@ def add_parser(subparsers):
                                help='eg. "rhceph-2.4"')
     create_parser.add_argument('--product', required=True,
                                help='eg. "RHCEPH"')
+    create_parser.add_argument('--product_version', required=True,
+                               action='append',
+                               help='eg. "RHEL-7-CEPH-3"')
     create_parser.add_argument('--type', required=True,
                                help='eg. "QuarterlyUpdate"')
     create_parser.add_argument('--program_manager', required=True,
                                help='eg. "anharris"')
     create_parser.add_argument('--blocker_flags', required=True,
                                help='eg. "ceph-2.y"')
+    create_parser.add_argument('--default_brew_tag', required=True,
+                               help='eg. "ceph-3.0-rhel-7-candidate"')
     create_parser.set_defaults(func=create)
 
     # "list-advisories"
@@ -67,19 +72,23 @@ def create(args):
         print('DRY RUN: would create new release:')
         print('Name: %s' % args.name)
         print('Product: %s' % args.product)
+        print('Product Versions: %s' % args.product_version)
         print('Type: %s' % args.type)
         print('Program manager: %s' % args.program_manager)
         print('Blocker flags: %s' % args.blocker_flags)
+        print('Default Brew tag: %s' % args.default_brew_tag)
         return
     r = Release.create(
         name=args.name,
         product=args.product,
+        product_versions=args.product_version,
         type=args.type,
         program_manager=args.program_manager,
         blocker_flags=args.blocker_flags,
+        default_brew_tag=args.default_brew_tag,
     )
     print('created new %s release' % args.name)
-    print('visit %s to add PDC associations' % r.edit_url)
+    print('visit %s to edit further' % r.edit_url)
 
 
 def list_advisories(args):

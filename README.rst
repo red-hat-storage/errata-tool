@@ -316,12 +316,14 @@ Creating a new release (this requires the "releng" role in the Errata Tool):
     r = Release.create(
         name='rhceph-3.0',
         product='RHCEPH',
+        product_versions=['RHEL-7-CEPH-3'],
         type='QuarterlyUpdate',
         program_manager='anharris',
         blocker_flags='ceph-3.0',
+        default_brew_tag='ceph-3.0-rhel-7-candidate',
     )
     print('created new rhceph-3.0 release')
-    print('visit %s to add PDC associations' % r.edit_url)
+    print('visit %s to edit further' % r.edit_url)
 
 
 Using the staging server

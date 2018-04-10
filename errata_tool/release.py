@@ -3,6 +3,7 @@ import sys
 from datetime import date
 from errata_tool import ErrataConnector
 from errata_tool.product import Product
+from errata_tool.product_version import ProductVersion
 from errata_tool.user import User
 
 
@@ -77,16 +78,15 @@ class Release(ErrataConnector):
         return self._get(url)
 
     @classmethod
-    def create(klass, name, product, type, program_manager, blocker_flags,
-               ship_date=None):
+    def create(klass, name, product, product_versions, type, program_manager,
+               default_brew_tag, blocker_flags, ship_date=None):
         """
         Create a new release in the ET.
 
         See https://bugzilla.redhat.com/1401608 for background.
 
         Note this method enforces certain conventions:
-        * Restricts the release to a single Product Version (not multiple)
-        * Always enables PDC for a release
+        * Always disables PDC for a release
         * Always creates the releases as "enabled"
         * Always allows multiple advisories per package
         * Description is always the combination of the product's own
@@ -96,8 +96,10 @@ class Release(ErrataConnector):
 
         :param name: short name for this release, eg "rhceph-3.0"
         :param product: short name, eg. "RHCEPH".
+        :param product_versions: list of names, eg. ["RHEL-7-CEPH-3"]
         :param type: "Zstream" or "QuarterlyUpdate"
         :param program_manager: for example "anharris" (Drew Harris, Ceph PgM)
+        :param default_brew_tag: for example "ceph-3.0-rhel-7-candidate"
         :param blocker_flags: for example, "ceph-3.0"
         :param ship_date: date formatted as strftime("%Y-%b-%d"). For example,
                           "2017-Nov-17". If ommitted, the ship_date will
@@ -112,6 +114,11 @@ class Release(ErrataConnector):
 
         program_manager = User(program_manager)
 
+        product_version_ids = set([])
+        for pv_name in product_versions:
+            pv = ProductVersion(pv_name)
+            product_version_ids.add(pv.id)
+
         if ship_date is None:
             today = date.today()
             ship_date = today.strftime("%Y-%b-%d")
@@ -125,13 +132,15 @@ class Release(ErrataConnector):
             'release[allow_pkg_dupes]': 1,
             'release[allow_shadow]': 0,
             'release[blocker_flags]': blocker_flags,
+            'release[default_brew_tag]': default_brew_tag,
             'release[description]': description,
             'release[enable_batching]': 0,
             'release[enabled]': 1,
             'release[is_deferred]': 0,
-            'release[is_pdc]': 1,
+            'release[is_pdc]': 0,
             'release[name]': name,
             'release[product_id]': product.id,
+            'release[product_version_ids][]': product_version_ids,
             'release[program_manager_id]': program_manager.id,
             'release[ship_date]': ship_date,
             'release[type]': type,

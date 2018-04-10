@@ -70,8 +70,10 @@ def test_create(monkeypatch):
     argv = ['errata-tool', 'release', 'create',
             '--name', 'rhceph-2.4',
             '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
             '--type', 'QuarterlyUpdate',
             '--program_manager', 'anharris',
-            '--blocker_flags', 'ceph-2.y']
+            '--blocker_flags', 'ceph-2.y',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
     monkeypatch.setattr(sys, 'argv', argv)
     main.main()
