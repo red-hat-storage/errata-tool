@@ -4,6 +4,7 @@ from errata_tool import ErrataConnector, Erratum
 from errata_tool.build import Build
 from errata_tool.products import ProductList
 from errata_tool.product import Product
+from errata_tool.product_version import ProductVersion
 from errata_tool.release import Release
 import requests
 import pytest
@@ -110,6 +111,15 @@ def product(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Product('RHCEPH')
+
+
+@pytest.fixture
+def product_version(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return ProductVersion('RHEL-7-CEPH-3')
 
 
 @pytest.fixture
