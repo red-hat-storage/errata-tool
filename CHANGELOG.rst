@@ -1,3 +1,13 @@
+v1.12.0
+=======
+
+* Add new ``Build`` and ``ProductVersion`` classes
+
+* Add new ``build`` CLI sub-command to query builds by NVR
+
+* The ``create()`` method to the ``Release`` class always creates non-PDC
+  releases now.
+
 v1.11.3
 =======
 
