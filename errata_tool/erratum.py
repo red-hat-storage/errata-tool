@@ -61,6 +61,7 @@ class Erratum(ErrataConnector):
         self.errata_bugs = []
         self.errata_builds = {}
         self.current_flags = []
+        self.missing_prod_listings = []
 
     def update(self, **kwargs):
         if 'errata_type' in kwargs:
@@ -414,8 +415,10 @@ https://access.redhat.com/articles/11258")
         for product_version in product_versions:
             builds = []
             for pv_builds in product_versions[product_version]:
-                for nvr in pv_builds:
+                for nvr, mappings in six.iteritems(pv_builds):
                     builds.append(nvr)
+                    if not mappings:
+                        self.missing_prod_listings.append(nvr)
                     if have_all_sigs and check_signatures:
 
                         if not self._check_signature_for_build(nvr):

@@ -218,8 +218,9 @@ Reloading the all specific builds that lack product listings:
 
     e = Erratum(errata_id=24075)
 
-    result = e.reloadBuilds(no_rpm_listing_only=True)
-    # result is a dict for this job tracker
+    if e.missing_product_listings:  # a (possibly-empty) list of build NVRs
+        result = e.reloadBuilds(no_rpm_listing_only=True)
+        # result is a dict for this job tracker
 
 Determining if an advisory has RPMs or containers:
 

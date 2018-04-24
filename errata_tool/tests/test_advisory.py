@@ -72,6 +72,10 @@ class TestAdvisory(object):
         expected = {'RHEL-7-CEPH-2': ['ceph-10.2.5-37.el7cp']}
         assert advisory.errata_builds == expected
 
+    def test_missing_prod_listings(self, advisory):
+        # (note, all builds have product listings for this advisory)
+        assert advisory.missing_prod_listings == []
+
     def test_current_flags(self, advisory):
         assert advisory.current_flags == []
 
