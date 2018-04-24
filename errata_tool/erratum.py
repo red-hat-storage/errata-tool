@@ -414,11 +414,11 @@ https://access.redhat.com/articles/11258")
         for product_version in product_versions:
             builds = []
             for pv_builds in product_versions[product_version]:
-                for b in pv_builds:
-                    builds.append(b)
+                for nvr in pv_builds:
+                    builds.append(nvr)
                     if have_all_sigs and check_signatures:
 
-                        if not self._check_signature_for_build(b):
+                        if not self._check_signature_for_build(nvr):
                             self.addFlags('needs_sigs')
                             have_all_sigs = False
 
