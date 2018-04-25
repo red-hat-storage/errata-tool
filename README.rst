@@ -71,7 +71,7 @@ Creating a new enhancement (feature) advisory:
 Creating a new security advisory. Note that RHSA (Security)
 advisories are given one of four impacts (Low, Moderate,
 Important, and Critical). See this link for more information:
-    https://access.redhat.com/security/updates/classification
+https://access.redhat.com/security/updates/classification
 
 .. code-block:: python
 
