@@ -247,9 +247,12 @@ class ErrataConnector(object):
             raise ErrataException('Pigeon crap. Did it forget to run kinit?')
 
         if r.status_code in [500]:
-            err_msg += "Broke errata tool!"
-            print(r.json())
-            raise ErrataException(err_msg)
+            json = r.json()
+            # If we have a specific "error" string from the ET, raise that:
+            if 'error' in json:
+                raise ErrataException(json['error'])
+            # Otherwise, fall back to just raising whatever data we got back.
+            raise ErrataException(json)
 
         if r.status_code in [404]:
             err_msg += 'Bug in your code - wrong method for this api? '
