@@ -1,3 +1,13 @@
+v1.13.0
+=======
+
+* Add a new ``.missing_prod_listings`` attribute to the ``Erratum`` class to
+  find builds on an advisory that lack any product listings.
+
+* When receiving an HTTP 500 response from the Errata Tool, add the server's
+  specific message to the ``ErrataException`` that we raise. This allows
+  callers to discover the specific error details.
+
 v1.12.0
 =======
 
