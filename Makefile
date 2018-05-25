@@ -17,8 +17,7 @@ clean:
 
 dist:
 	find errata_tool -name __pycache__ -o -name '*.pyc' | xargs rm -rf \
-	  && python setup.py sdist \
-	  && mv dist/errata-tool-$(VERSION).tar.gz .
+	  && python setup.py sdist --dist-dir .
 
 srpm: dist
 	fedpkg --dist epel7 srpm
