@@ -187,6 +187,18 @@ Adding builds:
     # for example "rhceph-2.4@rhel-7".
     e.addBuilds(['ceph-10.2.3-17.el7cp'], release='RHEL-7-CEPH-2')
 
+Adding container builds:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=34279)
+
+    # For non-RPM Brew builds, you must specify the file_types kwarg.
+    # For container builds, this is "tar".
+    e.addBuilds('rhceph-rhel7-container-3-9',
+                release='RHEL-7-CEPH-3',
+                file_types={'rhceph-rhel7-container-3-9': ['tar']})
+
 Changing state:
 
 .. code-block:: python
