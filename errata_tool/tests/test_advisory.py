@@ -81,3 +81,6 @@ class TestAdvisory(object):
 
     def test_content_types(self, advisory):
         assert advisory.content_types == ['rpm']
+
+    def test_batch_id(self, advisory):
+        assert advisory.batch_id is None
