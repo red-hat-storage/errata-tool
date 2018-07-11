@@ -345,21 +345,38 @@ https://access.redhat.com/articles/11258")
         """
         return self._cdn_repos('metadata_cdn_repos', enable, disable)
 
-    def _cdn_repos(self, endpoint, enable=[], disable=[]):
-        """
-        Get or set the repos for this advisory.
+    def textOnlyRepos(self, enable=[], disable=[]):
+        """ Get or set the text-only repos for this advisory.
 
-        Use this for setting repos on docker advisories.
+        Note: This method applies only for text-only advisories.
 
-        :param endpoint: The erratum API endpoint to request.
-                         Example: "metadata_cdn_repos".
+        When called with no arguments, this method returns all available CDN
+        repos for the advisory text. Otherwise you may enable or disable repos
+        here.
+
         :param enable: (optional) A list of CDN repos to enable.
                        Example: ["rhel-7-server-rhceph-3-mon-rpms__x86_64"]
         :param disable: (optional) A list of CDN repos to disable.
         :returns: a list of dicts about each available repo, and whether they
                   are enabled or disabled.
         """
-        if endpoint not in ('metadata_cdn_repos',):
+        return self._cdn_repos('text_only_repos', enable, disable)
+
+    def _cdn_repos(self, endpoint, enable=[], disable=[]):
+        """
+        Get or set the repos for this advisory.
+
+        Use this for setting repos on text-only or docker advisories.
+
+        :param endpoint: The erratum API endpoint to request.
+                         Example: "metadata_cdn_repos" or "text_only_repos".
+        :param enable: (optional) A list of CDN repos to enable.
+                       Example: ["rhel-7-server-rhceph-3-mon-rpms__x86_64"]
+        :param disable: (optional) A list of CDN repos to disable.
+        :returns: a list of dicts about each available repo, and whether they
+                  are enabled or disabled.
+        """
+        if endpoint not in ('metadata_cdn_repos', 'text_only_repos'):
             raise ValueError('unsupported endpoint %s', endpoint)
         url = '/api/v1/erratum/%d/%s' % (self.errata_id, endpoint)
         if not enable and not disable:
