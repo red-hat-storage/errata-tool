@@ -544,6 +544,7 @@ https://access.redhat.com/articles/11258")
 
     def addCC(self, email):
         """ Add someone to the CC list for this advisory. """
+        # rhbz#1572000 will add an official API for this.
         val = {'id': self.errata_id, 'email': email}
         url = '/carbon_copies/add_to_cc_list'
         r = self._post(url, data=val)
