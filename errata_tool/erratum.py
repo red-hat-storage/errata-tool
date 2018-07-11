@@ -62,6 +62,7 @@ class Erratum(ErrataConnector):
         self.errata_builds = {}
         self.current_flags = []
         self.missing_prod_listings = []
+        self.batch_id = None
 
     def update(self, **kwargs):
         if 'errata_type' in kwargs:
@@ -299,6 +300,7 @@ https://access.redhat.com/articles/11258")
 
             check_signatures = self.errata_state != 'NEW_FILES'
             self._get_build_list(check_signatures)
+            self.batch_id = erratum.get('batch_id')
 
             return
 
