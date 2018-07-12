@@ -16,6 +16,21 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
 
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if on_rtd:
+    # Mock C-based libraries, as suggested in
+    # http://read-the-docs.readthedocs.io/en/latest/faq.html#i-get-import-errors-on-libraries-that-depend-on-c-modules
+    from unittest.mock import MagicMock
+
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
+            return MagicMock()
+
+    MOCK_MODULES = ['requests_kerberos', 'kerberos', 'jsonpath_rw']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
+
 import errata_tool  # NOQA E402, F401
 
 # -- Project information -----------------------------------------------------
