@@ -1,3 +1,17 @@
+v1.14.0
+=======
+
+* Add a new ``.textOnlyRepos()`` method to the ``Erratum`` class to set or
+  get the CDN repositories for a text-only advisory.
+
+* Add a new ``.batch_id`` attribute to the ``Erratum`` class to
+  identify batches for an advisory.
+
+* Add a new ``.cve_names`` attribute to the ``Erratum`` class to
+  identify CVEs for an advisory.
+
+* Add API documentation at https://errata-tool.readthedocs.io/en/latest/
+
 v1.13.0
 =======
 
