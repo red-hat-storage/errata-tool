@@ -75,7 +75,7 @@ cp -a . %{py3dir}
 
 %check
 export PYTHONPATH=$(pwd)
-py.test-%{python_version} -v errata_tool/tests
+py.test-%{python2_version} -v errata_tool/tests
 
 %if 0%{?with_python3}
 pushd %{py3dir}
