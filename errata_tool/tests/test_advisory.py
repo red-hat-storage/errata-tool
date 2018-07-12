@@ -21,6 +21,10 @@ class TestAdvisory(object):
         expected = 'Red Hat Ceph Storage 2.2 is now available.'
         assert advisory.topic == expected
 
+    def test_cve_names(self, advisory):
+        expected = None
+        assert advisory.cve_names == expected
+
     def test_description(self, advisory):
         expected = 'Red Hat Ceph Storage is a scalable'
         assert advisory.description.startswith(expected)

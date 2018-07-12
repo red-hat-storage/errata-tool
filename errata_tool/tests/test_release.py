@@ -47,18 +47,16 @@ class TestAdvisories(object):
         expected_url = 'https://errata.devel.redhat.com/release/783/advisories.json'  # NOQA: E501
         assert mock_get.response.url == expected_url
         # Validate return data
-        expected = [{
-                      "id": 32972,
-                      "advisory_name": "RHSA-2018:0546",
-                      "product": "Red Hat Ceph Storage",
-                      "release": "rhceph-3.0",
-                      "synopsis": "Important: ceph security update",
-                      "release_date": None,
-                      "qe_owner": "someone@redhat.com",
-                      "qe_group": "RHC (Ceph) QE",
-                      "status": "SHIPPED_LIVE",
-                      "status_time": "March 15, 2018 18:29"
-                  }]
+        expected = [{"id": 32972,
+                     "advisory_name": "RHSA-2018:0546",
+                     "product": "Red Hat Ceph Storage",
+                     "release": "rhceph-3.0",
+                     "synopsis": "Important: ceph security update",
+                     "release_date": None,
+                     "qe_owner": "someone@redhat.com",
+                     "qe_group": "RHC (Ceph) QE",
+                     "status": "SHIPPED_LIVE",
+                     "status_time": "March 15, 2018 18:29"}]
         assert result == expected
 
 

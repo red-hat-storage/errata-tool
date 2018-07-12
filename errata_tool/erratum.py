@@ -58,6 +58,7 @@ class Erratum(ErrataConnector):
         self.description = None
         self.solution = None
         self.security_impact = None
+        self.cve_names = None
         self.errata_bugs = []
         self.errata_builds = {}
         self.current_flags = []
@@ -96,6 +97,9 @@ class Erratum(ErrataConnector):
             self._update = True
         if 'synopsis' in kwargs:
             self.synopsis = kwargs['synopsis']
+            self._update = True
+        if 'cve_names' in kwargs:
+            self.cve_names = kwargs['cve_names']
             self._update = True
         if 'topic' in kwargs:
             self.topic = self.fmt(kwargs['topic'])
@@ -277,6 +281,9 @@ https://access.redhat.com/articles/11258")
             self.solution = advisory['content']['content']['solution']
             self.errata_bugs = [int(b['bug']['id']) for b
                                 in advisory['bugs']['bugs']]
+            self.cve_names = advisory['content']['content']['cve']
+            if self.cve_names == '':
+                self.cve_names = None
             self._original_bugs = list(self.errata_bugs)
 
             self._cache_bug_info(self._original_bugs)
@@ -790,6 +797,7 @@ https://access.redhat.com/articles/11258")
         if self.errata_type == 'RHSA':
             severity = r'^(Low|Moderate|Important|Critical): '
             self.synopsis = re.sub(severity, "", self.synopsis)
+            pdata['advisory[cve]'] = self.cve_names
         pdata['advisory[synopsis]'] = self.synopsis
         pdata['advisory[topic]'] = self.topic
         pdata['advisory[description]'] = self.description
@@ -1012,10 +1020,12 @@ https://access.redhat.com/articles/11258")
             for b in sorted(self.errata_builds[k], key=lambda x: x.lower()):
                 s = s + "      " + b + "\n"
         if len(self.current_flags) > 0:
-            s = "\n  Flags:  " + ' '.join(self.current_flags) + s
+            s = "\n  Flags:       " + ' '.join(self.current_flags) + s
         if len(self._cve_bugs) > 0:
-            s = "\n  Impact: " + str(self.security_impact) + s
-            s = "\n  CVEs:   " + str(self._cve_bugs) + s
+            s = "\n  Impact:      " + str(self.security_impact) + s
+            s = "\n  CVE bugs:    " + str(self._cve_bugs) + s
+        if self.cve_names is not None:
+            s = "\n  CVEs:        " + str(self.cve_names) + s
 
         return self.errata_name + ": " + self.synopsis + \
             "\n  reporter: " + self.package_owner_email + \
@@ -1028,7 +1038,7 @@ https://access.redhat.com/articles/11258")
             "\n  ship target: " + str(self.publish_date_override) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
-            "\n  bugs:   " + str(self.errata_bugs) + \
+            "\n  bugs:        " + str(self.errata_bugs) + \
             s
 
     def __int__(self):
