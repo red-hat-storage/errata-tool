@@ -55,6 +55,9 @@ class TestAdvisory(object):
     def test_text_only(self, advisory):
         assert advisory.text_only is False
 
+    def test_text_only_cpe(self, advisory):
+        assert advisory.text_only_cpe is None
+
     def test_publish_date_override(self, advisory):
         assert advisory.publish_date_override is None
 

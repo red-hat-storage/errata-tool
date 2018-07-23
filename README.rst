@@ -172,6 +172,7 @@ Checking whether an advisory is text-only:
 
     if e.text_only:
         # it's text-only
+        # If it's an RHSA, you may want to get/set e.text_only_cpe here.
     else:
         # it's not text-only
 
