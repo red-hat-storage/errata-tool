@@ -276,12 +276,13 @@ https://access.redhat.com/articles/11258")
             # Grab mutable errata content
             self.text_only = erratum['text_only']
             self.synopsis = erratum['synopsis']
-            self.topic = advisory['content']['content']['topic']
-            self.description = advisory['content']['content']['description']
-            self.solution = advisory['content']['content']['solution']
+            content = advisory['content']['content']
+            self.topic = content['topic']
+            self.description = content['description']
+            self.solution = content['solution']
             self.errata_bugs = [int(b['bug']['id']) for b
                                 in advisory['bugs']['bugs']]
-            self.cve_names = advisory['content']['content']['cve']
+            self.cve_names = content['cve']
             if self.cve_names == '':
                 self.cve_names = None
             self._original_bugs = list(self.errata_bugs)
