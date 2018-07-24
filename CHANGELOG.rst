@@ -1,3 +1,9 @@
+v1.15.0
+=======
+
+* Add a new ``.text_only_cpe`` attribute to the ``Erratum`` class to
+  get or set the CPE text for a text-only RHSA.
+
 v1.14.0
 =======
 
