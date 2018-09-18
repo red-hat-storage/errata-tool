@@ -6,7 +6,8 @@ def add_parser(subparsers):
     group = subparsers.add_parser('product', help='Get a product')
 
     # product-level subcommands:
-    sub = group.add_subparsers()
+    sub = group.add_subparsers(dest='product_subcommand')
+    sub.required = True
 
     # "get"
     get_parser = sub.add_parser('get')

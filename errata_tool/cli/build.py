@@ -8,7 +8,8 @@ def add_parser(subparsers):
     group = subparsers.add_parser('build', help='Build NVR information')
 
     # build-level sub-commands:
-    sub = group.add_subparsers()
+    sub = group.add_subparsers(dest='build_subcommand')
+    sub.required = True
 
     # "get"
     get_parser = sub.add_parser('get')

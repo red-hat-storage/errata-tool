@@ -11,7 +11,8 @@ def add_parser(subparsers):
                                   help='Get or create a release (RCM)')
 
     # release-level subcommands:
-    sub = group.add_subparsers()
+    sub = group.add_subparsers(dest='release_subcommand')
+    sub.required = True
 
     # "get"
     get_parser = sub.add_parser('get', help='get a release')

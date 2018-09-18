@@ -13,7 +13,8 @@ def main():
                         help="show what would happen, but don't do it")
 
     # top-level subcommands:
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(dest='subcommand')
+    subparsers.required = True
 
     # add arguments for each subcommand:
     errata_tool.cli.advisory.add_parser(subparsers)

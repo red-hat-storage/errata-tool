@@ -6,7 +6,8 @@ def add_parser(subparsers):
     group = subparsers.add_parser('advisory', help='Get or create an advisory')
 
     # advisory-level subcommands:
-    sub = group.add_subparsers()
+    sub = group.add_subparsers(dest='advisory_subcommand')
+    sub.required = True
 
     # "get"
     get_parser = sub.add_parser('get')
