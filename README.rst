@@ -225,6 +225,15 @@ Adding someone to the CC list:
 
     e.addCC('kdreyer@redhat.com')
 
+Changing an advisory type:
+
+.. code-block:: python
+
+    e = Erratum(errata_id=33840)
+
+    e.update(errata_type='RHBA')
+    e.commit()
+
 Reloading the all specific builds that lack product listings:
 
 .. code-block:: python
