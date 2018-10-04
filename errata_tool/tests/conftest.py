@@ -119,7 +119,7 @@ def product_version(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return ProductVersion('RHEL-7-CEPH-3')
+    return ProductVersion('RHEL-7-RHCEPH-3.1')
 
 
 @pytest.fixture
