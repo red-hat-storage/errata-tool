@@ -666,6 +666,7 @@ https://access.redhat.com/articles/11258")
         return
 
     def addBuilds(self, buildlist, **kwargs):
+        """Add Build(s) to erratum"""
         if self._new:
             raise ErrataException('Cannot add builds to unfiled erratum')
 
