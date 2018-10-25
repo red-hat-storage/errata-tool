@@ -66,11 +66,11 @@ class ErrataConnector(object):
             # URLs except for those specific differences.
             #
             api = url[8:]
-            same = set(re.split('[/]|(\.json)', api))
+            same = set(re.split(r'[/]|(\.json)', api))
             same = same - set(['', None])
             newurl = None
             for u in self.timings[call]:
-                rapi = set(re.split('[/]|(\.json)', u[8:]))
+                rapi = set(re.split(r'[/]|(\.json)', u[8:]))
                 rapi = rapi - set(['', None])
                 if len(rapi) != len(same):
                     continue
