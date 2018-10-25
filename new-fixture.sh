@@ -8,8 +8,8 @@ set -ex
 if [ -z $1 ]; then
   echo "Specify an ET API URL."
   echo "Examples:"
-  echo "  https://errata.devel.redhat.com/advisory/26175.json"
-  echo "  https://errata.devel.redhat.com/api/v1/erratum/26175"
+  echo "  https://errata.devel.redhat.com/advisory/33840.json"
+  echo "  https://errata.devel.redhat.com/api/v1/erratum/33840"
   echo "Please only use advisories that have already shipped live."
   exit 1
 fi

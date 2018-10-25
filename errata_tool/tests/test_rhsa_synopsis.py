@@ -14,5 +14,5 @@ class TestRhsaSynopsis(object):
         rhsa._update = True
         # Now save our "changes":
         rhsa.commit()
-        expected = 'Red Hat Ceph Storage 2.1 security and bug fix update'
+        expected = 'ceph-iscsi-cli security update'
         assert mock_put.kwargs['data']['advisory[synopsis]'] == expected

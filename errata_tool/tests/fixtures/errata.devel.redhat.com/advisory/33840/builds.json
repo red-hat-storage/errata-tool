@@ -1,0 +1,107 @@
+{
+  "RHEL-7-RHCEPH-3.1": [
+    {
+      "ceph-12.2.5-42.el7cp": {
+        "7Server-RHEL-7-RHCEPH-3.1-OSD": {
+          "x86_64": [
+            "ceph-base-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd1-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-debuginfo-12.2.5-42.el7cp.x86_64.rpm",
+            "librados2-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-test-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-osd-12.2.5-42.el7cp.x86_64.rpm",
+            "libradosstriper1-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs2-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rgw-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "librados-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rados-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rbd-12.2.5-42.el7cp.x86_64.rpm",
+            "python-cephfs-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-selinux-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw2-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-common-12.2.5-42.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-12.2.5-42.el7cp.src.rpm"
+          ]
+        },
+        "7Server-RHEL-7-RHCEPH-3.1-MON": {
+          "x86_64": [
+            "ceph-base-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd1-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-debuginfo-12.2.5-42.el7cp.x86_64.rpm",
+            "librados2-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-test-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-mon-12.2.5-42.el7cp.x86_64.rpm",
+            "libradosstriper1-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs2-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rgw-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "librados-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-common-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rados-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rbd-12.2.5-42.el7cp.x86_64.rpm",
+            "python-cephfs-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-selinux-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw2-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-mgr-12.2.5-42.el7cp.x86_64.rpm"
+          ],
+          "SRPMS": [
+            "ceph-12.2.5-42.el7cp.src.rpm"
+          ]
+        },
+        "7Server-RHEL-7-RHCEPH-3.1-Tools": {
+          "x86_64": [
+            "ceph-radosgw-12.2.5-42.el7cp.x86_64.rpm",
+            "libradosstriper1-12.2.5-42.el7cp.x86_64.rpm",
+            "rbd-mirror-12.2.5-42.el7cp.x86_64.rpm",
+            "librados-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rgw-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rados-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-base-12.2.5-42.el7cp.x86_64.rpm",
+            "python-cephfs-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "python-rbd-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw2-12.2.5-42.el7cp.x86_64.rpm",
+            "librbd1-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-fuse-12.2.5-42.el7cp.x86_64.rpm",
+            "librgw-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs-devel-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-debuginfo-12.2.5-42.el7cp.x86_64.rpm",
+            "librados2-12.2.5-42.el7cp.x86_64.rpm",
+            "libcephfs2-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-mds-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-selinux-12.2.5-42.el7cp.x86_64.rpm",
+            "ceph-common-12.2.5-42.el7cp.x86_64.rpm"
+          ],
+          "ppc64le": [
+            "libradosstriper1-12.2.5-42.el7cp.ppc64le.rpm",
+            "librados-devel-12.2.5-42.el7cp.ppc64le.rpm",
+            "python-rgw-12.2.5-42.el7cp.ppc64le.rpm",
+            "python-rados-12.2.5-42.el7cp.ppc64le.rpm",
+            "python-cephfs-12.2.5-42.el7cp.ppc64le.rpm",
+            "librbd-devel-12.2.5-42.el7cp.ppc64le.rpm",
+            "python-rbd-12.2.5-42.el7cp.ppc64le.rpm",
+            "librgw2-12.2.5-42.el7cp.ppc64le.rpm",
+            "librbd1-12.2.5-42.el7cp.ppc64le.rpm",
+            "ceph-fuse-12.2.5-42.el7cp.ppc64le.rpm",
+            "librgw-devel-12.2.5-42.el7cp.ppc64le.rpm",
+            "libcephfs-devel-12.2.5-42.el7cp.ppc64le.rpm",
+            "ceph-debuginfo-12.2.5-42.el7cp.ppc64le.rpm",
+            "librados2-12.2.5-42.el7cp.ppc64le.rpm",
+            "libcephfs2-12.2.5-42.el7cp.ppc64le.rpm",
+            "ceph-common-12.2.5-42.el7cp.ppc64le.rpm"
+          ],
+          "SRPMS": [
+            "ceph-12.2.5-42.el7cp.src.rpm"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 33840,
+    "advisory_name": "RHBA-2018:2819",
+    "product": "Red Hat Ceph Storage",
+    "release": "rhceph-3.1",
+    "synopsis": "Red Hat Ceph Storage 3.1 Bug Fix update",
+    "release_date": null,
+    "qe_owner": "hnallurv@redhat.com",
+    "qe_group": "RHC (Ceph) QE",
+    "status": "SHIPPED_LIVE",
+    "status_time": "September 26, 2018 18:17"
+  },
+  {
+    "id": 36762,
+    "advisory_name": "RHSA-2018:2838",
+    "product": "Red Hat Ceph Storage",
+    "release": "rhceph-3.1",
+    "synopsis": "Critical: ceph-iscsi-cli security update",
+    "release_date": null,
+    "qe_owner": "hnallurv@redhat.com",
+    "qe_group": "RHC (Ceph) QE",
+    "status": "SHIPPED_LIVE",
+    "status_time": "October 01, 2018 15:13"
+  }
+]

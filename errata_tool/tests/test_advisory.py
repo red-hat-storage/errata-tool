@@ -10,15 +10,15 @@ class TestAdvisory(object):
         assert advisory.errata_state == 'SHIPPED_LIVE'
 
     def test_url(self, advisory):
-        expected = 'https://errata.devel.redhat.com/advisory/26175'
+        expected = 'https://errata.devel.redhat.com/advisory/33840'
         assert advisory.url() == expected
 
     def test_synopsis(self, advisory):
-        expected = 'Red Hat Ceph Storage 2.2 bug fix and enhancement update'
+        expected = 'Red Hat Ceph Storage 3.1 Bug Fix update'
         assert advisory.synopsis == expected
 
     def test_topic(self, advisory):
-        expected = 'Red Hat Ceph Storage 2.2 is now available.'
+        expected = 'Red Hat Ceph Storage 3.1 is now available.'
         assert advisory.topic == expected
 
     def test_cve_names(self, advisory):
@@ -37,7 +37,7 @@ class TestAdvisory(object):
         assert advisory.qe_email == 'hnallurv@redhat.com'
 
     def test_qe_group(self, advisory):
-        assert advisory.qe_group == 'Default'
+        assert advisory.qe_group == 'RHC (Ceph) QE'
 
     def test_errata_type(self, advisory):
         assert advisory.errata_type == 'RHBA'
@@ -59,24 +59,24 @@ class TestAdvisory(object):
         assert advisory.text_only_cpe is None
 
     def test_publish_date_override(self, advisory):
-        assert advisory.publish_date_override is None
+        assert advisory.publish_date_override == '2018-Sep-26'
 
     def test_creation_date(self, advisory):
-        assert advisory.creation_date == '2017-Jan-10'
+        assert advisory.creation_date == '2018-May-03'
 
     def test_ship_date(self, advisory):
-        assert advisory.ship_date == '2017-Mar-14'
+        assert advisory.ship_date == '2018-Sep-26'
 
     def test_age(self, advisory):
-        assert advisory.age == 63
+        assert advisory.age == 146
 
     def test_errata_bugs(self, advisory):
         # Only sanity-check one for brevity.
-        assert 1425771 in advisory.errata_bugs
-        assert len(advisory.errata_bugs) == 61
+        assert 1253486 in advisory.errata_bugs
+        assert len(advisory.errata_bugs) == 138
 
     def test_errata_builds(self, advisory):
-        expected = {'RHEL-7-CEPH-2': ['ceph-10.2.5-37.el7cp']}
+        expected = {'RHEL-7-RHCEPH-3.1': ['ceph-12.2.5-42.el7cp']}
         assert advisory.errata_builds == expected
 
     def test_missing_prod_listings(self, advisory):

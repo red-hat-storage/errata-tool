@@ -6,7 +6,7 @@ class TestMetadataCdnRepos(object):
     def test_get_url(self, monkeypatch, mock_get, advisory):
         monkeypatch.setattr(requests, 'get', mock_get)
         advisory.metadataCdnRepos()
-        assert mock_get.response.url == 'https://errata.devel.redhat.com/api/v1/erratum/26175/metadata_cdn_repos'  # NOQA: E501
+        assert mock_get.response.url == 'https://errata.devel.redhat.com/api/v1/erratum/33840/metadata_cdn_repos'  # NOQA: E501
 
     def test_enable(self, monkeypatch, mock_put, advisory):
         monkeypatch.setattr(requests, 'put', mock_put)

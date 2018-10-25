@@ -4,5 +4,5 @@ class TestRhsaCveNames(object):
         """
         Verify that we have CVE names in our advisory (not None)
         """
-        expected = 'CVE-2016-9579'
+        expected = 'CVE-2018-14649'
         assert rhsa.cve_names == expected

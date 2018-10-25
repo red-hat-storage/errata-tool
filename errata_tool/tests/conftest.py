@@ -82,7 +82,7 @@ def advisory(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return Erratum(errata_id=26175)
+    return Erratum(errata_id=33840)
 
 
 @pytest.fixture
@@ -92,7 +92,7 @@ def rhsa(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return Erratum(errata_id=25856)
+    return Erratum(errata_id=36762)
 
 
 @pytest.fixture
@@ -119,7 +119,7 @@ def product_version(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return ProductVersion('RHEL-7-CEPH-3')
+    return ProductVersion('RHEL-7-RHCEPH-3.1')
 
 
 @pytest.fixture
@@ -128,7 +128,7 @@ def release(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return Release(name='rhceph-3.0')
+    return Release(name='rhceph-3.1')
 
 
 @pytest.fixture
@@ -137,4 +137,4 @@ def build(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
-    return Build('ceph-10.2.5-37.el7cp')
+    return Build('ceph-12.2.5-42.el7cp')

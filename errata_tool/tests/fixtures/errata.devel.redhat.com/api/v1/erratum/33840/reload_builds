@@ -1,0 +1,1 @@
+{"job_tracker":{"created_at":"2018-02-26T23:09:41Z","description":"Reload the files list in each brew build for this advisory.","id":19854,"max_attempts":5,"name":"Reload Builds for RHBA-2018:33840","state":"FINISHED","updated_at":"2018-02-26T23:09:47Z","user_id":3001865,"total_job_count":2,"pending_jobs":[]}}
