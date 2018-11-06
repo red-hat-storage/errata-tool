@@ -1,3 +1,6 @@
+from errata_tool.product_version import ProductVersion
+
+
 def test_id(product):
     assert product.id == 104
 
@@ -16,3 +19,8 @@ def test_supports_pdc(product):
 
 def test_url(product):
     assert product.url == 'https://errata.devel.redhat.com/products/RHCEPH'
+
+
+def test_product_versions(product):
+    pvs = product.productVersions(enabled=1)
+    assert pvs == [ProductVersion(803)]
