@@ -27,9 +27,9 @@ class TestProductList(object):
         assert ceph == \
             {'id': 104,
              'name': u'Red Hat Ceph Storage',
-             'releases': {654: u'ceph-2.1-updates', 655: u'ceph-2.2'},
+             'releases': {},
              'short_name': u'RHCEPH',
-             'versions': {509: u'RHEL-7-CEPH-2'}}
+             'versions': {803: u'RHEL-7-RHCEPH-2.5'}}
 
     def test_export_product_ids(self, productlist):
         result = productlist.export()
@@ -46,7 +46,7 @@ class TestProductList(object):
              'id': 654,
              'enabled': True,
              'name': u'ceph-2.1-updates',
-             'products': {104: u'Red Hat Ceph Storage'},
+             'products': {},
              'versions': {509: u'RHEL-7-CEPH-2'}}
         assert releases[655] == \
             {'async': False,
@@ -56,18 +56,18 @@ class TestProductList(object):
              'id': 655,
              'enabled': True,
              'name': u'ceph-2.2',
-             'products': {104: u'Red Hat Ceph Storage'},
+             'products': {},
              'versions': {509: u'RHEL-7-CEPH-2'}}
 
     def test_export_versions(self, productlist):
         result = productlist.export()
         v = result['versions']
-        assert v[509] == \
+        assert v[803] == \
             {'brew_tag': u'ceph-2-rhel-7-candidate',
-             'description': u'Red Hat Ceph Storage 2 for Red Hat '
+             'description': u'Red Hat Ceph Storage 2.5 for Red Hat '
                             'Enterprise Linux 7',
-             'id': 509,
+             'id': 803,
              'enabled': True,
-             'name': u'RHEL-7-CEPH-2',
+             'name': u'RHEL-7-RHCEPH-2.5',
              'products': {104: u'Red Hat Ceph Storage'},
-             'releases': {654: u'ceph-2.1-updates', 655: u'ceph-2.2'}}
+             'releases': {}}
