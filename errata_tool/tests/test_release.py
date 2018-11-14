@@ -39,6 +39,17 @@ class TestGet(object):
         assert release.edit_url == expected
 
 
+class TestProductVersions(object):
+    def test_product_verions(self, release, release_id, monkeypatch, mock_get):
+        monkeypatch.setattr(requests, 'get', mock_get)
+        release.id = release_id
+        expected_url = 'https://errata.devel.redhat.com/releases.json'
+        assert mock_get.response.url == expected_url
+        expected_product_versions = [{"id": 783, "name": "RHEL-7-CEPH-3.1"}]
+        result = release.get_product_versions()
+        assert result == expected_product_versions
+
+
 class TestAdvisories(object):
     def test_advisories(self, release, monkeypatch, mock_get):
         monkeypatch.setattr(requests, 'get', mock_get)

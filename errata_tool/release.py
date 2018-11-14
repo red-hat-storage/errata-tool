@@ -54,6 +54,20 @@ class Release(ErrataConnector):
         # For displaying in scripts/logs:
         self.edit_url = self._url + '/release/edit/%d' % self.id
 
+    def get_product_versions(self):
+        url = self._url + '/api/v1/releases' % self.id
+        result = self._get(url)
+        if len(result['data']) < 1:
+            raise NoReleaseFoundError()
+        if len(result['data']) > 1:
+            # it's possible to accidentally have identically named releases,
+            # see engineering RT 461783
+            raise MultipleReleasesFoundError()
+        for d in self.data:
+            if d['id'] == self.id:
+                return d['relationships']['product_versions']
+        return None
+
     def advisories(self):
         """
         Find all advisories for this release.

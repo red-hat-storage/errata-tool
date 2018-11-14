@@ -132,6 +132,15 @@ def release(monkeypatch, mock_get):
 
 
 @pytest.fixture
+def release_id(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    rel = Release(name='rhceph-3.1')
+    return rel.id
+
+@pytest.fixture
 def build(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
