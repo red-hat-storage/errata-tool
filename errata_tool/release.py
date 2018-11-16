@@ -50,6 +50,7 @@ class Release(ErrataConnector):
         self.enabled = self.data['attributes']['enabled']
         self.blocker_flags = self.data['attributes']['blocker_flags']
         self.is_pdc = self.data['attributes']['is_pdc']
+        self.product_versions = self.data['relationships']['product_versions']
         self.url = self._url + '/release/show/%d' % self.id
         # For displaying in scripts/logs:
         self.edit_url = self._url + '/release/edit/%d' % self.id
