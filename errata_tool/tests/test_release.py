@@ -30,6 +30,10 @@ class TestGet(object):
     def test_is_pdc(self, release):
         assert release.is_pdc is False
 
+    def test_product_versions(self, release):
+        expected = [{'id': 783, 'name': 'RHEL-7-RHCEPH-3.1'}]
+        assert release.product_versions == expected
+
     def test_url(self, release):
         expected = 'https://errata.devel.redhat.com/release/show/860'
         assert release.url == expected
