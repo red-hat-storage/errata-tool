@@ -170,7 +170,7 @@ class ErrataConnector(object):
                 raise ErrataException(
                     'You need Errata access for this operation!')
             else:
-                print("Result not handled: " + str(ret_data))
+                print("Result not handled: " + str(ret_data.text))
                 print("While fetching: " + url)
                 raise ErrataException(str(ret_data))
 
