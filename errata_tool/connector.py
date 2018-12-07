@@ -169,11 +169,8 @@ class ErrataConnector(object):
             elif ret_data.status_code in [403]:
                 raise ErrataException(
                     'You need Errata access for this operation!')
-            elif ret_data.status_code in [500]:
-                raise LookupError('No matching errata')
-
             else:
-                print("Result not handled: " + str(ret_data))
+                print("Result not handled: " + str(ret_data.text))
                 print("While fetching: " + url)
                 raise ErrataException(str(ret_data))
 
