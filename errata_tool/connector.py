@@ -14,6 +14,7 @@ class ErrataConnector(object):
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth(mutual_authentication=DISABLED)
     _username = None
+    session = requests.Session()
     ssl_verify = True  # Shared
     debug = False
 
@@ -119,19 +120,18 @@ class ErrataConnector(object):
         url = self.canonical_url(u)
         start = time.time()
         ret = None
+        self.session.verify = self.ssl_verify
         if kwargs is not None:
             if 'data' in kwargs:
-                ret = requests.post(url,
-                                    auth=self._auth,
-                                    data=kwargs['data'],
-                                    verify=self.ssl_verify)
+                ret = self.session.post(url,
+                                        auth=self._auth,
+                                        data=kwargs['data'])
             elif 'json' in kwargs:
-                ret = requests.post(url,
-                                    auth=self._auth,
-                                    json=kwargs['json'],
-                                    verify=self.ssl_verify)
+                ret = self.session.post(url,
+                                        auth=self._auth,
+                                        json=kwargs['json'])
         if ret is None:
-            ret = requests.post(url, auth=self._auth, verify=self.ssl_verify)
+            ret = self.session.post(url, auth=self._auth)
 
         self._record('POST', url, time.time() - start)
         return ret
@@ -144,19 +144,16 @@ class ErrataConnector(object):
         start = time.time()
         if kwargs is not None:
             if 'data' in kwargs:
-                ret_data = requests.get(url,
-                                        auth=self._auth,
-                                        data=kwargs['data'],
-                                        verify=self.ssl_verify)
+                ret_data = self.session.get(url,
+                                            auth=self._auth,
+                                            data=kwargs['data'])
             elif 'json' in kwargs:
-                ret_data = requests.get(url,
-                                        auth=self._auth,
-                                        json=kwargs['json'],
-                                        verify=self.ssl_verify)
+                ret_data = self.session.get(url,
+                                            auth=self._auth,
+                                            json=kwargs['json'])
 
         if ret_data is None:
-            ret_data = requests.get(url, auth=self._auth,
-                                    verify=self.ssl_verify)
+            ret_data = self.session.get(url, auth=self._auth)
 
         self._record('GET', url, time.time() - start)
 
@@ -183,18 +180,16 @@ class ErrataConnector(object):
         ret = None
         if kwargs is not None:
             if 'data' in kwargs:
-                ret = requests.put(url,
-                                   auth=self._auth,
-                                   data=kwargs['data'],
-                                   verify=self.ssl_verify)
+                ret = self.session.put(url,
+                                       auth=self._auth,
+                                       data=kwargs['data'])
             elif 'json' in kwargs:
-                ret = requests.put(url,
-                                   auth=self._auth,
-                                   json=kwargs['json'],
-                                   verify=self.ssl_verify)
+                ret = self.session.put(url,
+                                       auth=self._auth,
+                                       json=kwargs['json'])
 
         if ret is None:
-            ret = requests.put(url, auth=self._auth, verify=self.ssl_verify)
+            ret = self.session.put(url, auth=self._auth)
         self._record('PUT', url, time.time() - start)
         return ret
 
