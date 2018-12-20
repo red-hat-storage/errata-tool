@@ -954,8 +954,9 @@ https://access.redhat.com/articles/11258")
         :param target: A string "stage" or "live". Defaults to "stage". You
                        can also pass a list here, ['stage', 'live'] to do both
                        in one operation.
-        :returns: a dict describing the Errata Tool's "push", including a
-                  "push_id". You can query this push ID at
+        :returns: a list describing the Errata Tool's newly triggered push
+                  tasks. Each push task includes an "id". You can query the
+                  status of this push ID at
                   /api/v1/erratum/{id}/push/{push_id} .
         """
         # Accept 'stage', 'live', or a set of specific options
