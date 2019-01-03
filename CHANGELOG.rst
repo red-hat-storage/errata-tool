@@ -1,3 +1,18 @@
+v1.16.0
+=======
+
+* Add a new ``.releasedBuilds()`` method to the ``ProductVersion`` class to
+  query all the released builds for this Product Version.
+
+* Add a new ``.product_versions`` attribute to the ``Release`` class to
+  get the Product Versions for a release.
+
+* Improve debugging information for HTTP errors.
+
+* Add API documentation for ``push()`` and ``addBuilds()`` methods.
+
+* Fix an argparse crash in the errata-tool CLI when running on Python 3.
+
 v1.15.0
 =======
 
