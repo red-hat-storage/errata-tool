@@ -20,4 +20,4 @@ class User(ErrataConnector):
         return 'User(%s)' % self.id
 
     def __str__(self):
-        return self.name
+        return self.login_name
