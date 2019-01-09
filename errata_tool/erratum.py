@@ -271,10 +271,11 @@ https://access.redhat.com/articles/11258")
             self.product_id = advisory_old['product']['id']
             self.release_id = advisory_old['release']['id']
 
-            # XXX Errata tool doesn't report package owner or manager?
             self.package_owner_email = advisory_old['people']['reporter']
             self.qe_email = advisory_old['people']['assigned_to']
             self.qe_group = advisory_old['people']['qe_group']
+            # XXX Errata tool doesn't report manager?
+            # https://bugzilla.redhat.com/show_bug.cgi?id=1664884
             # self.manager_email = ???
 
             # Grab mutable errata content
