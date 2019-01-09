@@ -134,7 +134,8 @@ class PyTest(TestCommand):
 
     def run_tests(self):
         import pytest
-        errno = pytest.main('errata_tool --flake8 ' + self.pytest_args)
+        args = 'errata_tool --flake8 ' + self.pytest_args
+        errno = pytest.main(args.split())
         sys.exit(errno)
 
 
