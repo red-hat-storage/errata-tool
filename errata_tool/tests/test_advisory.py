@@ -52,6 +52,9 @@ class TestAdvisory(object):
         #  assert advisory.manager_email == 'gmeno@redhat.com'
         assert advisory.manager_email is None
 
+    def test_manager_id(self, advisory):
+        assert advisory.manager_id == 3001931
+
     def test_text_only(self, advisory):
         assert advisory.text_only is False
 

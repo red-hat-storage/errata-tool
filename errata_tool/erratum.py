@@ -7,7 +7,7 @@ import re
 import requests_kerberos
 import six
 
-from errata_tool import ErrataException, ErrataConnector, security
+from errata_tool import ErrataException, ErrataConnector, security, User
 
 
 class Erratum(ErrataConnector):
@@ -50,6 +50,7 @@ class Erratum(ErrataConnector):
         self.age = 0                    # Erratum age in days
         self.package_owner_email = None
         self.manager_email = None
+        self.manager_id = 0
         self.product_id = 0
         self.release_id = 0
         self.qe_email = ''
@@ -92,6 +93,9 @@ class Erratum(ErrataConnector):
             self._update = True
         if 'manager_email' in kwargs:
             self.manager_email = kwargs['manager_email']
+            self._update = True
+        if 'manager_id' in kwargs:
+            self.manager_id = kwargs['manager_id']
             self._update = True
         if 'qe_email' in kwargs:
             self.qe_email = kwargs['qe_email']
@@ -274,9 +278,11 @@ https://access.redhat.com/articles/11258")
             self.package_owner_email = advisory_old['people']['reporter']
             self.qe_email = advisory_old['people']['assigned_to']
             self.qe_group = advisory_old['people']['qe_group']
+
             # XXX Errata tool doesn't report manager?
             # https://bugzilla.redhat.com/show_bug.cgi?id=1664884
             # self.manager_email = ???
+            self.manager_id = erratum.get('manager_id')
 
             # Grab mutable errata content
             self.text_only = erratum['text_only']
@@ -749,8 +755,12 @@ https://access.redhat.com/articles/11258")
                 raise ErrataException("Can't create erratum without " +
                                       "package owner email")
             if self.manager_email is None:
-                raise ErrataException("Can't create erratum without " +
-                                      "manager email")
+                if self.manager_id:
+                    manager = User(self.manager_id)
+                    self.manager_email = manager.email_address
+                else:
+                    raise ErrataException("Can't create erratum without " +
+                                          "manager email or manager id")
             if self._product is None:
                 raise ErrataException("Can't create erratum with no " +
                                       "product specified")
