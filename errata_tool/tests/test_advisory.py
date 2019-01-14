@@ -50,7 +50,7 @@ class TestAdvisory(object):
         # pre-existing advisory. We can only update it with POST/PUT, but we
         # cannot GET it. https://bugzilla.redhat.com/show_bug.cgi?id=1664884
         #  assert advisory.manager_email == 'gmeno@redhat.com'
-        assert advisory.manager_email == 'zoro_email@redhat.com'
+        assert advisory.manager_email is None
 
     def test_manager_id(self, advisory):
         assert advisory.manager_id == 3001931

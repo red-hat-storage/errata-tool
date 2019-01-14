@@ -755,12 +755,12 @@ https://access.redhat.com/articles/11258")
                 raise ErrataException("Can't create erratum without " +
                                       "package owner email")
             if self.manager_email is None:
-                if self.manager_id == 0:
+                if self.manager_id:
                     manager = User(self.manager_id)
                     self.manager_email = manager.email_address
                 else:
                     raise ErrataException("Can't create erratum without " +
-                                          "manager email")
+                                          "manager email or manager id")
             if self._product is None:
                 raise ErrataException("Can't create erratum with no " +
                                       "product specified")
