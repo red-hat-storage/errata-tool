@@ -5,4 +5,4 @@ from .erratum import Erratum
 
 __all__ = ['ErrataException', 'ErrataConnector', 'Erratum', 'User']
 
-__version__ = '1.16.0'
+__version__ = '1.17.0'

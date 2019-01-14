@@ -1,3 +1,14 @@
+v1.17.0
+=======
+
+* Add a new ``.manager_id`` attribute to the ``Erratum`` class to
+  get the manager for an advisory. You can now optionally set the manager for
+  a new advisory using the manager ID number instead of an email address. This
+  makes it easier to clone advisories.
+
+* Fix the ``__str__`` method for the ``User`` class to print a real value
+  instead of crashing.
+
 v1.16.0
 =======
 
