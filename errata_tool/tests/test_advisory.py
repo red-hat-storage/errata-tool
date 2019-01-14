@@ -48,7 +48,7 @@ class TestAdvisory(object):
     def test_manager_email_is_none(self, advisory):
         # NOTE: the ET does not give this information when querying a
         # pre-existing advisory. We can only update it with POST/PUT, but we
-        # cannot GET it.
+        # cannot GET it. https://bugzilla.redhat.com/show_bug.cgi?id=1664884
         #  assert advisory.manager_email == 'gmeno@redhat.com'
         assert advisory.manager_email is None
 
