@@ -55,6 +55,9 @@ class TestAdvisory(object):
     def test_manager_id(self, advisory):
         assert advisory.manager_id == 3001931
 
+    def test_reporter_id(self, advisory):
+        assert advisory.reporter_id == 3001865
+
     def test_text_only(self, advisory):
         assert advisory.text_only is False
 

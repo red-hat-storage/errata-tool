@@ -53,6 +53,7 @@ class Erratum(ErrataConnector):
         self.manager_id = 0
         self.product_id = 0
         self.release_id = 0
+        self.reporter_id = 0
         self.qe_email = ''
         self.qe_group = ''
         self.synopsis = None
@@ -96,6 +97,9 @@ class Erratum(ErrataConnector):
             self._update = True
         if 'manager_id' in kwargs:
             self.manager_id = kwargs['manager_id']
+            self._update = True
+        if 'reporter_id' in kwargs:
+            self.reporter_id = kwargs['reporter_id']
             self._update = True
         if 'qe_email' in kwargs:
             self.qe_email = kwargs['qe_email']
@@ -283,6 +287,7 @@ https://access.redhat.com/articles/11258")
             # https://bugzilla.redhat.com/show_bug.cgi?id=1664884
             # self.manager_email = ???
             self.manager_id = erratum.get('manager_id')
+            self.reporter_id = erratum.get('reporter_id')
 
             # Grab mutable errata content
             self.text_only = erratum['text_only']
