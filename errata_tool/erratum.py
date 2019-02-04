@@ -275,7 +275,7 @@ https://access.redhat.com/articles/11258")
             self.product_id = advisory_old['product']['id']
             self.release_id = advisory_old['release']['id']
 
-            self.package_owner_email = advisory_old['people']['reporter']
+            self.package_owner_email = advisory_old['people']['package_owner']
             self.qe_email = advisory_old['people']['assigned_to']
             self.qe_group = advisory_old['people']['qe_group']
 
@@ -1060,7 +1060,7 @@ https://access.redhat.com/articles/11258")
             s = "\n  CVEs:        " + str(self.cve_names) + s
 
         return self.errata_name + ": " + self.synopsis + \
-            "\n  reporter: " + self.package_owner_email + \
+            "\n  package owner: " + self.package_owner_email + \
             "  qe: " + self.qe_email + \
             " qe_group: " + self.qe_group + \
             "\n  url:   " + \
