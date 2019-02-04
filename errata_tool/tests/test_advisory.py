@@ -45,6 +45,9 @@ class TestAdvisory(object):
     def test_owner_email(self, advisory):
         assert advisory.package_owner_email == 'kdreyer@redhat.com'
 
+    def test_reporter(self, advisory):
+        assert advisory.reporter == 'kdreyer@redhat.com'
+
     def test_manager_email_is_none(self, advisory):
         # NOTE: the ET does not give this information when querying a
         # pre-existing advisory. We can only update it with POST/PUT, but we

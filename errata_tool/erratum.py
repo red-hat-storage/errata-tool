@@ -276,6 +276,7 @@ https://access.redhat.com/articles/11258")
             self.release_id = advisory_old['release']['id']
 
             self.package_owner_email = advisory_old['people']['package_owner']
+            self.reporter = advisory_old['people']['reporter']
             self.qe_email = advisory_old['people']['assigned_to']
             self.qe_group = advisory_old['people']['qe_group']
 
