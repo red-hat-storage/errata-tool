@@ -1,5 +1,4 @@
 from datetime import date
-import requests
 from errata_tool.release import Release
 from errata_tool.connector import ErrataConnector
 
@@ -45,7 +44,7 @@ class TestGet(object):
 
 class TestAdvisories(object):
     def test_advisories(self, release, monkeypatch, mock_get):
-        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
         result = release.advisories()
         # Validate URL
         expected_url = 'https://errata.devel.redhat.com/release/860/advisories.json'  # NOQA: E501
@@ -89,16 +88,16 @@ class TestCreate(object):
     )
 
     def test_create_url(self, monkeypatch, mock_get, mock_post):
-        monkeypatch.setattr(requests, 'get', mock_get)
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         monkeypatch.setattr(ErrataConnector, '_username', 'test')
         Release.create(**self.create_kwargs)
         expected = 'https://errata.devel.redhat.com/release/create'
         assert mock_post.response.url == expected
 
     def test_create_data(self, monkeypatch, mock_get, mock_post):
-        monkeypatch.setattr(requests, 'get', mock_get)
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         monkeypatch.setattr(ErrataConnector, '_username', 'test')
         Release.create(**self.create_kwargs)
         today = date.today()

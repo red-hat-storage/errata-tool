@@ -6,7 +6,6 @@ from errata_tool.products import ProductList
 from errata_tool.product import Product
 from errata_tool.product_version import ProductVersion
 from errata_tool.release import Release
-import requests
 import pytest
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -78,63 +77,56 @@ def mock_put():
 
 @pytest.fixture
 def advisory(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return Erratum(errata_id=33840)
 
 
 @pytest.fixture
 def rhsa(monkeypatch, mock_get):
     """ Like the advisory() fixture above, but an RHSA. """
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return Erratum(errata_id=36762)
 
 
 @pytest.fixture
 def productlist(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return ProductList()
 
 
 @pytest.fixture
 def product(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return Product('RHCEPH')
 
 
 @pytest.fixture
 def product_version(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return ProductVersion('RHEL-7-RHCEPH-3.1')
 
 
 @pytest.fixture
 def release(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return Release(name='rhceph-3.1')
 
 
 @pytest.fixture
 def build(monkeypatch, mock_get):
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
     return Build('ceph-12.2.5-42.el7cp')
