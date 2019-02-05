@@ -1,3 +1,14 @@
+v1.18.0
+=======
+
+* Make the ``.package_owner_email`` attribute to the ``Erratum`` class
+  correspond to the Errata Tool's "package owner" for an advisory. Prior to
+  this change, ``.package_owner_email`` was the advisory reporter, not the
+  package owner.
+
+* Add a new ``.reporter`` attribute to the ``Erratum`` class to
+  get the reporter email address for an advisory.
+
 v1.17.0
 =======
 
