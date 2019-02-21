@@ -79,8 +79,9 @@ class Release(ErrataConnector):
         return self._get(url)
 
     @classmethod
-    def create(klass, name, product, product_versions, type, program_manager,
-               default_brew_tag=None, blocker_flags=None, ship_date=None):
+    def create(klass, name, product, product_versions, type,
+               program_manager=None, default_brew_tag=None, blocker_flags=None,
+               ship_date=None):
         """
         Create a new release in the ET.
 
@@ -117,7 +118,8 @@ class Release(ErrataConnector):
         (_, number) = name.split('-', 1)
         description = '%s %s' % (product.description, number)
 
-        program_manager = User(program_manager)
+        if program_manager:
+            program_manager = User(program_manager)
 
         product_version_ids = set([])
         for pv_name in product_versions:
@@ -144,10 +146,12 @@ class Release(ErrataConnector):
             'release[name]': name,
             'release[product_id]': product.id,
             'release[product_version_ids][]': product_version_ids,
-            'release[program_manager_id]': program_manager.id,
             'release[ship_date]': ship_date,
             'release[type]': type,
         }
+
+        if program_manager:
+            payload['release[program_manager_id]'] = program_manager.id
 
         if default_brew_tag:
             payload['release[default_brew_tag]'] = default_brew_tag

@@ -40,7 +40,7 @@ def add_parser(subparsers):
         parser.add_argument('--product_version', required=True,
                             action='append',
                             help='eg. "RHEL-7-CEPH-3"')
-        parser.add_argument('--program_manager', required=True,
+        parser.add_argument('--program_manager',
                             help='eg. "anharris"')
         parser.add_argument('--default_brew_tag',
                             help='eg. "ceph-3.0-rhel-7-candidate"')

@@ -110,6 +110,18 @@ def test_create_ystream_missing_default_brew_tag(monkeypatch):
     main.main()
 
 
+def test_create_ystream_missing_program_manager(monkeypatch):
+    monkeypatch.setattr('errata_tool.cli.release.Release', FakeMissingRelease)
+    argv = ['errata-tool', 'release', 'create', 'ystream',
+            '--name', 'rhceph-2.4',
+            '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
+            '--blocker_flags', 'ceph-2.y',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
+    monkeypatch.setattr(sys, 'argv', argv)
+    main.main()
+
+
 def test_create_zstream_missing_args(monkeypatch):
     argv = ['errata-tool', 'release', 'create', 'zstream']
     monkeypatch.setattr(sys, 'argv', argv)
@@ -155,6 +167,18 @@ def test_create_zstream_missing_default_brew_tag(monkeypatch):
     main.main()
 
 
+def test_create_zstream_missing_program_manager(monkeypatch):
+    monkeypatch.setattr('errata_tool.cli.release.Release', FakeMissingRelease)
+    argv = ['errata-tool', 'release', 'create', 'zstream',
+            '--name', 'rhceph-2.4',
+            '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
+            '--blocker_flags', 'ceph-2.y',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
+    monkeypatch.setattr(sys, 'argv', argv)
+    main.main()
+
+
 def test_create_async_missing_args(monkeypatch):
     argv = ['errata-tool', 'release', 'create', 'async']
     monkeypatch.setattr(sys, 'argv', argv)
@@ -182,5 +206,16 @@ def test_create_async_missing_default_brew_tag(monkeypatch):
             '--product_version', 'RHEL-7-CEPH-2',
             '--program_manager', 'anharris',
             '--blocker_flags', 'ceph-2.y']
+    monkeypatch.setattr(sys, 'argv', argv)
+    main.main()
+
+
+def test_create_async_missing_program_manager(monkeypatch):
+    monkeypatch.setattr('errata_tool.cli.release.Release', FakeMissingRelease)
+    argv = ['errata-tool', 'release', 'create', 'async',
+            '--name', 'rhceph-2.4',
+            '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
     monkeypatch.setattr(sys, 'argv', argv)
     main.main()
