@@ -42,7 +42,7 @@ def add_parser(subparsers):
                             help='eg. "RHEL-7-CEPH-3"')
         parser.add_argument('--program_manager', required=True,
                             help='eg. "anharris"')
-        parser.add_argument('--default_brew_tag', required=True,
+        parser.add_argument('--default_brew_tag',
                             help='eg. "ceph-3.0-rhel-7-candidate"')
 
     for parser in (ystream_create_parser, zstream_create_parser):

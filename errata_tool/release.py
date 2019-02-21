@@ -80,7 +80,7 @@ class Release(ErrataConnector):
 
     @classmethod
     def create(klass, name, product, product_versions, type, program_manager,
-               default_brew_tag, blocker_flags=None, ship_date=None):
+               default_brew_tag=None, blocker_flags=None, ship_date=None):
         """
         Create a new release in the ET.
 
@@ -136,7 +136,6 @@ class Release(ErrataConnector):
             'release[allow_exception]': 0,
             'release[allow_pkg_dupes]': 1,
             'release[allow_shadow]': 0,
-            'release[default_brew_tag]': default_brew_tag,
             'release[description]': description,
             'release[enable_batching]': 0,
             'release[enabled]': 1,
@@ -149,6 +148,9 @@ class Release(ErrataConnector):
             'release[ship_date]': ship_date,
             'release[type]': type,
         }
+
+        if default_brew_tag:
+            payload['release[default_brew_tag]'] = default_brew_tag
 
         if blocker_flags:
             payload['release[blocker_flags]'] = blocker_flags
