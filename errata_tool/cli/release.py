@@ -23,22 +23,33 @@ def add_parser(subparsers):
     # There are many arguments to create(), and they might change over time.
     # Use named args here for future flexibility.
     create_parser = sub.add_parser('create', help='create a new release (RCM)')
-    create_parser.add_argument('--name', required=True,
-                               help='eg. "rhceph-2.4"')
-    create_parser.add_argument('--product', required=True,
-                               help='eg. "RHCEPH"')
-    create_parser.add_argument('--product_version', required=True,
-                               action='append',
-                               help='eg. "RHEL-7-CEPH-3"')
-    create_parser.add_argument('--type', required=True,
-                               help='eg. "QuarterlyUpdate"')
-    create_parser.add_argument('--program_manager', required=True,
-                               help='eg. "anharris"')
-    create_parser.add_argument('--blocker_flags', required=True,
-                               help='eg. "ceph-2.y"')
-    create_parser.add_argument('--default_brew_tag', required=True,
-                               help='eg. "ceph-3.0-rhel-7-candidate"')
-    create_parser.set_defaults(func=create)
+
+    subsubparsers = create_parser.add_subparsers()
+
+    ystream_create_parser = subsubparsers.add_parser('ystream')
+    zstream_create_parser = subsubparsers.add_parser('zstream')
+    async_create_parser = subsubparsers.add_parser('async')
+
+    # Common operations across various release types
+    for parser in (ystream_create_parser, zstream_create_parser,
+                   async_create_parser):
+        parser.add_argument('--name', required=True,
+                            help='eg. "rhceph-2.4"')
+        parser.add_argument('--product', required=True,
+                            help='eg. "RHCEPH"')
+        parser.add_argument('--product_version', required=True,
+                            action='append',
+                            help='eg. "RHEL-7-CEPH-3"')
+        parser.add_argument('--program_manager', required=True,
+                            help='eg. "anharris"')
+        parser.add_argument('--blocker_flags', required=True,
+                            help='eg. "ceph-2.y"')
+        parser.add_argument('--default_brew_tag', required=True,
+                            help='eg. "ceph-3.0-rhel-7-candidate"')
+
+    ystream_create_parser.set_defaults(func=create, type="QuarterlyUpdate")
+    zstream_create_parser.set_defaults(func=create, type="Zstream")
+    async_create_parser.set_defaults(func=create, type="Async")
 
     # "list-advisories"
     ls_parser = sub.add_parser('list-advisories',
