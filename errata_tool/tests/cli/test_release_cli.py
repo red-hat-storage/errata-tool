@@ -85,6 +85,19 @@ def test_create_ystream(monkeypatch):
     main.main()
 
 
+def test_create_ystream_missing_blocker(monkeypatch):
+    monkeypatch.setattr('errata_tool.cli.release.Release', FakeMissingRelease)
+    argv = ['errata-tool', 'release', 'create', 'ystream',
+            '--name', 'rhceph-2.4',
+            '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
+            '--program_manager', 'anharris',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
+    monkeypatch.setattr(sys, 'argv', argv)
+    with pytest.raises(SystemExit):
+        main.main()
+
+
 def test_create_zstream_missing_args(monkeypatch):
     argv = ['errata-tool', 'release', 'create', 'zstream']
     monkeypatch.setattr(sys, 'argv', argv)
@@ -105,6 +118,19 @@ def test_create_zstream(monkeypatch):
     main.main()
 
 
+def test_create_zstream_missing_blocker(monkeypatch):
+    monkeypatch.setattr('errata_tool.cli.release.Release', FakeMissingRelease)
+    argv = ['errata-tool', 'release', 'create', 'zstream',
+            '--name', 'rhceph-2.4',
+            '--product', 'RHCEPH',
+            '--product_version', 'RHEL-7-CEPH-2',
+            '--program_manager', 'anharris',
+            '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
+    monkeypatch.setattr(sys, 'argv', argv)
+    with pytest.raises(SystemExit):
+        main.main()
+
+
 def test_create_async_missing_args(monkeypatch):
     argv = ['errata-tool', 'release', 'create', 'async']
     monkeypatch.setattr(sys, 'argv', argv)
@@ -119,7 +145,6 @@ def test_create_async(monkeypatch):
             '--product', 'RHCEPH',
             '--product_version', 'RHEL-7-CEPH-2',
             '--program_manager', 'anharris',
-            '--blocker_flags', 'ceph-2.y',
             '--default_brew_tag', 'ceph-3.0-rhel-7-candidate']
     monkeypatch.setattr(sys, 'argv', argv)
     main.main()

@@ -80,7 +80,7 @@ class Release(ErrataConnector):
 
     @classmethod
     def create(klass, name, product, product_versions, type, program_manager,
-               default_brew_tag, blocker_flags, ship_date=None):
+               default_brew_tag, blocker_flags=None, ship_date=None):
         """
         Create a new release in the ET.
 
@@ -98,16 +98,20 @@ class Release(ErrataConnector):
         :param name: short name for this release, eg "rhceph-3.0"
         :param product: short name, eg. "RHCEPH".
         :param product_versions: list of names, eg. ["RHEL-7-CEPH-3"]
-        :param type: "Zstream" or "QuarterlyUpdate"
+        :param type: "Zstream", "QuarterlyUpdate" or "Async"
         :param program_manager: for example "anharris" (Drew Harris, Ceph PgM)
         :param default_brew_tag: for example "ceph-3.0-rhel-7-candidate"
-        :param blocker_flags: for example, "ceph-3.0"
+        :param blocker_flags: for example, "ceph-3.0". Optional for type=Async
         :param ship_date: date formatted as strftime("%Y-%b-%d"). For example,
                           "2017-Nov-17". If ommitted, the ship_date will
                           be set to today's date. (This can always be updated
                           later to match the ship date value in Product
                           Pages.)
         """
+        if type != 'Async' and not blocker_flags:
+            raise ValueError('"blocker_flags" is optional only for release '
+                             'type="Async" but type="%s" was specified' % type)
+
         product = Product(product)
 
         (_, number) = name.split('-', 1)
@@ -132,7 +136,6 @@ class Release(ErrataConnector):
             'release[allow_exception]': 0,
             'release[allow_pkg_dupes]': 1,
             'release[allow_shadow]': 0,
-            'release[blocker_flags]': blocker_flags,
             'release[default_brew_tag]': default_brew_tag,
             'release[description]': description,
             'release[enable_batching]': 0,
@@ -146,6 +149,9 @@ class Release(ErrataConnector):
             'release[ship_date]': ship_date,
             'release[type]': type,
         }
+
+        if blocker_flags:
+            payload['release[blocker_flags]'] = blocker_flags
         result = et._post(url, data=payload)
         if (sys.version_info > (3, 0)):
             body = result.text

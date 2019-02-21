@@ -42,10 +42,15 @@ def add_parser(subparsers):
                             help='eg. "RHEL-7-CEPH-3"')
         parser.add_argument('--program_manager', required=True,
                             help='eg. "anharris"')
-        parser.add_argument('--blocker_flags', required=True,
-                            help='eg. "ceph-2.y"')
         parser.add_argument('--default_brew_tag', required=True,
                             help='eg. "ceph-3.0-rhel-7-candidate"')
+
+    for parser in (ystream_create_parser, zstream_create_parser):
+        parser.add_argument('--blocker_flags', required=True,
+                            help='eg. "ceph-2.y"')
+
+    async_create_parser.add_argument('--blocker_flags',
+                                     help='eg. "ceph-2.y"')
 
     ystream_create_parser.set_defaults(func=create, type="QuarterlyUpdate")
     zstream_create_parser.set_defaults(func=create, type="Zstream")
