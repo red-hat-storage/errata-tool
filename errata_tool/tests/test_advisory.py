@@ -67,6 +67,9 @@ class TestAdvisory(object):
     def test_publish_date_override(self, advisory):
         assert advisory.publish_date_override == '2018-Sep-26'
 
+    def test_publish_date(self, advisory):
+        assert advisory.publish_date == '2018-Sep-26'
+
     def test_creation_date(self, advisory):
         assert advisory.creation_date == '2018-May-03'
 
