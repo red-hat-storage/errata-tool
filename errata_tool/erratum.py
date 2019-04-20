@@ -31,6 +31,7 @@ class Erratum(ErrataConnector):
         self._original_bugs = []
         self._cve_bugs = []
         self._original_state = 'NEW_FILES'
+        self._original_json = {}
 
         self._product = None            # Set when you call new
         self._release = None            # Set when you call new
@@ -211,6 +212,7 @@ https://access.redhat.com/articles/11258")
             # NEW_FILES QE etc.
             self.errata_state = erratum['status']
             self._original_state = self.errata_state
+            self._original_json = erratum
 
             # Check if the erratum is under embargo
             self.embargoed = False
@@ -1027,6 +1029,9 @@ https://access.redhat.com/articles/11258")
     def url(self):
         return super(Erratum, self).canonical_url("/advisory/" +
                                                   str(self.errata_id))
+
+    def get_erratum_data(self):
+        return dict(self._original_json)  # shallow copy
 
     def __lt__(self, other):
         return self.errata_id < other.errata_id
