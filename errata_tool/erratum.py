@@ -46,6 +46,7 @@ class Erratum(ErrataConnector):
         self.text_only = False
         self.text_only_cpe = None
         self.publish_date_override = None
+        self.publish_date = None
         self.creation_date = None
         self.ship_date = None           # Set if SHIPPED_LIVE
         self.age = 0                    # Erratum age in days
@@ -228,6 +229,12 @@ https://access.redhat.com/articles/11258")
             if d is not None:
                 pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
                 self.publish_date_override = time.strftime('%Y-%b-%d', pd)
+
+            # Target Ship date (immutable; e.g. from batch)
+            d = erratum['publish_date']
+            if d is not None:
+                pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                self.publish_date = time.strftime('%Y-%b-%d', pd)
 
             # Actual ship date (if in SHIPPED_LIVE)
             if self.errata_state in ('SHIPPED_LIVE'):
@@ -1013,6 +1020,9 @@ https://access.redhat.com/articles/11258")
         if self.publish_date_override is not None:
             print('')
             print("Ship Target: {0}".format(self.publish_date_override))
+        elif self.publish_date is not None:
+            print('')
+            print("Ship Target: {0}".format(self.publish_date))
         print('')
         print("Topic")
         print("=====")
@@ -1065,6 +1075,10 @@ https://access.redhat.com/articles/11258")
         if self.cve_names is not None:
             s = "\n  CVEs:        " + str(self.cve_names) + s
 
+        pdate = self.publish_date_override
+        if pdate is None and self.publish_date is not None:
+            pdate = self.publish_date
+
         return self.errata_name + ": " + self.synopsis + \
             "\n  package owner: " + self.package_owner_email + \
             "  qe: " + self.qe_email + \
@@ -1073,7 +1087,7 @@ https://access.redhat.com/articles/11258")
             self.url() + \
             "\n  state: " + self.errata_state + \
             "\n  created:     " + str(self.creation_date) + \
-            "\n  ship target: " + str(self.publish_date_override) + \
+            "\n  ship target: " + str(pdate) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
             "\n  bugs:        " + str(self.errata_bugs) + \
