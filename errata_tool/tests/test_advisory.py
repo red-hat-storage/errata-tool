@@ -100,3 +100,9 @@ class TestAdvisory(object):
 
     def test_batch_id(self, advisory):
         assert advisory.batch_id is None
+
+    def test_get_erratum_data(self, advisory):
+        result = advisory.get_erratum_data()
+        assert isinstance(result, dict)
+        # spot-check one element
+        assert result['synopsis'] == 'Red Hat Ceph Storage 3.1 Bug Fix update'
