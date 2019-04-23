@@ -1041,6 +1041,16 @@ https://access.redhat.com/articles/11258")
                                                   str(self.errata_id))
 
     def get_erratum_data(self):
+        """
+        Return the server's JSON data for this advisory.
+
+        This returns the JSON response from the Errata Tool's
+        REST API /advisory/<errata_id>.json and /api/v1/erratum/<errata_id>
+        endpoints. Use this when debugging interactions with the Errata Tool
+        or when passing this data on to other non-Python tools.
+
+        :returns: a dict that is simply the parsed JSON from the server.
+        """
         return dict(self._original_json)  # shallow copy
 
     def __lt__(self, other):
