@@ -1,3 +1,14 @@
+v1.19.0
+=======
+
+* Add a new ``.get_erratum_data()`` method to the ``Erratum`` class to
+  query the server's JSON for an advisory. Use this when debugging
+  interactions with the Errata Tool or when passing this data on to other
+  non-Python tools.
+
+* Add a new ``.publish_date_override`` attribute to the ``Erratum`` class to
+  get the overridden date for an advisory.
+
 v1.18.0
 =======
 
