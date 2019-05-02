@@ -137,11 +137,22 @@ class ErrataConnector(object):
         return ret
 
     def _get(self, u, **kwargs):
+        """_get is convience method that retrives content from server
+
+        Recognized kwargs
+            'data' for requests data object to send with get call
+            'json' for requests json object to send with get call
+            'raw' bool (defaulting to False) for returning response object
+
+        by default the return value is the response.json() object from Requests
+        """
         self._set_username()
         url = self.canonical_url(u)
         ret_data = None
         ret_json = None
         start = time.time()
+        return_json_decoded_data = True
+
         if kwargs is not None:
             if 'data' in kwargs:
                 ret_data = requests.get(url,
@@ -153,6 +164,8 @@ class ErrataConnector(object):
                                         auth=self._auth,
                                         json=kwargs['json'],
                                         verify=self.ssl_verify)
+            if 'raw' in kwargs:
+                return_json_decoded_data = not kwargs['raw']
 
         if ret_data is None:
             ret_data = requests.get(url, auth=self._auth,
@@ -162,7 +175,11 @@ class ErrataConnector(object):
 
         if ret_json is None and ret_data is not None:
             if ret_data.status_code == 200:
-                ret_json = ret_data.json()
+                if return_json_decoded_data:
+                    ret_json = ret_data.json()
+                else:
+                    return ret_data
+
             elif ret_data.status_code in [401]:
                 raise ErrataException(
                     'Pigeon crap. Did it forget to run kinit?')
