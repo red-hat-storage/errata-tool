@@ -77,6 +77,14 @@ def mock_put():
 
 
 @pytest.fixture
+def sample_connector(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return ErrataConnector()
+
+@pytest.fixture
 def advisory(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)

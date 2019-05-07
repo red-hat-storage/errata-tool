@@ -310,3 +310,39 @@ class ErrataConnector(object):
             if page_number >= PAGE_LIMIT:
                 raise RuntimeError('hit pagination timeout: %d' % page_number)
         return data
+
+    def get_filter(self, endpoint, filter_arg, **kwargs):
+        """format and generate filter get request
+
+        expose a general filter helper method to format kwargs up
+        as parameters for ET filter request.  Then return generated
+        json object
+        """
+
+        if endpoint is None or filter_arg is None:
+            return None
+
+        url = endpoint + "?"
+        param_list = []
+        keys = list(kwargs)
+        keys.sort()
+        for k in keys:
+            v = kwargs[k]
+            if k in ('paginated'):
+                continue
+            if k in ('release', 'product'):
+                param_list.append("{0}[{1}][]={2}".format(filter_arg, k, v))
+            else:
+                param_list.append("{0}[{1}]={2}".format(filter_arg, k, v))
+        if self.debug:
+            print(param_list)
+        url = url + "&".join(param_list)
+        if endpoint == '/errata':
+            url = url + '&format=json'
+        if self.debug:
+            print(url)
+
+        if 'paginated' in kwargs and kwargs['paginated']:
+            return {'data': self.get_paginated_data(url)}
+
+        return self._get(url)
