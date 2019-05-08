@@ -55,8 +55,7 @@ class Release(ErrataConnector):
         self.edit_url = self._url + '/release/edit/%d' % self.id
 
     def advisories(self):
-        """
-        Find all advisories for this release.
+        """Find all advisories for this release.
 
         :returns: a list of dicts, one per advisory.
                   For example:
@@ -80,8 +79,7 @@ class Release(ErrataConnector):
     @classmethod
     def create(klass, name, product, product_versions, type, program_manager,
                default_brew_tag, blocker_flags, ship_date=None):
-        """
-        Create a new release in the ET.
+        """Create a new release in the ET.
 
         See https://bugzilla.redhat.com/1401608 for background.
 
