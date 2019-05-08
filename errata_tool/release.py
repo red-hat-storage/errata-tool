@@ -29,12 +29,13 @@ class Release(ErrataConnector):
         self.refresh()
 
     def refresh(self):
-        url = self._url + '/api/v1/releases?'
+        params = {}
         if self.id is not None:
-            url += 'filter[id]=%s' % self.id
+            params['id'] = self.id
         elif self.name is not None:
-            url += 'filter[name]=%s' % self.name
-        result = self._get(url)
+            params['name'] = self.name
+        result = self.get_filter('/api/v1/releases', 'filter', **params)
+
         if len(result['data']) < 1:
             raise NoReleaseFoundError()
         if len(result['data']) > 1:
