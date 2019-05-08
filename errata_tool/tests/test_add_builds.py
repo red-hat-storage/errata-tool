@@ -32,7 +32,7 @@ class TestAddBuilds(object):
         monkeypatch.setattr(requests, 'post', mock_post)
         advisory.errata_builds = {}
         with pytest.raises(ErrataException,
-                           message='Need to specify a release'):
+                           match=r'Need to specify a release'):
             advisory.addBuilds(['ceph-1000-1.el7cp'])
 
     def test_builds_release_none(self, monkeypatch, mock_post, advisory):
@@ -48,7 +48,7 @@ class TestAddBuilds(object):
         monkeypatch.setattr(requests, 'post', mock_post)
         advisory._new = True
         with pytest.raises(ErrataException,
-                           message='Cannot add builds to unfiled erratum'):
+                           match=r'Cannot add builds to unfiled erratum'):
             advisory.addBuilds(['ceph-1000-1.el7cp'])
 
     def test_2_builds_data(self, monkeypatch, mock_post, advisory):
