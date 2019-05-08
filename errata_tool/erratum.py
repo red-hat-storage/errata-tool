@@ -354,7 +354,7 @@ https://access.redhat.com/articles/11258")
         pass
 
     def metadataCdnRepos(self, enable=[], disable=[]):
-        """ Get or set the CDN repos for this advisory.
+        """Get or set the CDN repos for this advisory.
 
         Note: This method applies only for advisories containing Docker images.
 
@@ -371,7 +371,7 @@ https://access.redhat.com/articles/11258")
         return self._cdn_repos('metadata_cdn_repos', enable, disable)
 
     def textOnlyRepos(self, enable=[], disable=[]):
-        """ Get or set the text-only repos for this advisory.
+        """Get or set the text-only repos for this advisory.
 
         Note: This method applies only for text-only advisories.
 
@@ -388,8 +388,7 @@ https://access.redhat.com/articles/11258")
         return self._cdn_repos('text_only_repos', enable, disable)
 
     def _cdn_repos(self, endpoint, enable=[], disable=[]):
-        """
-        Get or set the repos for this advisory.
+        """Get or set the repos for this advisory.
 
         Use this for setting repos on text-only or docker advisories.
 
@@ -448,8 +447,7 @@ https://access.redhat.com/articles/11258")
         pass
 
     def externalTests(self, test_type=None):
-        """
-        Get active external test results for this advisory.
+        """Get active external test results for this advisory.
 
         :param test_type: str, like "rpmdiff" or "covscan"
         :returns: a possibly-empty list of dicts, one per result.
@@ -603,7 +601,7 @@ https://access.redhat.com/articles/11258")
         self._processResponse(r)
 
     def addCC(self, email):
-        """ Add someone to the CC list for this advisory. """
+        """Add someone to the CC list for this advisory. """
         # rhbz#1572000 will add an official API for this.
         val = {'id': self.errata_id, 'email': email}
         url = '/carbon_copies/add_to_cc_list'
@@ -956,8 +954,7 @@ https://access.redhat.com/articles/11258")
         return ret
 
     def push(self, target='stage'):
-        """
-        Push an advisory to "stage", "live", or both.
+        """Push an advisory to "stage", "live", or both.
 
         :param target: A string "stage" or "live". Defaults to "stage". You
                        can also pass a list here, ['stage', 'live'] to do both
@@ -1028,8 +1025,7 @@ https://access.redhat.com/articles/11258")
                                                   str(self.errata_id))
 
     def get_erratum_data(self):
-        """
-        Return the server's JSON data for this advisory.
+        """Return the server's JSON data for this advisory.
 
         This returns the JSON response from the Errata Tool's
         REST API /advisory/<errata_id>.json and /api/v1/erratum/<errata_id>
