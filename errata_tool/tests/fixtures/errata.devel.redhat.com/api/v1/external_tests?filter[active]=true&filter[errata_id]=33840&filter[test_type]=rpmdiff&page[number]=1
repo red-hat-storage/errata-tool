@@ -1,0 +1,1 @@
+external_tests/?filter[active]=true&filter[errata_id]=33840&filter[test_type]=rpmdiff&page[number]=1

@@ -28,6 +28,6 @@ class TestFilter(object):
                                                sample_connector):
         monkeypatch.setattr(requests, 'get', mock_get)
         assert sample_connector.get_filter(
-            '/api/v1/external_tests/', 'filter', errata_id='33840',
+            '/api/v1/external_tests', 'filter', errata_id='33840',
             test_type='rpmdiff', active='true', paginated=True)
         assert 'page' in mock_get.response.url
