@@ -8,7 +8,6 @@ class FakeProduct(object):
         self.name = name
         self.description = 'Foo description'
         self.url = 'https://errata.devel.redhat.com/myrelease'
-        self.supports_pdc = True
 
 
 def test_short_help(monkeypatch):

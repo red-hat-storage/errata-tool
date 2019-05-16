@@ -19,5 +19,4 @@ def get(args):
     p = Product(name=args.name)
     print('Name: %s' % p.name)
     print('Description: %s' % p.description)
-    print('Supports PDC: %s' % p.supports_pdc)
     print('URL: %s' % p.url)

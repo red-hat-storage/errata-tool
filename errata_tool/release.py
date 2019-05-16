@@ -49,7 +49,6 @@ class Release(ErrataConnector):
         self.is_active = self.data['attributes']['is_active']
         self.enabled = self.data['attributes']['enabled']
         self.blocker_flags = self.data['attributes']['blocker_flags']
-        self.is_pdc = self.data['attributes']['is_pdc']
         self.product_versions = self.data['relationships']['product_versions']
         self.url = self._url + '/release/show/%d' % self.id
         # For displaying in scripts/logs:
@@ -138,7 +137,6 @@ class Release(ErrataConnector):
             'release[enable_batching]': 0,
             'release[enabled]': 1,
             'release[is_deferred]': 0,
-            'release[is_pdc]': 0,
             'release[name]': name,
             'release[product_id]': product.id,
             'release[product_version_ids][]': product_version_ids,
