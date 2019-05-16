@@ -1,4 +1,4 @@
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %global with_python3 1
 %global _docdir_fmt %{name}
 %endif
