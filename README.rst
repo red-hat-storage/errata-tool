@@ -302,7 +302,6 @@ Looking up a product:
     print(p.id)  # 104
     print(p.name)  # "RHCEPH"
     print(p.description)  # "Red Hat Ceph Storage"
-    print(p.supports_pdc)  # True
 
 
 Working with releases
@@ -325,7 +324,6 @@ Looking up a release:
     print(r.is_active)  # True
     print(r.enabled)  # True
     print(r.blocker_flags)  # ['ceph-2.y', 'pm_ack', 'devel_ack', 'qa_ack']
-    print(r.is_pdc)  # True
     print(r.edit_url)  # https://errata.devel.redhat.com/release/edit/792
 
 Finding all "NEW_FILES" advisories for a release:

@@ -27,9 +27,6 @@ class TestGet(object):
         expected = ['ceph-3.y', 'pm_ack', 'devel_ack', 'qa_ack']
         assert release.blocker_flags == expected
 
-    def test_is_pdc(self, release):
-        assert release.is_pdc is False
-
     def test_product_versions(self, release):
         expected = [{'id': 783, 'name': 'RHEL-7-RHCEPH-3.1'}]
         assert release.product_versions == expected
@@ -115,7 +112,6 @@ class TestCreate(object):
             'release[enable_batching]': 0,
             'release[enabled]': 1,
             'release[is_deferred]': 0,
-            'release[is_pdc]': 0,
             'release[name]': 'rhceph-3.1',
             'release[product_id]': 104,
             'release[program_manager_id]': 3003046,
