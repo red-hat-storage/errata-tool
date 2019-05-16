@@ -1,3 +1,15 @@
+v1.20.0
+=======
+
+This release deletes all references to PDC (rhbz#1692965). In particular this
+removes:
+
+* The ``.is_pdc`` attribute from ``Release`` class
+
+* The ``.supports_pdc`` attribute from ``Product`` class
+
+* Support for reading or updating PDC-type advisories (``Erratum`` class)
+
 v1.19.0
 =======
 
