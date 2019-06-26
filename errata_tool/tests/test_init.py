@@ -9,12 +9,12 @@ class TestInit(object):
 
 class TestSecurity(object):
     def test_ssl_default(self):
-        """ Ensure that we verify SSL by default. """
+        """Ensure that we verify SSL by default. """
         assert security.security_settings.ssl_verify()
 
 
 class TestErratum(object):
     def test_ssl_default(self):
-        """ Ensure that we verify SSL by default. """
+        """Ensure that we verify SSL by default. """
         e = ErrataConnector()
         assert e.ssl_verify
