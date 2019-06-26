@@ -6,7 +6,7 @@ from errata_tool.release import NoReleaseFoundError
 
 
 def add_parser(subparsers):
-    """ Add our release parser to this top-level subparsers object. """
+    """Add our release parser to this top-level subparsers object. """
     group = subparsers.add_parser('release',
                                   help='Get or create a release (RCM)')
 
