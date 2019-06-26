@@ -1,5 +1,6 @@
-import sys
 import pytest
+import sys
+
 from errata_tool.cli import main
 
 
