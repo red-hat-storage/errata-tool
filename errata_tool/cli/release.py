@@ -47,7 +47,7 @@ def add_parser(subparsers):
     ls_parser.set_defaults(func=list_advisories)
     ls_parser.add_argument('--status', required=False,
                            choices=('NEW_FILES', 'QE', 'REL_PREP',
-                                    'IN_PUSH', 'SHIPPED_LIVE'),
+                                    'IN_PUSH', 'SHIPPED_LIVE', 'OPEN'),
                            help='optionally filter by status')
 
 
@@ -99,8 +99,14 @@ def list_advisories(args):
         print('%s release not found' % args.name)
         sys.exit(1)
     advisories = r.advisories()
+    if args.status == 'OPEN':
+        interested_status = ['NEW_FILES', 'QE', 'REL_PREP', 'IN_PUSH']
+    else:
+        interested_status = [args.status]
+
     if args.status:
-        advisories = [a for a in advisories if a['status'] == args.status]
+        advisories = [a for a in advisories if a['status']
+                      in interested_status]
         if not advisories:
             print('no %s advisories found for release %s' % (args.status,
                                                              args.name))
