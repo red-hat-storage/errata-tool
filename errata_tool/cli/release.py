@@ -99,7 +99,7 @@ def list_advisories(args):
         print('%s release not found' % args.name)
         sys.exit(1)
     advisories = r.advisories()
-    if args.status == 'OPEN':
+    if args.status == 'OPEN':  # an alias meaning "all open statuses"
         interested_status = ['NEW_FILES', 'QE', 'REL_PREP', 'IN_PUSH']
     else:
         interested_status = [args.status]
