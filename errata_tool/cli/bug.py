@@ -14,12 +14,12 @@ def add_parser(subparsers):
     # "get"
     get_parser = sub.add_parser('get')
     get_parser.add_argument('id', help='bugzilla id of given '
-                                        'bug')
+                            'bug')
     get_parser.set_defaults(func=get)
 
     get_all_parser = sub.add_parser('get_errata_ids')
     get_all_parser.add_argument('id', help='bugzilla id of given '
-                                        'bug')
+                                'bug')
     get_all_parser.set_defaults(func=get_errata_ids)
 
 
