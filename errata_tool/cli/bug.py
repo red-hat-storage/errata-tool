@@ -17,10 +17,10 @@ def add_parser(subparsers):
                                         'bug')
     get_parser.set_defaults(func=get)
 
-    get_all_parser = sub.add_parser('get_all_advisory_ids')
+    get_all_parser = sub.add_parser('get_errata_ids')
     get_all_parser.add_argument('id', help='bugzilla id of given '
                                         'bug')
-    get_all_parser.set_defaults(func=get_all_advisory_ids)
+    get_all_parser.set_defaults(func=get_errata_ids)
 
 
 def get(args):
@@ -33,7 +33,7 @@ def get(args):
     print(build)
 
 
-def get_all_advisory_ids(args):
+def get_errata_ids(args):
     """
     Get information about build
 
