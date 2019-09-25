@@ -232,8 +232,10 @@ https://access.redhat.com/articles/11258")
             # Actual ship date (if in SHIPPED_LIVE)
             if self.errata_state in ('SHIPPED_LIVE'):
                 d = erratum['actual_ship_date']
-                d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
-                self.ship_date = time.strftime('%Y-%b-%d', d)
+                # Could be None. e.g. advisory 43686
+                if d:
+                    d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                    self.ship_date = time.strftime('%Y-%b-%d', d)
 
             # File date
             d = erratum['created_at']
