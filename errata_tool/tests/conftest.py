@@ -2,6 +2,7 @@ import json
 import os
 from errata_tool import ErrataConnector, Erratum
 from errata_tool.build import Build
+from errata_tool.bug import Bug
 from errata_tool.products import ProductList
 from errata_tool.product import Product
 from errata_tool.product_version import ProductVersion
@@ -138,3 +139,11 @@ def build(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Build('ceph-12.2.5-42.el7cp')
+
+@pytest.fixture
+def bug(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Bug(1578936)
