@@ -140,6 +140,7 @@ def build(monkeypatch, mock_get):
     monkeypatch.setattr(requests, 'get', mock_get)
     return Build('ceph-12.2.5-42.el7cp')
 
+
 @pytest.fixture
 def bug(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
