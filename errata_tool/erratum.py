@@ -557,7 +557,7 @@ https://access.redhat.com/articles/11258")
                                   state.upper())
 
     def _addBug(self, b):
-        if type(b) is not int:
+        if not isinstance(b, int):
             b = int(b)
         if self.errata_bugs is None:
             self.errata_bugs = []
@@ -567,20 +567,20 @@ https://access.redhat.com/articles/11258")
             self.errata_bugs.append(b)
 
     def addBugs(self, buglist):
-        if type(buglist) is int:
+        if isinstance(buglist, int):
             self._addBug(buglist)
             return
         for b in buglist:
             self._addBug(b)
 
     def _removeBug(self, b):
-        if type(b) is not int:
+        if not isinstance(b, int):
             b = int(b)
         if b in self.errata_bugs:
             self.errata_bugs.remove(b)
 
     def removeBugs(self, buglist):
-        if type(buglist) is int:
+        if isinstance(buglist, int):
             self._removeBug(buglist)
             return
         for b in buglist:
@@ -616,24 +616,24 @@ https://access.redhat.com/articles/11258")
     # errata-tool, but users can add their own as well.
     #
     def addFlags(self, flags):
-        if type(flags) is not list:
+        if not isinstance(flags, list):
             flags = [flags]
         # Two loops intentionally. First one is for
         # input validation.
         for f in flags:
-            if type(f) is not str:
+            if not isinstance(f, str):
                 raise ValueError('flag ' + str(f) + ' is not a string')
         for f in flags:
             if f not in self.current_flags:
                 self.current_flags.append(f)
 
     def removeFlags(self, flags):
-        if type(flags) is not list:
+        if not isinstance(flags, list):
             flags = [flags]
         # Two loops intentionally. First one is for
         # input validation.
         for f in flags:
-            if type(f) is not str:
+            if not isinstance(f, str):
                 raise ValueError('flag ' + str(f) + ' is not a string')
         for f in flags:
             if f in self.current_flags:
@@ -685,7 +685,6 @@ https://access.redhat.com/articles/11258")
             val['product_version'] = release
             pdata.append(val)
 
-
         url = "/api/v1/erratum/%i/add_builds" % self.errata_id
         r = self._post(url, json=pdata)
         self._processResponse(r)
@@ -696,12 +695,15 @@ https://access.redhat.com/articles/11258")
         """Add Build(s) to erratum
         There're two strategies with addBuilds:
 
-            1. when buildlist is a string list like 'grafana-container-v4.3.0-201909271305'...
-            then using the original strategy only can batch attach same product_version of images.
+        when buildlist is a string list like
+        'grafana-container-v4.3.0-201909271305'
+        then using the original strategy only can
+        batch attach same product_version of images.
 
-            2. when buildlist is a Build class, then using the multiple product_version attach strategy,
-            attached images can have different product_version like 'OSE-4.2-RHEL-8' 'OSE-4.2-RHEL-7'
-            at the same time.
+        when buildlist is a Build class, then using
+        the multiple product_version attach strategy,
+        attached images can have different product_version
+        like 'OSE-4.2-RHEL-8' 'OSE-4.2-RHEL-7' at the same time.
         """
         if self._new:
             raise ErrataException('Cannot add builds to unfiled erratum')
@@ -713,7 +715,8 @@ https://access.redhat.com/articles/11258")
             del kwargs['release']
 
         is_string_types = isinstance(buildlist, six.string_types)
-        if release is None and len(self.errata_builds.keys()) == 1 and is_string_types:
+        if release is None and len(
+                self.errata_builds.keys()) == 1 and is_string_types:
             release = list(self.errata_builds.keys())[0]
 
         if release is None and is_string_types:
@@ -724,7 +727,7 @@ https://access.redhat.com/articles/11258")
     def setFileInfo(self, file_info):
         # XXX API broken??
 
-        if type(file_info) is not dict:
+        if not isinstance(file_info, dict):
             raise ValueError('file_info is not a dict')
         if len(file_info) < 1:
             return
@@ -751,7 +754,7 @@ https://access.redhat.com/articles/11258")
         self._processResponse(r)
 
     def removeBuilds(self, buildlist):
-        if type(buildlist) is not str and type(buildlist) is not list:
+        if not isinstance(buildlist, str) and not isinstance(buildlist, list):
             raise IndexError
 
         # Removing builds

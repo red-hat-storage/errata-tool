@@ -27,3 +27,6 @@ pip-log.txt
 
 # Vim
 *.swp
+
+#vscode
+.vscode
