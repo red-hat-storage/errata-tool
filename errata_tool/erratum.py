@@ -1,11 +1,11 @@
 from __future__ import print_function
-import os
-import textwrap
 import datetime
-import time
+import os
 import re
 import requests_kerberos
 import six
+import textwrap
+import time
 
 from errata_tool import ErrataException, ErrataConnector, security, User
 
