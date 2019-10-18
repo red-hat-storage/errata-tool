@@ -106,3 +106,6 @@ class TestAdvisory(object):
         assert isinstance(result, dict)
         # spot-check one element
         assert result['synopsis'] == 'Red Hat Ceph Storage 3.1 Bug Fix update'
+
+    def test_load_advisory(self, advisory_none_ship):
+        assert advisory_none_ship.ship_date is None
