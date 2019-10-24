@@ -31,3 +31,10 @@ class TestGet(object):
 
     def test_get(self, build):
         assert build.id == 760518
+
+    def test_all_errata_ids(self, build):
+        assert len(build.all_errata_ids) == 1
+        assert build.all_errata_ids == [33840]
+
+    def test_released_errata_id(self, build):
+        assert build.released_errata_id == 33840
