@@ -2,9 +2,7 @@ from errata_tool.build import Build
 
 
 def add_parser(subparsers):
-    """
-    Add build parser to this top-level subparsers object.
-    """
+    """Add build parser to this top-level subparsers object."""
     group = subparsers.add_parser('build', help='Build NVR information')
 
     # build-level sub-commands:
@@ -19,8 +17,7 @@ def add_parser(subparsers):
 
 
 def get(args):
-    """
-    Get information about build
+    """Get information about build
 
     :param args: parsed cli arguments
     """

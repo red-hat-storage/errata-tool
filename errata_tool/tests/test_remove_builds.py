@@ -1,5 +1,5 @@
-import requests
 import pytest
+import requests
 
 
 class TestRemoveBuilds(object):
@@ -25,6 +25,14 @@ class TestRemoveBuilds(object):
     def test_builds_name(self, monkeypatch, mock_post, advisory):
         monkeypatch.setattr(requests, 'post', mock_post)
         advisory.removeBuilds('ceph-12.2.5-42.el7cp')
+        expected = {
+            "nvr": "ceph-12.2.5-42.el7cp",
+        }
+        assert mock_post.kwargs['data'] == expected
+
+    def test_builds_tuple(self, monkeypatch, mock_post, advisory):
+        monkeypatch.setattr(requests, 'post', mock_post)
+        advisory.removeBuilds(('ceph-12.2.5-42.el7cp'))
         expected = {
             "nvr": "ceph-12.2.5-42.el7cp",
         }
@@ -64,4 +72,10 @@ class TestRemoveBuilds(object):
         monkeypatch.setattr(requests, 'post', mock_post)
         with pytest.raises(IndexError):
             advisory.removeBuilds(())
+        assert advisory._buildschanged is False
+
+    def test_builds_dict(self, monkeypatch, mock_post, advisory):
+        monkeypatch.setattr(requests, 'post', mock_post)
+        with pytest.raises(IndexError):
+            advisory.removeBuilds({'foo': 'bar'})
         assert advisory._buildschanged is False

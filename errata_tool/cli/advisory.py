@@ -2,7 +2,7 @@ from errata_tool.erratum import Erratum
 
 
 def add_parser(subparsers):
-    """ Add our advisory parser to this top-level subparsers object. """
+    """Add our advisory parser to this top-level subparsers object. """
     group = subparsers.add_parser('advisory', help='Get or create an advisory')
 
     # advisory-level subcommands:

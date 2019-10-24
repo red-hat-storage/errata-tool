@@ -3,8 +3,7 @@ from errata_tool import ErrataConnector
 
 class User(ErrataConnector):
     def __init__(self, id_or_login_name):
-        """
-        Find a user in the ET database.
+        """Find a user in the ET database.
 
         :param id_or_login_name: This can be an id number (int) or login name
                                  (str). The user's login name should be passed

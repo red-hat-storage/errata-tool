@@ -2,7 +2,7 @@ from errata_tool.product import Product
 
 
 def add_parser(subparsers):
-    """ Add our product parser to this top-level subparsers object. """
+    """Add our product parser to this top-level subparsers object. """
     group = subparsers.add_parser('product', help='Get a product')
 
     # product-level subcommands:

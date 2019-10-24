@@ -23,7 +23,7 @@ class MockResponse(object):
 
     @property
     def _fixture(self):
-        """ Return path to our static fixture file. """
+        """Return path to our static fixture file. """
         fdir = os.path.join(FIXTURES_DIR, 'errata.devel.redhat.com/')
         filename = self.url.replace('https://errata.devel.redhat.com/', fdir)
         # If we need to represent this API endpoint as both a directory and a
@@ -42,7 +42,7 @@ class MockResponse(object):
 
     @property
     def text(self):
-        """ Return contents of our static fixture file. """
+        """Return contents of our static fixture file. """
         try:
             with open(self._fixture) as fp:
                 return fp.read()
@@ -52,9 +52,9 @@ class MockResponse(object):
 
 
 class RequestRecorder(object):
-    """ Record args to requests.get() or requests.post() """
+    """Record args to requests.get() or requests.post() """
     def __call__(self, url, **kwargs):
-        """ mocking requests.get() or requests.post() """
+        """mocking requests.get() or requests.post() """
         self.response = MockResponse()
         self.response.url = url
         self.kwargs = kwargs
@@ -87,7 +87,7 @@ def advisory(monkeypatch, mock_get):
 
 @pytest.fixture
 def rhsa(monkeypatch, mock_get):
-    """ Like the advisory() fixture above, but an RHSA. """
+    """Like the advisory() fixture above, but an RHSA. """
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')

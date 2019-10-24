@@ -3,8 +3,7 @@ from errata_tool import ErrataConnector
 
 class ProductVersion(ErrataConnector):
     def __init__(self, id_or_name):
-        """
-        Find a Product Version in the ET database.
+        """Find a Product Version in the ET database.
 
         :param id_or_name: This can be an id number (int) or product version
                            name (str), for example "RHEL-7-CEPH-3".
@@ -13,8 +12,7 @@ class ProductVersion(ErrataConnector):
         self.data = self._get(url)
 
     def releasedBuilds(self):
-        """
-        Get the list of released builds for this Product Version.
+        """Get the list of released builds for this Product Version.
 
         :returns: a (possibly-empty) list of dicts. Each dict represents a
                   build, for example::
