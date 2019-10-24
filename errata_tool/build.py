@@ -3,6 +3,8 @@ from errata_tool import Erratum
 
 
 class Build(ErrataConnector):
+    """Search ET for Details based on a build"""
+
     def __init__(self, nvr):
         """Find build information and advisories where the build is attached.
 
@@ -10,10 +12,12 @@ class Build(ErrataConnector):
         """
         self.nvr = nvr
         self.url = self._url + '/api/v1/build/%s' % self.nvr
+        self._released_errata_id = None
         self._released_errata = None
-        self._all_errata = []
+        self._all_errata_ids = None
+        self._all_errata = None
         self._signed_rpms = None
-        self._data = {}
+        self._data = None
         self._files = []
 
         self._fetch()
@@ -22,18 +26,29 @@ class Build(ErrataConnector):
         """Fetch build data from Errata Tool API and store to properties"""
         self._data = self._get(self.url)
 
-        if self._data['released_errata'] is not None:
-            self._released_errata = Erratum(errata_id=self._data[
-                'released_errata']['id'])
+        if self._data:
+            if self._data['released_errata'] is not None:
+                self._released_errata_id = self._data['released_errata']['id']
 
-        for errata_dict in self._data['all_errata']:
-            errata = Erratum(errata_id=errata_dict['id'])
-            self._all_errata.append(errata)
+            if 'all_errata' in self._data:
+                self._all_errata_ids = [errata['id']
+                                        for errata in self._data['all_errata']]
 
-        self._signed_rpms = self._data.get('rpms_signed')
+            self._signed_rpms = self._data.get('rpms_signed')
 
-        for et_file in self._data['files']:
-            self._files.append(et_file['path'])
+            for et_file in self._data['files']:
+                self._files.append(et_file['path'])
+
+            self._all_errata = None
+            self._released_errata = None
+
+    @property
+    def all_errata_ids(self):
+        """List of all Errata IDs where the build is attached
+
+        :return: list of Errata ids
+        """
+        return self._all_errata_ids
 
     @property
     def all_errata(self):
@@ -41,7 +56,21 @@ class Build(ErrataConnector):
 
         :return: list of Errata objects
         """
+        if self._all_errata is None:
+            self._all_errata = []
+            for errata_id in self.all_errata_ids:
+                errata = Erratum(errata_id=errata_id)
+                self._all_errata.append(errata)
+
         return self._all_errata
+
+    @property
+    def released_errata_id(self):
+        """Released Errata ID
+
+        :return: Errata id
+        """
+        return self._released_errata_id
 
     @property
     def released_errata(self):
@@ -49,6 +78,9 @@ class Build(ErrataConnector):
 
         :return: Errata object
         """
+        if self.released_errata_id and self._released_errata is None:
+            self._released_errata = Erratum(errata_id=self.released_errata_id)
+
         return self._released_errata
 
     @property
@@ -79,12 +111,22 @@ class Build(ErrataConnector):
         :return: build info string
         """
         output = "Build NVR: %s\n\n" % self.nvr
-        if self.released_errata is not None:
+        if self._released_errata and self.released_errata is not None:
             output += 'Released errata: %s\n' % \
                       self.released_errata.errata_name
+        else:
+            output += " --- NOT YET LOADED ---"
+            output += "Released errata ids: {0}\n".format(
+                self.released_errata_id)
         output += "Erratas:\n"
-        for errata in self.all_errata:
-            output += str(errata)
+        if self._all_errata:
+            for errata in self.all_errata:
+                output += str(errata)
+        else:
+            output += " --- NOT YET LOADED ---"
+            output += ','.join([str(errata_id)
+                                for errata_id in self.all_errata_ids])
+            output += '\n'
 
         output += 'Files:\n'
         for et_file in self.files:
