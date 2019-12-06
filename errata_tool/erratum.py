@@ -220,13 +220,13 @@ https://access.redhat.com/articles/11258")
             # Target Ship date
             d = erratum['publish_date_override']
             if d is not None:
-                pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%S.%fZ')
                 self.publish_date_override = time.strftime('%Y-%b-%d', pd)
 
             # Target Ship date (immutable; e.g. from batch)
             d = erratum['publish_date']
             if d is not None:
-                pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                pd = time.strptime(str(d), '%Y-%m-%dT%H:%M:%S.%fZ')
                 self.publish_date = time.strftime('%Y-%b-%d', pd)
 
             # Actual ship date (if in SHIPPED_LIVE)
@@ -234,12 +234,12 @@ https://access.redhat.com/articles/11258")
                 d = erratum['actual_ship_date']
                 # Could be None. e.g. advisory 43686
                 if d:
-                    d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+                    d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%S.%fZ')
                     self.ship_date = time.strftime('%Y-%b-%d', d)
 
             # File date
             d = erratum['created_at']
-            d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%SZ')
+            d = time.strptime(str(d), '%Y-%m-%dT%H:%M:%S.%fZ')
             self.creation_date = time.strftime('%Y-%b-%d', d)
 
             d = time.strftime('%Y-%b-%d', time.gmtime())
