@@ -23,8 +23,8 @@ class TestGet(object):
     def test_enabled(self, release):
         assert release.enabled is True
 
-    def blocker_flags(self, release):
-        expected = ['ceph-3.y', 'pm_ack', 'devel_ack', 'qa_ack']
+    def test_blocker_flags(self, release):
+        expected = ['ceph-3.y', 'devel_ack', 'qa_ack', 'pm_ack']
         assert release.blocker_flags == expected
 
     def test_product_versions(self, release):
