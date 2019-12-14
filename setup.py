@@ -1,8 +1,6 @@
 import os
 import re
 import subprocess
-import sys
-from setuptools.command.test import test as TestCommand
 from setuptools import setup, find_packages, Command
 try:
     # Python 2 backwards compat
@@ -120,25 +118,6 @@ class ReleaseCommand(Command):
         subprocess.check_call(cmd)
 
 
-class PyTest(TestCommand):
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
-
-    def initialize_options(self):
-        TestCommand.initialize_options(self)
-        self.pytest_args = ''
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-        args = 'errata_tool --flake8 ' + self.pytest_args
-        errno = pytest.main(args.split())
-        sys.exit(errno)
-
-
 setup(
     name='errata-tool',
     description='Python API for Red Hat Errata Tool',
@@ -159,9 +138,5 @@ setup(
         'kerberos',
         'six',
     ],
-    tests_require=[
-        'pytest',
-        'pytest-flake8',
-    ],
-    cmdclass={'test': PyTest, 'bump': BumpCommand, 'release': ReleaseCommand},
+    cmdclass={'bump': BumpCommand, 'release': ReleaseCommand},
 )

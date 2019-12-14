@@ -4,23 +4,8 @@ python:
     - 2.7
     - 3.5
     - 3.6
-install:
-    # We have to upgrade pytest explicitly here due to the following:
-    # * Travis CI's virtualenv already comes with pytest preinstalled.
-    # * pytest-flake8 requires pytest>=2.8, and sometimes this requirement is
-    #   higher than what Travis CI has pre-installed into the virtualenv.
-    # * 'python setup.py test' uses EasyInstall, so it will not upgrade a
-    #   package to a newer version if the package is already present in a
-    #   virtualenv.
-  - pip install pytest-flake8
-  - pip install pytest-cov python-coveralls
-    # We must explicitly install urllib3 into the virtualenv using pip here,
-    # because setuptools' EasyInstall is not always able to install some
-    # versions of urllib3. Partially explained here:
-    # https://github.com/shazow/urllib3/issues/986
-  - pip install urllib3
-script:
-  - python setup.py test -v -a "--cov-config .coveragerc --cov=errata_tool"
+install: pip install tox-travis python-coveralls
+script: tox
 after_success:
   - coveralls
 
