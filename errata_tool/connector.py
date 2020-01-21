@@ -276,3 +276,37 @@ class ErrataConnector(object):
 
         raise ErrataException(err_msg + "Unhandled HTTP status code: " +
                               str(r.status_code))
+
+    def get_paginated_data(self, api_url):
+        """
+        Get data from a paginated API.
+
+        See /developer-guide/api-http-api.html#api-pagination
+
+        Loop and query api_url with an incrementing page[number] integer. When
+        api_url returns no more paginated data, we will return all the data we
+        found combined in one large list.
+
+        :param str api_url: A paginated URL. This URL should return JSON with
+                            a "data" element that contains a (possibly-empty)
+                            list.
+        :returns: all the paginated data we found in a single list.
+        """
+        # PAGE_LIMIT is a defensive timeout to avoid clients hammering the ET
+        # if there is a bug in this method.
+        # I have not found a paginated API endpoint that returns this many
+        # pages yet, but if we do, we could raise this limit.
+        PAGE_LIMIT = 50
+        page_number = 1
+        tmpl = api_url + '&page[number]=%d'
+        data = []
+        paged_data = []
+        while(page_number == 1 or paged_data):
+            url = tmpl % page_number
+            response = self._get(url)
+            paged_data = response['data']
+            data.extend(paged_data)
+            page_number += 1
+            if page_number >= PAGE_LIMIT:
+                raise RuntimeError('hit pagination timeout: %d' % page_number)
+        return data

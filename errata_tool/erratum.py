@@ -459,8 +459,8 @@ https://access.redhat.com/articles/11258")
         if test_type:
             tmpl += '&filter[test_type]={test_type}'
         url = tmpl.format(errata_id=self.errata_id, test_type=test_type)
-        response = self._get(url)
-        return response['data']
+        data = self.get_paginated_data(url)
+        return data
 
     def _get_build_list(self, check_signatures=False):
         # Grab build list; store on a per-key basis
