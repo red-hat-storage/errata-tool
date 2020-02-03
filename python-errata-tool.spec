@@ -1,8 +1,3 @@
-%if 0%{?fedora}
-%global with_python3 1
-%global _docdir_fmt %{name}
-%endif
-
 %global pkgname errata-tool
 
 Name:           python-%{pkgname}
@@ -17,7 +12,14 @@ URL:            https://github.com/red-hat-storage/errata-tool
 Source0:        %{pkgname}-%{version}.tar.gz
 
 BuildArch:      noarch
-%if 0%{?with_python3}
+%if 0%{?el7}
+BuildRequires:  pytest
+BuildRequires:  python2-devel
+BuildRequires:  python-jsonpath-rw
+BuildRequires:  python-requests-kerberos
+BuildRequires:  python-setuptools
+BuildRequires:  python-six
+%else
 BuildRequires:  python3-devel
 BuildRequires:  python3-jsonpath-rw
 BuildRequires:  python3-pytest
@@ -25,22 +27,17 @@ BuildRequires:  python3-requests-kerberos
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 %endif
-Requires:  python-requests-kerberos
-Requires:  python-jsonpath-rw
-Requires:  python-six
-Requires:  python-kerberos
-BuildRequires:  pytest
-BuildRequires:  python2-devel
-BuildRequires:  python-jsonpath-rw
-BuildRequires:  python-requests-kerberos
-BuildRequires:  python-setuptools
-BuildRequires:  python-six
 
 %description
 Modern Python API to Red Hat's Errata Tool
 
 
-%if 0%{?with_python3}
+%if 0%{?el7}
+Requires:  python-requests-kerberos
+Requires:  python-jsonpath-rw
+Requires:  python-six
+Requires:  python-kerberos
+%else
 %package -n python3-%{pkgname}
 Summary:    %{summary}
 Requires:   python3 >= 3.5
@@ -50,7 +47,7 @@ Requires:   python3-six
 
 %description -n python3-%{pkgname}
 Modern Python API to Red Hat's Errata Tool
-%endif # with_python3
+%endif
 
 
 %prep
@@ -61,40 +58,39 @@ cp -a . %{py3dir}
 %endif # with_python3
 
 %build
+%if 0%{?el7}
 %{__python2} setup.py build
-
-%if 0%{?with_python3}
+%else
 %{py3_build}
-%endif # with_python3
+%endif
 
 %install
+%if 0%{?el7}
 %{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-%if 0%{?with_python3}
+%else
 %py3_install
-%endif # with_python3
+%endif
 
 %check
 export PYTHONPATH=$(pwd)
+%if 0%{?el7}
 py.test-%{python2_version} -v errata_tool/tests
-
-%if 0%{?with_python3}
-pushd %{py3dir}
+%else
 py.test-%{python3_version} -v errata_tool/tests
-popd
 %endif # with_python3
 
+%if 0%{?el7}
 %files
 %{!?_licensedir:%global license %%doc}
 %doc README.rst
 %license LICENSE
 %{python2_sitelib}/*
-
-%if 0%{?with_python3}
+%else
 %files -n python3-%{pkgname}
 %doc README.rst
 %license LICENSE
 %{python3_sitelib}/*
-%endif # with_python3
+%endif
 
 # Will go to python3 subpkg when enabled, otherwise to python2
 %{_bindir}/errata-tool
