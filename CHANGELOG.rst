@@ -1,3 +1,31 @@
+v1.21.0
+=======
+
+* Lazy-load full Erratum information within the ``Build`` class.
+  Prior to this change, when users queried a build, python-errata-tool would
+  immediately load a lot of information about every advisory for that build.
+  With this change, the ``Build`` class only loads the full advisories when
+  users access the ``.released_errata`` property.
+
+  Users can also access the advisory ID numbers without loading all of the
+  information about each advisory. This change adds two new properties to the
+  ``Build`` class: ``.released_errata_id`` and ``.all_errata_ids``.
+
+* Get paginated data in the ``Erratum.externalTests()`` method. Prior to this
+  change, ``externalTests()`` would only return the first few test results.
+  The ``externalTests()`` method now returns the entire list of test results.
+
+* CLI: add a ``--status OPEN`` alias to the
+  ``errata-tool release list-advisories`` command. This allows users to list
+  all the in-progress advisories for a release.
+
+ * Erratum: fix a crash when the Errata Tool returns ``None`` for a
+   SHIPPED_LIVE advisory's ``actual_ship_date``.
+
+* Clean up API documentation
+
+* Test suite improvements
+
 v1.20.0
 =======
 
