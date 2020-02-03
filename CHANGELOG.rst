@@ -19,8 +19,8 @@ v1.21.0
   ``errata-tool release list-advisories`` command. This allows users to list
   all the in-progress advisories for a release.
 
- * Erratum: fix a crash when the Errata Tool returns ``None`` for a
-   SHIPPED_LIVE advisory's ``actual_ship_date``.
+* Erratum: fix a crash when the Errata Tool returns ``None`` for a
+  SHIPPED_LIVE advisory's ``actual_ship_date``.
 
 * Clean up API documentation
 
