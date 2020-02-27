@@ -1,8 +1,18 @@
 import argparse
-import errata_tool.cli.advisory
-import errata_tool.cli.build
-import errata_tool.cli.product
-import errata_tool.cli.release
+import os
+import pkgutil
+from importlib import import_module
+
+
+def import_commands():
+    modules = []
+    directory = os.path.dirname(__file__)
+    for (_, name, _) in pkgutil.iter_modules([directory]):
+        if name == 'main':
+            continue
+        imported_module = import_module('errata_tool.cli.' + name)
+        modules.append(imported_module)
+    return modules
 
 
 def main():
@@ -17,10 +27,9 @@ def main():
     subparsers.required = True
 
     # add arguments for each subcommand:
-    errata_tool.cli.advisory.add_parser(subparsers)
-    errata_tool.cli.build.add_parser(subparsers)
-    errata_tool.cli.product.add_parser(subparsers)
-    errata_tool.cli.release.add_parser(subparsers)
+    commands = import_commands()
+    for command in commands:
+        command.add_parser(subparsers)
 
     args = parser.parse_args()
 
