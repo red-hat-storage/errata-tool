@@ -346,3 +346,47 @@ class ErrataConnector(object):
             return {'data': self.get_paginated_data(url)}
 
         return self._get(url)
+
+    def get_releases_for_product(self, product_name_or_id,
+                                 return_ids_only=True):
+        """search for and return list of releases by name or id of product"""
+        args = {'is_active': 'true', 'enabled': 'true'}
+
+        try:
+            args['id'] = int(product_name_or_id)
+        except ValueError:
+            args['name'] = product_name_or_id
+
+        data = self.get_filter('/api/v1/releases', 'filter', **args)
+        if return_ids_only:
+            return [i['id'] for i in data['data']]
+
+        return data
+
+    def get_open_advisories_for_release(self, release_id):
+        data = self._get('/errata/errata_for_release/' +
+                         '{0}.json'.format(release_id))
+
+        ADVISORY_STATES = ('NEW_FILES', 'QE', 'REL_PREP', 'PUSH_READY')
+        advisory_ids = set()
+
+        for advisory_result in data:
+            if advisory_result['status'] in ADVISORY_STATES:
+                advisory_ids.add(advisory_result['id'])
+        return list(advisory_ids)
+
+    def get_open_advisories_for_release_filter(self, release_id,
+                                               return_ids_only=True):
+        """Return list of open advisories for a release either id's or json"""
+
+        data = self.get_filter(
+            '/errata', 'errata_filter[filter_params]',
+            show_type_RHBA=1, show_type_RHEA=1, show_type_RHSA=1,
+            show_state_NEW_FILES=1, show_state_QE=1, show_state_REL_PREP=1,
+            show_state_PUSH_READY=1, open_closed_option='exclude',
+            release=release_id)
+
+        if return_ids_only:
+            return [i['id'] for i in data]
+
+        return data
