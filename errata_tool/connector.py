@@ -390,3 +390,16 @@ class ErrataConnector(object):
             return [i['id'] for i in data]
 
         return data
+
+    def get_errata_by_batch(self, batch_name_or_id):
+        """search for and return list of errata by name or id of batch"""
+        args = {}
+
+        try:
+            args['id'] = int(batch_name_or_id)
+        except ValueError:
+            args['name'] = batch_name_or_id
+
+        data = self.get_filter('/api/v1/batches', 'filter', **args)
+
+        return data
