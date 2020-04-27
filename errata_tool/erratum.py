@@ -1007,8 +1007,12 @@ https://access.redhat.com/articles/11258")
         if self.publish_date_override is not None:
             print('')
             print("Ship Target: {0}".format(self.publish_date_override))
-        elif self.publish_date is not None:
+        if self.publish_date is not None:
             print('')
+            print("Ship Target: {0}".format(self.publish_date))
+        if self.batch_id is not None:
+            print('')
+            print("Batch: {0}".format(self.batch_id))
             print("Ship Target: {0}".format(self.publish_date))
         print('')
         print("Topic")
@@ -1074,6 +1078,8 @@ https://access.redhat.com/articles/11258")
         pdate = self.publish_date_override
         if pdate is None and self.publish_date is not None:
             pdate = self.publish_date
+        if self.batch_id is not None and self.publish_date is not None:
+            pdate = self.publish_date
 
         return self.errata_name + ": " + self.synopsis + \
             "\n  package owner: " + self.package_owner_email + \
@@ -1084,6 +1090,7 @@ https://access.redhat.com/articles/11258")
             "\n  state: " + self.errata_state + \
             "\n  created:     " + str(self.creation_date) + \
             "\n  ship target: " + str(pdate) + \
+            "\n  batch_id:    " + str(self.batch_id) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
             "\n  bugs:        " + str(self.errata_bugs) + \

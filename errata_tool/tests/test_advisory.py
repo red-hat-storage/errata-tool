@@ -109,3 +109,6 @@ class TestAdvisory(object):
 
     def test_load_advisory(self, advisory_none_ship):
         assert advisory_none_ship.ship_date is None
+
+    def test_batch_id_present(self, advisory_with_batch):
+        assert advisory_with_batch.batch_id is not None
