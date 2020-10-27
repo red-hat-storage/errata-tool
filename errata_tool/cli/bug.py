@@ -26,8 +26,10 @@ def get(args):
 
     :param args: parsed cli arguments
     """
-    build = Bug(args.id)
-    print(build)
+    bug = Bug(args.id)
+
+    print(bug)
+    print(bug._data)
 
 
 def get_errata_ids(args):
@@ -35,6 +37,6 @@ def get_errata_ids(args):
 
     :param args: parsed cli arguments
     """
-    build = Bug(args.id)
-    for id in build.all_advisory_ids:
+    bug = Bug(args.id)
+    for id in bug.all_advisory_ids:
         print(id)
