@@ -22,7 +22,7 @@ def add_parser(subparsers):
 
 
 def get(args):
-    """Get information about build
+    """Get information about bug
 
     :param args: parsed cli arguments
     """
@@ -31,7 +31,7 @@ def get(args):
 
 
 def get_errata_ids(args):
-    """Get information about build
+    """Get information about bug
 
     :param args: parsed cli arguments
     """
