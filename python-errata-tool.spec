@@ -55,7 +55,7 @@ Modern Python API to Red Hat's Errata Tool
 
 %if 0%{?with_python3}
 cp -a . %{py3dir}
-%endif # with_python3
+%endif
 
 %build
 %if 0%{?el7}
@@ -77,7 +77,7 @@ export PYTHONPATH=$(pwd)
 py.test-%{python2_version} -v errata_tool/tests
 %else
 py.test-%{python3_version} -v errata_tool/tests
-%endif # with_python3
+%endif
 
 %if 0%{?el7}
 %files
