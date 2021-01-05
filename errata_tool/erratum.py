@@ -774,12 +774,6 @@ https://access.redhat.com/articles/11258")
             if self.errata_type is None:
                 self.errata_type = 'RHBA'
 
-            if self.errata_type == 'RHSA':
-                val = 'None'
-                if self.security_impact is not None:
-                    val = self.security_impact
-                pdata['advisory[security_impact]'] = val
-
             pdata['product'] = self._product
             pdata['release'] = self._release
             pdata['advisory[package_owner_email]'] = self.package_owner_email
@@ -823,6 +817,12 @@ https://access.redhat.com/articles/11258")
             severity = r'^(Low|Moderate|Important|Critical): '
             self.synopsis = re.sub(severity, "", self.synopsis)
             pdata['advisory[cve]'] = self.cve_names
+
+            val = 'None'
+            if self.security_impact is not None:
+                val = self.security_impact
+            pdata['advisory[security_impact]'] = val
+
         pdata['advisory[synopsis]'] = self.synopsis
         pdata['advisory[topic]'] = self.topic
         pdata['advisory[description]'] = self.description
