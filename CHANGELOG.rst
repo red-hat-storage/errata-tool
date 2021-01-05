@@ -1,3 +1,17 @@
+v1.22.0
+=======
+* Respect the batch_id for an ``Erratum`` attribute when calculating
+  ``.publish_date`` and the class ``str`` representation. The
+  ``errata-tool advisory get <advisory_id>`` command now shows the batch ID if
+  the advisory is part of a batch update.
+
+* Fix ability to set a new severity value on existing advisories with
+  ``Erratum.update(security_impact=<value>)``.
+
+* CLI: code optimization make it easier to add new sub-commands.
+
+* RPM packaging is Python 3-only on Fedora and RHEL 8.
+
 v1.21.0
 =======
 
