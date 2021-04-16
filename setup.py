@@ -135,7 +135,6 @@ setup(
         'jsonpath_rw',
         'requests',
         'requests_kerberos',
-        'kerberos',
         'six',
     ],
     cmdclass={'bump': BumpCommand, 'release': ReleaseCommand},

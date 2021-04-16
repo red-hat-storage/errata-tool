@@ -92,7 +92,6 @@ def mock_put():
 def advisory(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=33840)
 
@@ -101,7 +100,6 @@ def advisory(monkeypatch, mock_get):
 def advisory_none_ship(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=43686)
 
@@ -110,7 +108,6 @@ def advisory_none_ship(monkeypatch, mock_get):
 def advisory_with_batch(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=46563)
 
@@ -120,7 +117,6 @@ def rhsa(monkeypatch, mock_get):
     """Like the advisory() fixture above, but an RHSA. """
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Erratum(errata_id=36762)
 
@@ -129,7 +125,6 @@ def rhsa(monkeypatch, mock_get):
 def productlist(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return ProductList()
 
@@ -138,7 +133,6 @@ def productlist(monkeypatch, mock_get):
 def product(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Product('RHCEPH')
 
@@ -147,7 +141,6 @@ def product(monkeypatch, mock_get):
 def rhacm_product(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Product('RHACM')
 
@@ -155,7 +148,6 @@ def rhacm_product(monkeypatch, mock_get):
 def product_version(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return ProductVersion('RHEL-7-RHCEPH-3.1')
 
@@ -164,7 +156,6 @@ def product_version(monkeypatch, mock_get):
 def release(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Release(name='rhceph-3.1')
 
@@ -173,7 +164,6 @@ def release(monkeypatch, mock_get):
 def build(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Build('ceph-12.2.5-42.el7cp')
 
@@ -182,7 +172,6 @@ def build(monkeypatch, mock_get):
 def rhceph_variant(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Variant(name='8Base-RHCEPH-5.0-MON')
 
@@ -191,6 +180,5 @@ def rhceph_variant(monkeypatch, mock_get):
 def rhacm_variant(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Variant(name='7Server-RHACM-2.0')

@@ -36,7 +36,6 @@ Modern Python API to Red Hat's Errata Tool
 Requires:  python-requests-kerberos
 Requires:  python-jsonpath-rw
 Requires:  python-six
-Requires:  python-kerberos
 %else
 %package -n python3-%{pkgname}
 Summary:    %{summary}
