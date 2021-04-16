@@ -6,36 +6,17 @@ from jsonpath_rw import parse
 import re
 import time
 import six
-import kerberos
 
 
 class ErrataConnector(object):
     # Staging is https://errata.stage.engineering.redhat.com
     _url = "https://errata.devel.redhat.com"
     _auth = HTTPKerberosAuth(mutual_authentication=DISABLED)
-    _username = None
     ssl_verify = True  # Shared
     debug = False
 
     # Timings are only recorded if debug is set to True
     timings = {'GET': {}, 'POST': {}, 'PUT': {}}
-
-    def _set_username(self, **kwargs):
-        if self._username is not None:
-            return
-        try:
-            (ret, ctx) = kerberos.authGSSClientInit('krbtgt@REDHAT.COM')
-            assert (ret == kerberos.AUTH_GSS_COMPLETE)
-            ret = kerberos.authGSSClientInquireCred(ctx)
-            assert (ret == kerberos.AUTH_GSS_COMPLETE)
-            # XXX What if you have >1 ticket?
-            ret = kerberos.authGSSClientUserName(ctx)
-            if '@' in ret:
-                self._username = ret.split('@')[0]
-            else:
-                self._username = ret
-        except AssertionError:
-            raise ErrataException('Pigeon crap. Did it forget to run kinit?')
 
     # Shortcut
     def canonical_url(self, u):
@@ -115,7 +96,6 @@ class ErrataConnector(object):
         self.timings[call][url] = info
 
     def _post(self, u, **kwargs):
-        self._set_username()
         url = self.canonical_url(u)
         start = time.time()
         ret = None
@@ -146,7 +126,6 @@ class ErrataConnector(object):
 
         by default the return value is the response.json() object from Requests
         """
-        self._set_username()
         url = self.canonical_url(u)
         ret_data = None
         ret_json = None
@@ -199,7 +178,6 @@ class ErrataConnector(object):
         return ret_json
 
     def _put(self, u, **kwargs):
-        self._set_username()
         url = self.canonical_url(u)
         start = time.time()
         ret = None
