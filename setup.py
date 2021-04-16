@@ -134,7 +134,7 @@ setup(
     install_requires=[
         'jsonpath_rw',
         'requests',
-        'requests_kerberos',
+        'requests_gssapi',
         'six',
     ],
     cmdclass={'bump': BumpCommand, 'release': ReleaseCommand},

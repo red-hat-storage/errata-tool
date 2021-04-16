@@ -2,7 +2,6 @@ from __future__ import print_function
 import datetime
 import os
 import re
-import requests_kerberos
 import six
 import textwrap
 import time
@@ -898,11 +897,7 @@ https://access.redhat.com/articles/11258")
             pdata = {}
             pdata['bug[' + str(last_bug) + ']'] = 1
 
-            # Handle weird interaction we get in this particular case
-            try:
-                r = self._post(url, data=pdata)
-            except requests_kerberos.exceptions.MutualAuthenticationError:
-                pass
+            r = self._post(url, data=pdata)
             self._processResponse(r)
 
     def _putStatus(self):

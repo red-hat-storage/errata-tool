@@ -1,7 +1,7 @@
 from __future__ import print_function
 from errata_tool import ErrataException
 import requests
-from requests_kerberos import HTTPKerberosAuth, DISABLED
+from requests_gssapi import HTTPSPNEGOAuth
 from jsonpath_rw import parse
 import re
 import time
@@ -11,7 +11,7 @@ import six
 class ErrataConnector(object):
     # Staging is https://errata.stage.engineering.redhat.com
     _url = "https://errata.devel.redhat.com"
-    _auth = HTTPKerberosAuth(mutual_authentication=DISABLED)
+    _auth = HTTPSPNEGOAuth()
     ssl_verify = True  # Shared
     debug = False
 

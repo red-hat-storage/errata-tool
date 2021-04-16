@@ -14,7 +14,7 @@ python-errata-tool
 About
 -----
 python-errata-tool is a Python library that wraps the Errata Tool's REST API.
-It uses `requests_kerberos <https://pypi.python.org/pypi/requests-kerberos>`_
+It uses `requests_gssapi <https://pypi.python.org/pypi/requests-gssapi>`_
 to authenticate and parses JSON responses into
 :class:`~errata_tool.erratum.Erratum` objects. You can use it to create new
 advisories, or read and update existing advisories. The

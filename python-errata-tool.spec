@@ -16,14 +16,14 @@ BuildArch:      noarch
 BuildRequires:  pytest
 BuildRequires:  python2-devel
 BuildRequires:  python-jsonpath-rw
-BuildRequires:  python-requests-kerberos
+BuildRequires:  python-requests-gssapi
 BuildRequires:  python-setuptools
 BuildRequires:  python-six
 %else
 BuildRequires:  python3-devel
 BuildRequires:  python3-jsonpath-rw
 BuildRequires:  python3-pytest
-BuildRequires:  python3-requests-kerberos
+BuildRequires:  python3-requests-gssapi
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
 %endif
@@ -33,14 +33,14 @@ Modern Python API to Red Hat's Errata Tool
 
 
 %if 0%{?el7}
-Requires:  python-requests-kerberos
+Requires:  python-requests-gssapi
 Requires:  python-jsonpath-rw
 Requires:  python-six
 %else
 %package -n python3-%{pkgname}
 Summary:    %{summary}
 Requires:   python3 >= 3.5
-Requires:   python3-requests-kerberos
+Requires:   python3-requests-gssapi
 Requires:   python3-jsonpath-rw
 Requires:   python3-six
 

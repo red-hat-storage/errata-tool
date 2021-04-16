@@ -27,7 +27,7 @@ if on_rtd:
         def __getattr__(cls, name):
             return MagicMock()
 
-    MOCK_MODULES = ['requests_kerberos', 'jsonpath_rw']
+    MOCK_MODULES = ['requests_gssapi' 'jsonpath_rw']
     sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 
