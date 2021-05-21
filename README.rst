@@ -1,14 +1,14 @@
 ``errata-tool``
 ===============
 
-.. image:: https://travis-ci.org/red-hat-storage/errata-tool.svg?branch=master
-          :target: https://travis-ci.org/red-hat-storage/errata-tool
+.. image:: https://github.com/red-hat-storage/errata-tool/workflows/tests/badge.svg
+             :target: https://github.com/red-hat-storage/errata-tool/actions
 
 .. image:: https://badge.fury.io/py/errata-tool.svg
              :target: https://badge.fury.io/py/errata-tool
 
-.. image:: https://coveralls.io/repos/github/red-hat-storage/errata-tool/badge.svg
-             :target: https://coveralls.io/github/red-hat-storage/errata-tool
+.. image:: https://codecov.io/gh/red-hat-storage/errata-tool/branch/master/graph/badge.svg
+             :target: https://codecov.io/gh/red-hat-storage/errata-tool
 
 
 Modern Python API to Red Hat's Errata Tool.

@@ -1,0 +1,32 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  tox:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        python-version:
+        - 2.7
+        - 3.5
+        - 3.6
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install libkrb5-dev
+        pip install tox
+    - name: Test with tox
+      run: tox -e py -- --cov-report=xml errata_tool/tests
+    - name: Upload coverage to codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
