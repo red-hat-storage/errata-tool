@@ -1,5 +1,5 @@
 from errata_tool import ErrataConnector
-
+from errata_tool.variant import Variant
 
 class ProductVersion(ErrataConnector):
     def __init__(self, id_or_name):
@@ -25,6 +25,19 @@ class ProductVersion(ErrataConnector):
         url = '/api/v1/product_versions/%d/released_builds' % self.id
         result = self._get(url)
         return result
+
+    def variants(self):
+        """Get the list of variants for this Product Version.
+
+        :returns: a (possibly-empty) list of Variant objects.
+        """
+        url = '/api/v1/variants?filter[product_version_id]=%s' % self.id
+        result = self._get(url)['data']
+        variants = []
+        for variant in result:
+            variant_name = variant['attributes']['name']
+            variants.append(Variant(name=variant_name, data=variant))
+        return variants
 
     def __getattr__(self, name):
         return self.data[name]
