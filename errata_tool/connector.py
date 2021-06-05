@@ -154,7 +154,12 @@ class ErrataConnector(object):
         return_json_decoded_data = True
 
         if kwargs is not None:
-            if 'data' in kwargs:
+            if 'params' in kwargs:
+                ret_data = requests.get(url,
+                                        auth=self._auth,
+                                        params=kwargs['params'],
+                                        verify=self.ssl_verify)
+            elif 'data' in kwargs:
                 ret_data = requests.get(url,
                                         auth=self._auth,
                                         data=kwargs['data'],
