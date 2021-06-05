@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": 790,
+      "type": "releases",
+      "attributes": {
+        "name": "RHEL-8.4.0.Z.MAIN+EUS",
+        "description": "RHEL-8.4.0.Z.MAIN+EUS",
+        "type": "Zstream",
+        "allow_pkg_dupes": false,
+        "ship_date": "2020-01-01T00:00:00Z",
+        "pelc_product_version_name": null,
+        "is_active": true,
+        "enabled": true,
+        "enable_batching": true,
+        "is_async": true,
+        "is_deferred": false,
+        "allow_shadow": false,
+        "allow_blocker": false,
+        "allow_exception": false,
+        "limit_bugs_by_product": false,
+        "supports_component_acl": false,
+        "blocker_flags": [
+          "release",
+          "zstream"
+        ],
+        "internal_target_release": "",
+        "zstream_target_release": "8.4.0"
+      },
+      "relationships": {
+        "brew_tags": [],
+        "product": {
+          "id": 16,
+          "short_name": "RHEL"
+        },
+        "product_versions": [
+          {
+            "id": 753,
+            "name": "RHEL-8.4.0.Z.MAIN+EUS"
+          }
+        ],
+        "state_machine_rule_set": null,
+        "program_manager": {
+          "id": 123456,
+          "login_name": "coolmanager@redhat.com"
+        }
+      }
+    }
+  ],
+  "page": {
+    "current_page": 1,
+    "total_pages": 1,
+    "result_count": 1
+  }
+}
