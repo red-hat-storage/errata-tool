@@ -133,3 +133,14 @@ class TestSpecialCharacters(object):
         assert mock_get.response.url == self.expected_url
         assert mock_get.kwargs['params']['filter[name]'] == \
             'RHEL-8.4.0.Z.MAIN+EUS'
+
+    def test_plus_encoded(self, monkeypatch, mock_get, recwarn):
+        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector, '_username', 'test')
+        release = Release(name='RHEL-8.4.0.Z.MAIN%2BEUS')
+        assert release.name == 'RHEL-8.4.0.Z.MAIN+EUS'
+        assert mock_get.response.url == self.expected_url
+        assert mock_get.kwargs['params']['filter[name]'] == \
+            'RHEL-8.4.0.Z.MAIN+EUS'
+        assert len(recwarn) == 1
+        assert recwarn.pop(DeprecationWarning)
