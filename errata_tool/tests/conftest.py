@@ -9,6 +9,7 @@ from errata_tool.release import Release
 from errata_tool.variant import Variant
 import requests
 import pytest
+from six.moves.urllib.parse import urlencode
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_DIR = os.path.join(TESTS_DIR, 'fixtures')
@@ -18,6 +19,7 @@ class MockResponse(object):
     status_code = 200
     encoding = 'utf-8'
     headers = {'content-type': 'application/json; charset=utf-8'}
+    params = None
 
     def raise_for_status(self):
         pass
@@ -26,19 +28,27 @@ class MockResponse(object):
     def _fixture(self):
         """Return path to our static fixture file. """
         fdir = os.path.join(FIXTURES_DIR, 'errata.devel.redhat.com/')
-        filename = self.url.replace('https://errata.devel.redhat.com/', fdir)
+        filename = self._url_with_params.replace(
+            'https://errata.devel.redhat.com/', fdir)
         # If we need to represent this API endpoint as both a directory and a
         # file, check for a ".body" file.
         if os.path.isdir(filename):
             return filename + '.body'
         return filename
 
+    @property
+    def _url_with_params(self):
+        url = self.url
+        if self.params is not None:
+            url += '?' + urlencode(self.params)
+        return url
+
     def json(self):
         try:
             with open(self._fixture) as fp:
                 return json.load(fp)
         except IOError:
-            print('Try ./new-fixture.sh %s' % self.url)
+            print('Try ./new-fixture.sh %s' % self._url_with_params)
             raise
 
     @property
@@ -48,7 +58,7 @@ class MockResponse(object):
             with open(self._fixture) as fp:
                 return fp.read()
         except IOError:
-            print('Try ./new-fixture.sh %s' % self.url)
+            print('Try ./new-fixture.sh %s' % self._url_with_params)
             raise
 
 
@@ -58,6 +68,7 @@ class RequestRecorder(object):
         """mocking requests.get() or requests.post() """
         self.response = MockResponse()
         self.response.url = url
+        self.response.params = kwargs.get('params')
         self.kwargs = kwargs
         return self.response
 
