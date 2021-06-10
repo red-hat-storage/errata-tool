@@ -166,3 +166,12 @@ def variant(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
     monkeypatch.setattr(requests, 'get', mock_get)
     return Variant(name='8Base-RHCEPH-5.0-MON')
+
+
+@pytest.fixture
+def rhacm_variant(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(ErrataConnector, '_username', 'test')
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Variant(name='7Server-RHACM-2.0')
