@@ -1,5 +1,5 @@
 from errata_tool import ErrataConnector
-
+from errata_tool.cdn_repo import CdnRepo
 
 class Variant(ErrataConnector):
     """A Variant contains a "data" dict, for example::
@@ -61,6 +61,19 @@ class Variant(ErrataConnector):
         url = '/api/v1/variants/%s' % self.name
         result = self._get(url)
         self.data = result['data']
+
+    def cdn_repos(self):
+        """Get the list of cdn repos for this Variant.
+
+        :returns: a (possibly-empty) list of CdnRepo objects.
+        """
+        url = '/api/v1/cdn_repos?filter[variant_id]=%s' % self.id
+        result = self._get(url)['data']
+        cdn_repos = []
+        for cdn_repo in result:
+            cdn_repo_name = cdn_repo['attributes']['name']
+            cdn_repos.append(CdnRepo(name=cdn_repo_name, data=cdn_repo))
+        return cdn_repos
 
     def __getattr__(self, name):
         if self.data is None:
