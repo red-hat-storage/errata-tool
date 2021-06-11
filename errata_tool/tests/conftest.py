@@ -160,7 +160,7 @@ def build(monkeypatch, mock_get):
 
 
 @pytest.fixture
-def variant(monkeypatch, mock_get):
+def rhceph_variant(monkeypatch, mock_get):
     monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(ErrataConnector, '_username', 'test')
