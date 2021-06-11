@@ -20,12 +20,12 @@ def repo_sets(repos):
     return [repos[i:i + 3] for i in range(0, len(repos), 3)]
 
 
-def test_cdn_repo_count(variant):
-    assert len(variant.cdn_repos()) == 9
+def test_cdn_repo_count(rhceph_variant):
+    assert len(rhceph_variant.cdn_repos()) == 9
 
 
-def test_cdn_repo_names(variant):
-    cdn_repos = variant.cdn_repos()
+def test_cdn_repo_names(rhceph_variant):
+    cdn_repos = rhceph_variant.cdn_repos()
     for repo_arch_index, repo_set in enumerate(repo_sets(cdn_repos)):
         for content_type_index, repo in enumerate(repo_set):
             assert repo.name == 'rhceph-5-mon-for-rhel-8-%s-%s' % \
@@ -33,25 +33,25 @@ def test_cdn_repo_names(variant):
                  content_types[content_type_index][0])
 
 
-def test_cdn_repo_release_types(variant):
-    for repo in variant.cdn_repos():
+def test_cdn_repo_release_types(rhceph_variant):
+    for repo in rhceph_variant.cdn_repos():
         assert repo.release_type == 'Primary'
 
 
-def test_cdn_repo_content_types(variant):
-    cdn_repos = variant.cdn_repos()
+def test_cdn_repo_content_types(rhceph_variant):
+    cdn_repos = rhceph_variant.cdn_repos()
     for index, repo_set in enumerate(repo_sets(cdn_repos)):
         assert repo_set[index].content_type == content_types[index][1]
 
 
-def test_cdn_repo_tps(variant):
-    for repo in variant.cdn_repos():
+def test_cdn_repo_tps(rhceph_variant):
+    for repo in rhceph_variant.cdn_repos():
         assert repo.use_for_tps is False
 
 
-def test_cdn_repo_without_packages_pretty_print(variant):
+def test_cdn_repo_without_packages_pretty_print(rhceph_variant):
     pretty_printer = pprint.PrettyPrinter()
-    cdn_repos = variant.cdn_repos()
+    cdn_repos = rhceph_variant.cdn_repos()
 
     for repo_arch_index, repo_set in enumerate(repo_sets(cdn_repos)):
         for content_type_index, repo in enumerate(repo_set):

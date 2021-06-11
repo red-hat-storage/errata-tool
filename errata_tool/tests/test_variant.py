@@ -1,19 +1,19 @@
-def test_id(variant):
-    assert variant.id == 3085
+def test_id(rhceph_variant):
+    assert rhceph_variant.id == 3085
 
 
-def test_name(variant):
-    assert variant.name == '8Base-RHCEPH-5.0-MON'
+def test_name(rhceph_variant):
+    assert rhceph_variant.name == '8Base-RHCEPH-5.0-MON'
 
 
-def test_description(variant):
-    assert variant.description == 'Red Hat Ceph Storage 5.0 MON'
+def test_description(rhceph_variant):
+    assert rhceph_variant.description == 'Red Hat Ceph Storage 5.0 MON'
 
 
-def test_url(variant):
-    assert variant.url == \
+def test_url(rhceph_variant):
+    assert rhceph_variant.url == \
         'https://errata.devel.redhat.com/variants/8Base-RHCEPH-5.0-MON'
 
 
-def test_cpe(variant):
-    assert variant.cpe == 'cpe:/a:redhat:ceph_storage:5::el8'
+def test_cpe(rhceph_variant):
+    assert rhceph_variant.cpe == 'cpe:/a:redhat:ceph_storage:5::el8'
