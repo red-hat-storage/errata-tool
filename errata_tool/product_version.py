@@ -2,14 +2,16 @@ from errata_tool import ErrataConnector
 from errata_tool.variant import Variant
 
 class ProductVersion(ErrataConnector):
-    def __init__(self, id_or_name):
+    def __init__(self, id_or_name, data=None):
         """Find a Product Version in the ET database.
 
         :param id_or_name: This can be an id number (int) or product version
                            name (str), for example "RHEL-7-CEPH-3".
         """
-        url = '/product_versions/%s.json' % id_or_name
-        self.data = self._get(url)
+
+        self.id_or_name = id_or_name
+        self.data = data
+        self.url = self._url + '/product_versions/%s' % self.id_or_name
 
     def releasedBuilds(self):
         """Get the list of released builds for this Product Version.
@@ -39,8 +41,22 @@ class ProductVersion(ErrataConnector):
             variants.append(Variant(name=variant_name, data=variant))
         return variants
 
+    def refresh(self):
+        # The v1 API doesn't support retrieving a product version directly,
+        # so an additional request is made to retrieve the product that it
+        # falls under.
+        legacy_url = '/product_versions/%s.json' % self.id_or_name
+        result = self._get(legacy_url)
+        product_id = result['product']['id']
+        product_version_id  = result['id']
+        new_url = '/api/v1/products/%s/product_versions/%s' \
+            % (product_id, product_version_id)
+        self.data = self._get(new_url)['data']
+
     def __getattr__(self, name):
-        return self.data[name]
+        if self.data is None:
+            self.refresh()
+        return self.data.get(name) or self.data['attributes'][name]
 
     def __repr__(self):
         return 'ProductVersion(%s)' % self.id
