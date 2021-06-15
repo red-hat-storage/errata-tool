@@ -8,14 +8,14 @@ class Product(ErrataConnector):
         self.url = self._url + '/products/%s' % self.name
 
     def refresh(self):
-        url = self.url + '.json'
+        url = '/api/v1/products/' + self.name
         result = self._get(url)
-        self.data = result['product']
+        self.data = result['data']
 
     def __getattr__(self, name):
         if self.data is None:
             self.refresh()
-        return self.data[name]
+        return self.data.get(name) or self.data['attributes'][name]
 
     def __repr__(self):
         return 'Product(%s)' % self.name
