@@ -1,3 +1,25 @@
+v1.23.0
+=======
+* Add a new ``CdnRepo`` class to represent Errata Tool CDN repository records.
+  Add a new ``cdn_repos()`` method to the ``Variant`` class to find a list of
+  cdn repos associated with a product variant.
+
+* Add a new ``variants()`` method to the ``ProductVersion`` class to find
+  the list of variants associated with a product version.
+
+* Add a new ``params`` kwarg to the ``ErrataConnector._get()`` method. This
+  properly encodes values for query strings in GET urls.
+
+* Handle "+" characters in ``Release`` names.
+
+* Fix the ability to modify owner emails and manager emails on existing
+  advisories with ``Erratum.update(owner_email=<value>)`` or
+  ``Erratum.update(manager_email=<value>)``.
+
+* Improve project CI with GitHub Actions and codecov.io.
+
+* Fix warnings in RPM packaging
+
 v1.22.0
 =======
 * Respect the batch_id for an ``Erratum`` attribute when calculating
