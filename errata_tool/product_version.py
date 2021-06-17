@@ -41,6 +41,23 @@ class ProductVersion(ErrataConnector):
             variants.append(Variant(name=variant_name, data=variant))
         return variants
 
+    def render(self):
+        sig_key = str(self.relationships['sig_key']['name'])
+        rhel_release = str(self.relationships['rhel_release']['name'])
+        brew_tags = [str(tag) for tag in (self.data.get('brew_tags') or [])]
+        return {
+            'name': str(self.name),
+            'description': str(self.description),
+            'default_brew_tag': str(self.default_brew_tag),
+            'sig_key_name': sig_key,
+            'rhel_release_name': rhel_release,
+            'brew_tags': brew_tags,
+            'variants': [
+                variant.render()
+                for variant in self.variants()
+            ],
+        }
+
     def refresh(self):
         # The v1 API doesn't support retrieving a product version directly,
         # so an additional request is made to retrieve the product that it
@@ -48,7 +65,7 @@ class ProductVersion(ErrataConnector):
         legacy_url = '/product_versions/%s.json' % self.id_or_name
         result = self._get(legacy_url)
         product_id = result['product']['id']
-        product_version_id  = result['id']
+        product_version_id = result['id']
         new_url = '/api/v1/products/%s/product_versions/%s' \
             % (product_id, product_version_id)
         self.data = self._get(new_url)['data']

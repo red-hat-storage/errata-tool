@@ -62,6 +62,12 @@ class Variant(ErrataConnector):
         result = self._get(url)
         self.data = result['data']
 
+    def render(self):
+        return {
+            'name': str(self.name),
+            'description': str(self.description),
+        }
+
     def cdn_repos(self):
         """Get the list of cdn repos for this Variant.
 
