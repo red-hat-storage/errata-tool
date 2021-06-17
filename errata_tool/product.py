@@ -30,6 +30,31 @@ class Product(ErrataConnector):
         result = self._get(url)
         self.data = result['data']
 
+    def render(self):
+        reviewer = self.relationships['default_docs_reviewer']
+        rule_set = str(self.relationships['state_machine_rule_set']['name'])
+        return {
+            'name': str(self.name),
+            'short_name': str(self.short_name),
+            'bugzilla_product_name': str(self.bugzilla_product_name),
+            'description': str(self.description),
+            'valid_bug_states': [
+                str(state)
+                for state in self.valid_bug_states
+            ],
+            'default_docs_reviewer': str(reviewer) if reviewer else None,
+            'ftp_subdir': str(self.ftp_subdir),
+            'push_targets': [
+                str(target['name'])
+                for target in self.relationships['push_targets']
+            ],
+            'state_machine_rule_set': rule_set,
+            'product_versions': [
+                product_version.render()
+                for product_version in self.product_versions()
+            ],
+        }
+
     def __getattr__(self, name):
         if self.data is None:
             self.refresh()
