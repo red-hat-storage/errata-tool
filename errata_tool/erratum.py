@@ -776,9 +776,11 @@ https://access.redhat.com/articles/11258")
 
             pdata['product'] = self._product
             pdata['release'] = self._release
-            pdata['advisory[package_owner_email]'] = self.package_owner_email
-            pdata['advisory[manager_email]'] = self.manager_email
 
+        if self.package_owner_email is not None:
+            pdata['advisory[package_owner_email]'] = self.package_owner_email
+        if self.manager_email is not None:
+            pdata['advisory[manager_email]'] = self.manager_email
         if self.qe_email is not None and self.qe_email != '':
             pdata['advisory[assigned_to_email]'] = self.qe_email
         if self.qe_group is not None and self.qe_group != '':

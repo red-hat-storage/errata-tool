@@ -120,3 +120,27 @@ class TestCreate(object):
             'release[type]': 'QuarterlyUpdate',
         }
         assert mock_post.kwargs['data'] == expected
+
+
+class TestSpecialCharacters(object):
+    expected_url = 'https://errata.devel.redhat.com/api/v1/releases'
+
+    def test_plus(self, monkeypatch, mock_get):
+        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector, '_username', 'test')
+        release = Release(name='RHEL-8.4.0.Z.MAIN+EUS')
+        assert release.name == 'RHEL-8.4.0.Z.MAIN+EUS'
+        assert mock_get.response.url == self.expected_url
+        assert mock_get.kwargs['params']['filter[name]'] == \
+            'RHEL-8.4.0.Z.MAIN+EUS'
+
+    def test_plus_encoded(self, monkeypatch, mock_get, recwarn):
+        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector, '_username', 'test')
+        release = Release(name='RHEL-8.4.0.Z.MAIN%2BEUS')
+        assert release.name == 'RHEL-8.4.0.Z.MAIN+EUS'
+        assert mock_get.response.url == self.expected_url
+        assert mock_get.kwargs['params']['filter[name]'] == \
+            'RHEL-8.4.0.Z.MAIN+EUS'
+        assert len(recwarn) == 1
+        assert recwarn.pop(DeprecationWarning)

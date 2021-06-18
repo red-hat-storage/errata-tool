@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sys
+import warnings
 from datetime import date
 from errata_tool import ErrataConnector
 from errata_tool.product import Product
@@ -26,15 +27,24 @@ class Release(ErrataConnector):
             raise ValueError('missing release "id" or "name" kwarg')
         self.id = kwargs.get('id')
         self.name = kwargs.get('name')
+        # For backwards compatibility, we support querying releases
+        # with encoded "+" characters. We'll remove this in a future
+        # python-errata-tool release.
+        if self.name and '%2B' in self.name:
+            msg = 'use "+" in Release name %s instead of url-encoded "%%2B"'
+            with warnings.catch_warnings():
+                warnings.simplefilter('always', DeprecationWarning)
+                warnings.warn(msg % self.name, DeprecationWarning)
+            self.name = _unquote_plus(kwargs.get('name'))
         self.refresh()
 
     def refresh(self):
-        url = self._url + '/api/v1/releases?'
+        url = self._url + '/api/v1/releases'
         if self.id is not None:
-            url += 'filter[id]=%s' % self.id
+            params = {'filter[id]': self.id}
         elif self.name is not None:
-            url += 'filter[name]=%s' % self.name
-        result = self._get(url)
+            params = {'filter[name]': self.name}
+        result = self._get(url, params=params)
         if len(result['data']) < 1:
             raise NoReleaseFoundError()
         if len(result['data']) > 1:
@@ -164,3 +174,10 @@ class Release(ErrataConnector):
             print(body)
             raise ReleaseCreationError('see field_errors <div>')
         return klass(name=name)
+
+
+def _unquote_plus(string):
+    """This method is similar to urllib.parse.unquote_plus(), but it *only*
+    unquotes the "%2B" characters to "+".
+    """
+    return string.replace('%2B', '+')
