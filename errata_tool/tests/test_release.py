@@ -142,5 +142,5 @@ class TestSpecialCharacters(object):
         assert mock_get.response.url == self.expected_url
         assert mock_get.kwargs['params']['filter[name]'] == \
             'RHEL-8.4.0.Z.MAIN+EUS'
-        assert len(recwarn) == 1
+        assert len(recwarn.list) == 1
         assert recwarn.pop(DeprecationWarning)
