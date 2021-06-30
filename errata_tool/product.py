@@ -1,5 +1,7 @@
+import errata_tool
 from errata_tool import ErrataConnector
 from errata_tool.product_version import ProductVersion
+
 
 class Product(ErrataConnector):
     def __init__(self, name):
@@ -54,6 +56,21 @@ class Product(ErrataConnector):
                 for product_version in self.product_versions()
             ],
         }
+
+    def releases(self):
+        """Get the list of product releases for this Product
+
+        :returns: a (possibly-empty) list of Release objects.
+        """
+        url = '/api/v1/releases?filter[product_id]=%s' % self.id
+        result = self._get(url)['data']
+        releases = []
+
+        for release in result:
+            release_name = release['attributes']['name']
+            releases.append(errata_tool.Release(
+                name=release_name, data=release))
+        return releases
 
     def __getattr__(self, name):
         if self.data is None:
