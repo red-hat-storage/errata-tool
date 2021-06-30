@@ -2,6 +2,7 @@ from __future__ import print_function
 import sys
 import warnings
 from datetime import date
+import errata_tool
 from errata_tool import ErrataConnector
 from errata_tool.product import Product
 from errata_tool.product_version import ProductVersion
@@ -21,22 +22,40 @@ class ReleaseCreationError(Exception):
 
 
 class Release(ErrataConnector):
+    def _setattr(self):
+        self.attributes = self.data['attributes']
+        self.relationships = self.data['relationships']
+        self.id = self.data['id']
+        self.program_manager = \
+            self.relationships['program_manager']['login_name'] if \
+            self.relationships.get('program_manager') else None
+        self.product = self.relationships['product']['short_name'] if \
+            self.relationships.get('product') else None
+        self.type = self.attributes['type']
+        self.url = self._url + '/release/show/%d' % self.id
+        # For displaying in scripts/logs:
+        self.edit_url = self._url + '/release/edit/%d' % self.id
 
-    def __init__(self, **kwargs):
-        if 'id' not in kwargs and 'name' not in kwargs:
+    def __init__(self, name=None, id=None, data=None):
+        if not name and not id:
             raise ValueError('missing release "id" or "name" kwarg')
-        self.id = kwargs.get('id')
-        self.name = kwargs.get('name')
+        self.id = id
+        self.name = name
         # For backwards compatibility, we support querying releases
         # with encoded "+" characters. We'll remove this in a future
         # python-errata-tool release.
-        if self.name and '%2B' in self.name:
+        if name and '%2B' in name:
             msg = 'use "+" in Release name %s instead of url-encoded "%%2B"'
             with warnings.catch_warnings():
                 warnings.simplefilter('always', DeprecationWarning)
                 warnings.warn(msg % self.name, DeprecationWarning)
-            self.name = _unquote_plus(kwargs.get('name'))
-        self.refresh()
+            self.name = _unquote_plus(name)
+        self.data = data
+
+        if self.data:
+            self._setattr()
+        else:
+            self.refresh()
 
     def refresh(self):
         url = self._url + '/api/v1/releases'
@@ -52,17 +71,43 @@ class Release(ErrataConnector):
             # see engineering RT 461783
             raise MultipleReleasesFoundError()
         self.data = result['data'][0]
-        self.id = self.data['id']
-        self.name = self.data['attributes']['name']
-        self.description = self.data['attributes']['description']
-        self.type = self.data['attributes']['type']
-        self.is_active = self.data['attributes']['is_active']
-        self.enabled = self.data['attributes']['enabled']
-        self.blocker_flags = self.data['attributes']['blocker_flags']
-        self.product_versions = self.data['relationships']['product_versions']
-        self.url = self._url + '/release/show/%d' % self.id
-        # For displaying in scripts/logs:
-        self.edit_url = self._url + '/release/edit/%d' % self.id
+        self._setattr()
+
+    def __getattr__(self, name):
+        if self.data is None:
+            self.refresh()
+
+        if name in self.data:
+            result = self.data[name]
+        elif name in self.attributes:
+            result = self.attributes[name]
+        else:
+            result = self.relationships[name]
+        return result
+
+    def render(self):
+        return {
+            'product': str(self.product),
+            'supports_component_acl': self.supports_component_acl,
+            'program_manager': str(self.program_manager) if
+            self.program_manager else None,
+            'enabled': self.enabled,
+            'active': self.is_active,
+            'type': str(self.type),
+            'allow_pkg_dupes': self.allow_pkg_dupes,
+            'internal_target_release': str(self.internal_target_release) if
+            self.internal_target_release else None,
+            'zstream_target_release': str(self.zstream_target_release) if
+            self.zstream_target_release else None,
+            'name': str(self.name),
+            'description': str(self.description),
+            'product_versions': [
+                str(product_version['name'])
+                for product_version in self.product_versions
+            ],
+            'blocker_flags': [str(flag) for flag in self.blocker_flags],
+            'ship_date': str(self.ship_date) if self.ship_date else None,
+        }
 
     def advisories(self):
         """Find all advisories for this release.
@@ -115,7 +160,7 @@ class Release(ErrataConnector):
                           later to match the ship date value in Product
                           Pages.)
         """
-        product = Product(product)
+        product = errata_tool.Product(product)
 
         (_, number) = name.split('-', 1)
         description = '%s %s' % (product.description, number)
