@@ -1,3 +1,26 @@
+v1.24.0
+=======
+* Replace requests-kerberos dependency with requests-gssapi. requests-kerberos
+  is not well-maintained upstream and Fedora is dropping it entirely.
+  requests-gssapi is an up-to-date replacement.
+
+* Remove the ``._username`` property from the ``ErrataConnector`` class. The
+  purpose of this property was to discover the Kerberos username. This is
+  unnecessary and difficult to support with the switch to
+  python-requests-gssapi.
+
+* Add a new ``product_versions()`` method to the ``Product`` class. This
+  returns a list of product versions associated with a product.
+
+* Update ``Product`` and ``ProductVersion`` classes to use the Errata Tool's
+  newer v1 API endpoints. This provides more data fields on these classes.
+
+* Add a new ``render()`` method to the ``Product``, ``ProductVersion``, and
+  ``Variant`` classes. This makes it easier to obtain the data from these
+  classes in a structured way.
+
+* Make the unit test suite pass on EPEL 7's pytest 2.7.0.
+
 v1.23.0
 =======
 * Add a new ``CdnRepo`` class to represent Errata Tool CDN repository records.
