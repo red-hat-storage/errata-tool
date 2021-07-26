@@ -14,6 +14,7 @@ Source0:        %{pkgname}-%{version}.tar.gz
 BuildArch:      noarch
 %if 0%{?el7}
 BuildRequires:  pytest
+BuildRequires:  PyYAML
 BuildRequires:  python2-devel
 BuildRequires:  python-jsonpath-rw
 BuildRequires:  python-requests-gssapi
@@ -23,6 +24,7 @@ BuildRequires:  python-six
 BuildRequires:  python3-devel
 BuildRequires:  python3-jsonpath-rw
 BuildRequires:  python3-pytest
+BuildRequires:  python3-pyyaml
 BuildRequires:  python3-requests-gssapi
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
@@ -33,6 +35,7 @@ Modern Python API to Red Hat's Errata Tool
 
 
 %if 0%{?el7}
+Requires:  PyYAML
 Requires:  python-requests-gssapi
 Requires:  python-jsonpath-rw
 Requires:  python-six
@@ -42,6 +45,7 @@ Summary:    %{summary}
 Requires:   python3 >= 3.5
 Requires:   python3-requests-gssapi
 Requires:   python3-jsonpath-rw
+Requires:   python3-pyyaml
 Requires:   python3-six
 
 %description -n python3-%{pkgname}

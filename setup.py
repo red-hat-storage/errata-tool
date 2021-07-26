@@ -133,6 +133,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     install_requires=[
         'jsonpath_rw',
+        'pyyaml',
         'requests',
         'requests_gssapi',
         'six',
