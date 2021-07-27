@@ -66,6 +66,13 @@ class Variant(ErrataConnector):
         return {
             'name': str(self.name),
             'description': str(self.description),
+            'enabled': self.enabled,
+            'tps_stream': str(self.tps_stream),
+            'rhel_variant': str(self.relationships['rhel_variant']['name']),
+            'push_targets': [
+                str(target['name'])
+                for target in self.relationships['push_targets']
+            ]
         }
 
     def cdn_repos(self):

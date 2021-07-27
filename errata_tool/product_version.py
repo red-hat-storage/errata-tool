@@ -48,10 +48,16 @@ class ProductVersion(ErrataConnector):
         return {
             'name': str(self.name),
             'description': str(self.description),
+            'enabled': self.enabled,
             'default_brew_tag': str(self.default_brew_tag),
             'sig_key_name': sig_key,
             'rhel_release_name': rhel_release,
             'brew_tags': brew_tags,
+            'is_server_only': self.is_server_only,
+            'push_targets': [
+                str(target['name'])
+                for target in self.relationships['push_targets']
+            ],
             'variants': [
                 variant.render()
                 for variant in self.variants()

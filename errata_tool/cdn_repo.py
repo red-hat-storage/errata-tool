@@ -63,6 +63,7 @@ class CdnRepo(ErrataConnector):
             'arch': str(self.relationships['arch']['name']),
             'release_type': str(self.release_type),
             'content_type':  str(self.content_type),
+            'use_for_tps': self.use_for_tps,
             'variants': [
                 str(variant['name'])
                 for variant in self.relationships['variants']
@@ -72,11 +73,10 @@ class CdnRepo(ErrataConnector):
             packages = {}
             for package in self.relationships['packages']:
                 package_name = str(package['name'])
-                package_tags = []
-                for tag in package['cdn_repo_package_tags']:
-                    package_tags.append(str(tag['tag_template']))
-                packages[package_name] = package_tags
-
+                packages[package_name] = sorted(
+                    str(tag['tag_template'])
+                    for tag in package['cdn_repo_package_tags']
+                )
             output['packages'] = packages
 
         return output
