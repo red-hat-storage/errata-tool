@@ -23,7 +23,12 @@ def test_cpe(rhceph_variant):
 
 def test_variant_pretty_print(rhceph_variant):
     pretty_printer = pprint.PrettyPrinter()
-    output = "{'description': 'Red Hat Ceph Storage 5.0 MON', " \
-        + "'name': '8Base-RHCEPH-5.0-MON'}"
+    output = "{'description': 'Red Hat Ceph Storage 5.0 MON',\n" \
+        + " 'enabled': True,\n" \
+        + " 'name': '8Base-RHCEPH-5.0-MON',\n" \
+        + " 'push_targets':" \
+        + " ['cdn_stage', 'cdn_docker_stage', 'cdn_docker', 'cdn'],\n" \
+        + " 'rhel_variant': '8Base',\n" \
+        + " 'tps_stream': 'RHEL-8-Main-Base'}"
 
     assert pretty_printer.pformat(rhceph_variant.render()) == output

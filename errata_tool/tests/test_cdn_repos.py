@@ -62,6 +62,7 @@ def test_cdn_repo_without_packages_pretty_print(rhceph_variant):
  'content_type': '%s',
  'name': 'rhceph-5-mon-for-rhel-8-%s-%s',
  'release_type': 'Primary',
+ 'use_for_tps': False,
  'variants': ['8Base-RHCEPH-5.0-MON']}""" % \
                 (arch, content_type, arch, rpm_type)
 
@@ -84,10 +85,11 @@ def test_cdn_repo_with_containers_pretty_print(rhacm_variant):
         output = """{'arch': 'multi',
  'content_type': 'Docker',
  'name': 'redhat-rhacm2-%s-rhel7',
- 'packages': {'%s-container': ['{{version}}-{{release}}',
+ 'packages': {'%s-container': ['v{{version(2)}}',
 %s                             '{{version}}',
-%s                             'v{{version(2)}}']},
+%s                             '{{version}}-{{release}}']},
  'release_type': 'Primary',
+ 'use_for_tps': False,
  'variants': ['7Server-RHACM-2.0',
               '7Server-RHACM-2.1',
               '7Server-RHACM-2.2',

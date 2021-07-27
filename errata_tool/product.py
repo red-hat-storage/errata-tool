@@ -33,10 +33,14 @@ class Product(ErrataConnector):
         self.data = result['data']
 
     def render(self):
-        reviewer = self.relationships['default_docs_reviewer']
+        default_docs_reviewer = self.relationships['default_docs_reviewer']
+        if default_docs_reviewer:
+            reviewer = str(default_docs_reviewer['login_name'])
+        else:
+            reviewer = None
         rule_set = str(self.relationships['state_machine_rule_set']['name'])
         return {
-            'name': str(self.name),
+            'name': str(self.data['attributes']['name']),
             'short_name': str(self.short_name),
             'bugzilla_product_name': str(self.bugzilla_product_name),
             'description': str(self.description),
@@ -44,8 +48,9 @@ class Product(ErrataConnector):
                 str(state)
                 for state in self.valid_bug_states
             ],
-            'default_docs_reviewer': str(reviewer) if reviewer else None,
+            'default_docs_reviewer': reviewer,
             'ftp_subdir': str(self.ftp_subdir),
+            'move_bugs_on_qe': self.move_bugs_on_qe,
             'push_targets': [
                 str(target['name'])
                 for target in self.relationships['push_targets']
