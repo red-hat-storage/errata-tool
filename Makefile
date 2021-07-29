@@ -3,7 +3,7 @@
 
 NAME = python-errata-tool
 VERSION := $(shell PYTHONPATH=. python -c \
-             'import errata_tool; print errata_tool.__version__')
+             'import errata_tool; print(errata_tool.__version__)')
 RELEASE := $(shell rpmspec \
              --define "dist .el7" \
              -q --srpm --qf "%{release}\n" python-errata-tool.spec)
