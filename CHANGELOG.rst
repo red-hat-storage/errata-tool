@@ -1,3 +1,16 @@
+v1.25.0
+=======
+* CLI: add a new ``dump-config`` sub-command. This makes it easier to dump a
+  product's existing Errata Tool configuration into a format that Ansible can
+  read later. This makes it easier for release engineers to transition
+  products to use errata-tool-ansible.
+
+* Add a new ``releases()`` method to the ``Product`` class. This returns a
+  list of releases associated with a product.
+
+* Add a new ``render()`` method to the ``Release`` class. This makes it easier
+  to obtain the data from this class in a structured way.
+
 v1.24.0
 =======
 * Replace requests-kerberos dependency with requests-gssapi. requests-kerberos
