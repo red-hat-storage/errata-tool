@@ -36,7 +36,9 @@ def get(args):
     for product_version in product_rendered[0]['product_versions']:
         for variant in product_version['variants']:
             for cdn_repo in Variant(name=variant['name']).cdn_repos():
-                cdn_repos_rendered.append(cdn_repo.render())
+                cdn_repos = [repo['name'] for repo in cdn_repos_rendered]
+                if cdn_repo.name not in cdn_repos:
+                    cdn_repos_rendered.append(cdn_repo.render())
 
     output = {
         'products': product_rendered,
