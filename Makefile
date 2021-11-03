@@ -20,7 +20,7 @@ dist:
 	  && python setup.py sdist --dist-dir .
 
 srpm: dist
-	fedpkg --dist epel7 srpm
+	fedpkg --release epel7 srpm
 
 rpm: srpm
 	mock -r epel-7-x86_64 rebuild $(NAME)-$(VERSION)-$(RELEASE).src.rpm
