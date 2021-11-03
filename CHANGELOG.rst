@@ -1,3 +1,10 @@
+v1.26.0
+=======
+* CLI: do not print duplicate CDN repositories in ``dump-config`` sub-command.
+
+* README: Fix code examples for ``metadataCdnRepos()`` and
+  ``textOnlyRepos()``.
+
 v1.25.0
 =======
 * CLI: add a new ``dump-config`` sub-command. This makes it easier to dump a
