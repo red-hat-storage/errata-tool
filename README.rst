@@ -277,7 +277,7 @@ containing Docker images):
     e = Erratum(errata_id=24075)
 
     assert 'docker' in e.content_types
-    e.metadataCdnRepos(enable='rhel-7-server-rhceph-3-mon-rpms__x86_64')
+    e.metadataCdnRepos(enable=['rhel-7-server-rhceph-3-mon-rpms__x86_64'])
 
 Same thing, but for text-only advisories:
 
@@ -286,7 +286,7 @@ Same thing, but for text-only advisories:
     e = Erratum(errata_id=24075)
 
     assert e.text_only
-    e.textOnlyRepos(enable='rhel-7-server-rhceph-3-mon-rpms__x86_64')
+    e.textOnlyRepos(enable=['rhel-7-server-rhceph-3-mon-rpms__x86_64'])
 
 
 Working with products
