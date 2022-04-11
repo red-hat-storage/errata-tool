@@ -63,6 +63,7 @@ class Erratum(ErrataConnector):
         self.security_impact = None
         self.cve_names = None
         self.errata_bugs = []
+        self.jira_issues = []
         self.errata_builds = {}
         self.current_flags = []
         self.missing_prod_listings = []
@@ -298,6 +299,7 @@ https://access.redhat.com/articles/11258")
             self.solution = content['solution']
             self.errata_bugs = [int(b['bug']['id']) for b
                                 in advisory['bugs']['bugs']]
+            self.jira_issues = [k['jira_issue']['key'] for k in advisory['jira_issues']['jira_issues']]
             self.cve_names = content['cve']
             if self.cve_names == '':
                 self.cve_names = None
