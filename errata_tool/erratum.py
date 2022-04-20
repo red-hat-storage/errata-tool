@@ -299,7 +299,7 @@ https://access.redhat.com/articles/11258")
             self.solution = content['solution']
             self.errata_bugs = [int(b['bug']['id']) for b
                                 in advisory['bugs']['bugs']]
-            self.jira_issues = [k['jira_issue']['key'] for k 
+            self.jira_issues = [k['jira_issue']['key'] for k
                                 in advisory['jira_issues']['jira_issues']]
             self.cve_names = content['cve']
             if self.cve_names == '':
