@@ -1,3 +1,10 @@
+v1.27.0
+=======
+
+* Erratum instances have a new ``.jira_issues`` attribute. This is a list of
+  the jira ticket IDs attached to the advisory.
+
+
 v1.26.0
 =======
 * CLI: do not print duplicate CDN repositories in ``dump-config`` sub-command.
