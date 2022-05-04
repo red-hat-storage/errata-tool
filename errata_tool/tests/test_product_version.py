@@ -28,7 +28,8 @@ def test_released_builds(product_version):
 
 def test_product_version_pretty_print(product_version):
     pretty_printer = pprint.PrettyPrinter()
-    output = """{'brew_tags': ['ceph-3.1-rhel-7-candidate'],
+    output = """{'allow_rhn_debuginfo': False,
+ 'brew_tags': ['ceph-3.1-rhel-7-candidate'],
  'default_brew_tag': 'ceph-3.1-rhel-7-candidate',
  'description': 'Red Hat Ceph Storage 3.1',
  'enabled': False,
