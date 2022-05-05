@@ -58,6 +58,7 @@ class ProductVersion(ErrataConnector):
                 str(target['name'])
                 for target in self.relationships['push_targets']
             ],
+            'allow_rhn_debuginfo': self.allow_rhn_debuginfo,
             'variants': [
                 variant.render()
                 for variant in self.variants()
