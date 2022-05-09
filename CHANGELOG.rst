@@ -1,3 +1,10 @@
+v1.27.1
+=======
+
+* The ``render()`` method on the ``ProductVersion`` class now displays the
+  ``allow_rhn_debuginfo`` value for each Product Version. The ``dump-config``
+  command now prints this configuration setting.
+
 v1.27.0
 =======
 
