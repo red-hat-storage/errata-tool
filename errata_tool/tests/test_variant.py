@@ -1,5 +1,6 @@
 import pprint
 
+
 def test_id(rhceph_variant):
     assert rhceph_variant.id == 3085
 

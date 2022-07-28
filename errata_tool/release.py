@@ -4,7 +4,6 @@ import warnings
 from datetime import date
 import errata_tool
 from errata_tool import ErrataConnector
-from errata_tool.product import Product
 from errata_tool.product_version import ProductVersion
 from errata_tool.user import User
 

@@ -1,6 +1,7 @@
 from errata_tool import ErrataConnector
 from errata_tool.cdn_repo import CdnRepo
 
+
 class Variant(ErrataConnector):
     """A Variant contains a "data" dict, for example::
     {
