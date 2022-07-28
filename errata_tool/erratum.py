@@ -18,11 +18,11 @@ class Erratum(ErrataConnector):
         lines = s.split('\n')
 
         page = []
-        for l in lines:
+        for line in lines:
             b = textwrap.TextWrapper(width=75, replace_whitespace=True,
                                      break_long_words=False,
                                      break_on_hyphens=False)
-            page.append(b.fill(l))
+            page.append(b.fill(line))
         return '\n'.join(page)
 
     def _do_init(self):
@@ -563,7 +563,8 @@ https://access.redhat.com/articles/11258")
 
     def _addJiraIssue(self, j):
         if not isinstance(j, str):
-            raise ErrataException(f'JIRA issue must be a string and not a {type(j)}')
+            raise ErrataException('JIRA issue must be a string and'
+                                  f' not a {type(j)}')
         if j not in self.jira_issues:
             self.jira_issues.append(j)
 
@@ -575,8 +576,9 @@ https://access.redhat.com/articles/11258")
             self._addJiraIssue(j)
 
     def _removeJiraIssue(self, j):
-        if not isinstance(b, str):
-            raise ErrataException(f'JIRA issue must be a string and not a {type(j)}')
+        if not isinstance(j, str):
+            raise ErrataException('JIRA issue must be a string and'
+                                  f' not a {type(j)}')
         if j in self.jira_issues:
             self.jira_issues.remove(j)
 

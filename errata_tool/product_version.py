@@ -1,6 +1,7 @@
 from errata_tool import ErrataConnector
 from errata_tool.variant import Variant
 
+
 class ProductVersion(ErrataConnector):
     def __init__(self, id_or_name, data=None):
         """Find a Product Version in the ET database.
