@@ -304,7 +304,8 @@ https://access.redhat.com/articles/11258")
             self.cve_names = content['cve']
             if self.cve_names == '':
                 self.cve_names = None
-            self._original_bugs = list(self.errata_bugs)
+            self._original_errata_bugs = list(self.errata_bugs)
+            self._original_bugs = self.errata_bugs + self.jira_issues
 
             self._cache_bug_info(self._original_bugs)
 
@@ -559,6 +560,32 @@ https://access.redhat.com/articles/11258")
             raise ErrataException('Cannot change state from ' +
                                   self.errata_state.upper() + " to " +
                                   state.upper())
+
+    def _addJiraIssue(self, j):
+        if not isinstance(j, str):
+            raise ErrataException(f'JIRA issue must be a string and not a {type(j)}')
+        if j not in self.jira_issues:
+            self.jira_issues.append(j)
+
+    def addJiraIssues(self, issue_list):
+        if isinstance(issue_list, str):
+            self._addJiraIssue(issue_list)
+            return
+        for j in issue_list:
+            self._addJiraIssue(j)
+
+    def _removeJiraIssue(self, j):
+        if not isinstance(b, str):
+            raise ErrataException(f'JIRA issue must be a string and not a {type(j)}')
+        if j in self.jira_issues:
+            self.jira_issues.remove(j)
+
+    def removeJIRAIssues(self, issue_list):
+        if isinstance(issue_list, str):
+            self._removeJiraIssue(issue_list)
+            return
+        for j in issue_list:
+            self._removeJiraIssue(j)
 
     def _addBug(self, b):
         if not isinstance(b, int):
@@ -834,12 +861,12 @@ https://access.redhat.com/articles/11258")
 
         # XXX Delete all bugs is a special case
         last_bug = None
-        if len(self.errata_bugs) == 0 and len(self._original_bugs) > 0:
-            last_bug = self._original_bugs[0]
+        if len(self.errata_bugs) == 0 and len(self._original_errata_bugs) > 0:
+            last_bug = self._original_errata_bugs[0]
             self.errata_bugs = [last_bug]
 
         # Add back any Vulnerability bugs
-        allbugs = list(set(self.errata_bugs) | set(self._cve_bugs))
+        allbugs = list(set(self.errata_bugs) | set(self._cve_bugs) | set(self.jira_issues))
         idsfixed = ' '.join(str(i) for i in allbugs)
         pdata['advisory[idsfixed]'] = idsfixed
 
@@ -937,7 +964,7 @@ https://access.redhat.com/articles/11258")
 
             # Update buglist if it changed
             # Errata tool is very slow - don't PUT if it hasn't changed
-            allbugs = list(set(self.errata_bugs) | set(self._cve_bugs))
+            allbugs = list(set(self.errata_bugs) | set(self._cve_bugs) | set(self.jira_issues))
             if sorted(self._original_bugs) != sorted(allbugs) \
                or self._update:
                 self._write()
@@ -1093,7 +1120,7 @@ https://access.redhat.com/articles/11258")
             "\n  batch_id:    " + str(self.batch_id) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
-            "\n  bugs:        " + str(self.errata_bugs) + \
+            "\n  bugs:        " + str(self.errata_bugs + self.jira_issues) + \
             s
 
     def __int__(self):
