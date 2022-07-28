@@ -866,7 +866,8 @@ https://access.redhat.com/articles/11258")
             self.errata_bugs = [last_bug]
 
         # Add back any Vulnerability bugs
-        allbugs = list(set(self.errata_bugs) | set(self._cve_bugs) | set(self.jira_issues))
+        allbugs = list(set(self.errata_bugs) | set(
+            self._cve_bugs) | set(self.jira_issues))
         idsfixed = ' '.join(str(i) for i in allbugs)
         pdata['advisory[idsfixed]'] = idsfixed
 
@@ -964,7 +965,8 @@ https://access.redhat.com/articles/11258")
 
             # Update buglist if it changed
             # Errata tool is very slow - don't PUT if it hasn't changed
-            allbugs = list(set(self.errata_bugs) | set(self._cve_bugs) | set(self.jira_issues))
+            allbugs = list(set(self.errata_bugs) | set(
+                self._cve_bugs) | set(self.jira_issues))
             if sorted(self._original_bugs) != sorted(allbugs) \
                or self._update:
                 self._write()
