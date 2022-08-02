@@ -564,7 +564,7 @@ https://access.redhat.com/articles/11258")
     def _addJiraIssue(self, j):
         if not isinstance(j, str):
             raise ErrataException('JIRA issue must be a string and'
-                                  f' not a {type(j)}')
+                                  ' not a {}'.format(type(j)))
         if j not in self.jira_issues:
             self.jira_issues.append(j)
 
@@ -578,7 +578,7 @@ https://access.redhat.com/articles/11258")
     def _removeJiraIssue(self, j):
         if not isinstance(j, str):
             raise ErrataException('JIRA issue must be a string and'
-                                  f' not a {type(j)}')
+                                  ' not a {}'.format(type(j)))
         if j in self.jira_issues:
             self.jira_issues.remove(j)
 
