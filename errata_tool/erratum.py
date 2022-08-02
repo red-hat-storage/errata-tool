@@ -1124,7 +1124,8 @@ https://access.redhat.com/articles/11258")
             "\n  batch_id:    " + str(self.batch_id) + \
             "\n  ship date:   " + str(self.ship_date) + \
             "\n  age:         " + str(self.age) + " days" \
-            "\n  bugs:        " + str(self.errata_bugs + self.jira_issues) + \
+            "\n  bugs:        " + str(sorted(self.errata_bugs)) + \
+            "\n  jira issues: " + str(sorted(self.jira_issues)) + \
             s
 
     def __int__(self):
