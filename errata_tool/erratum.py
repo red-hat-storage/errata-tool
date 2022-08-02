@@ -27,6 +27,7 @@ class Erratum(ErrataConnector):
 
     def _do_init(self):
         self.errata_id = 0
+        self._original_jira_issues = []
         self._original_bugs = []
         self._cve_bugs = []
         self._original_state = 'NEW_FILES'
@@ -304,8 +305,8 @@ https://access.redhat.com/articles/11258")
             self.cve_names = content['cve']
             if self.cve_names == '':
                 self.cve_names = None
-            self._original_errata_bugs = list(self.errata_bugs)
-            self._original_bugs = self.errata_bugs + self.jira_issues
+            self._original_jira_issues = list(self.jira_issues)
+            self._original_bugs = list(self.errata_bugs)
 
             self._cache_bug_info(self._original_bugs)
 
@@ -861,12 +862,6 @@ https://access.redhat.com/articles/11258")
         pdata['advisory[description]'] = self.description
         pdata['advisory[solution]'] = self.solution
 
-        # XXX Delete all bugs is a special case
-        last_bug = None
-        if len(self.errata_bugs) == 0 and len(self._original_errata_bugs) > 0:
-            last_bug = self._original_errata_bugs[0]
-            self.errata_bugs = [last_bug]
-
         # Add back any Vulnerability bugs
         allbugs = list(set(self.errata_bugs) | set(
             self._cve_bugs) | set(self.jira_issues))
@@ -874,7 +869,7 @@ https://access.redhat.com/articles/11258")
         pdata['advisory[idsfixed]'] = idsfixed
 
         # Sync newly added bug states
-        newbugs = list(set(allbugs) - set(self._original_bugs))
+        newbugs = list(set(allbugs) - set(self._original_bugs) - set(self._original_jira_issues))
         if len(newbugs):
             # url = '/api/v1/bug/refresh'
             # print(allbugs)
@@ -916,23 +911,6 @@ https://access.redhat.com/articles/11258")
             r = self._put(url, data=pdata)
         self._processResponse(r)
 
-        # XXX WOW VERY HACK
-        # If deleting last bug...
-        if last_bug is not None:
-            # This doesn't work to remove the last bug, nor does setting
-            # idsfixed to empty-string
-            # url = "/api/v1/erratum/%i/remove_bug" % self.errata_id
-            # pdata = {'bug': str(last_bug)}
-
-            # Solution: Use hacks to pretend we're using the remove-bugs
-            # web UI :(
-            url = '/bugs/remove_bugs_from_errata/%i' % self.errata_id
-            pdata = {}
-            pdata['bug[' + str(last_bug) + ']'] = 1
-
-            r = self._post(url, data=pdata)
-            self._processResponse(r)
-
     def _putStatus(self):
         # REFERENCE
 
@@ -969,7 +947,7 @@ https://access.redhat.com/articles/11258")
             # Errata tool is very slow - don't PUT if it hasn't changed
             allbugs = list(set(self.errata_bugs) | set(
                 self._cve_bugs) | set(self.jira_issues))
-            if sorted(self._original_bugs) != sorted(allbugs) \
+            if sorted(self._original_bugs + self._original_jira_issues) != sorted(allbugs) \
                or self._update:
                 self._write()
                 # self.syncBugs() # RHOS shale only
