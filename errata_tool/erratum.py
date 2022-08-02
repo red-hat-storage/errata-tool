@@ -869,7 +869,8 @@ https://access.redhat.com/articles/11258")
         pdata['advisory[idsfixed]'] = idsfixed
 
         # Sync newly added bug states
-        newbugs = list(set(allbugs) - set(self._original_bugs) - set(self._original_jira_issues))
+        newbugs = list(set(allbugs) - set(self._original_bugs) -
+                       set(self._original_jira_issues))
         if len(newbugs):
             # url = '/api/v1/bug/refresh'
             # print(allbugs)
