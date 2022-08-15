@@ -1,3 +1,9 @@
+v1.28.0
+=======
+* Erratum instances have new ``.addJiraIssues()`` and ``.removeJIRAIssues()``
+  methods. Use these methods to modify the list of Jira issues attached to the
+  advisory.
+
 v1.27.1
 =======
 
