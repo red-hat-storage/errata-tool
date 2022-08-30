@@ -948,9 +948,10 @@ https://access.redhat.com/articles/11258")
             # Errata tool is very slow - don't PUT if it hasn't changed
             allbugs = list(set(self.errata_bugs) | set(
                 self._cve_bugs) | set(self.jira_issues))
-            originalbugs = list(set(self._original_bugs + self._original_jira_issues)
-            if list(set(originalbugs).difference(set(allbugs))) == [] \
-               or self._update:
+            originalbugs = list(set(self._original_bugs +
+                                    self._original_jira_issues))
+            if (self._update or
+                    list(set(originalbugs).difference(set(allbugs))) == []):
                 self._write()
                 # self.syncBugs() # RHOS shale only
                 ret = True
