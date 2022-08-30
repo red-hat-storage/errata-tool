@@ -84,6 +84,13 @@ class TestAdvisory(object):
         assert 1253486 in advisory.errata_bugs
         assert len(advisory.errata_bugs) == 138
 
+    def test_errata_issues(self, advisory):
+        assert advisory.jira_issues == []
+
+    def test_commit(self, advisory):
+        advisory._buildschanged = True
+        assert advisory.commit() is True
+
     def test_errata_builds(self, advisory):
         expected = {'RHEL-7-RHCEPH-3.1': ['ceph-12.2.5-42.el7cp']}
         assert advisory.errata_builds == expected
