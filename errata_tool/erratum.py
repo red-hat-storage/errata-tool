@@ -946,9 +946,7 @@ https://access.redhat.com/articles/11258")
 
             # Update buglist if it changed
             # Errata tool is very slow - don't PUT if it hasn't changed
-            allbugs = list(set(self.errata_bugs) | set(
-                self._cve_bugs) | set(self.jira_issues))
-            allbugs = let(self.errata_bugs) | set(
+            allbugs = set(self.errata_bugs) | set(
                 self._cve_bugs) | set(self.jira_issues)
             originalbugs = set(self._original_bugs +
                                self._original_jira_issues)
