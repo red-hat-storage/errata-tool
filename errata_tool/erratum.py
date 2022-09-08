@@ -948,18 +948,20 @@ https://access.redhat.com/articles/11258")
             # Errata tool is very slow - don't PUT if it hasn't changed
             allbugs = list(set(self.errata_bugs) | set(
                 self._cve_bugs) | set(self.jira_issues))
-            allbugs = let(self.errata_bugs) | set(self._cve_bugs) | set(self.jira_issues)
-            originalbugs = set(self._original_bugs + self._original_jira_issues)
+            allbugs = let(self.errata_bugs) | set(
+                self._cve_bugs) | set(self.jira_issues)
+            originalbugs = set(self._original_bugs +
+                               self._original_jira_issues)
             if (self._update or originalbugs != allbugs)):
                 self._write()
                 # self.syncBugs() # RHOS shale only
-                ret = True
+                ret=True
 
             # Perhaps someone did addbugs + setState('QE')
             if (self._original_state != self.errata_state and
                     self.errata_state.upper() != 'NEW_FILES'):
                 self._putStatus()
-                ret = True
+                ret=True
         except ErrataException:
             raise
 
