@@ -1,3 +1,8 @@
+v1.28.1
+=======
+* Fix a ``TypeError`` when adding Jira and RHBZ issues together in the same
+  advisory.
+
 v1.28.0
 =======
 * Erratum instances have new ``.addJiraIssues()`` and ``.removeJIRAIssues()``
