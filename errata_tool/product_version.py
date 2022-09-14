@@ -55,6 +55,7 @@ class ProductVersion(ErrataConnector):
             'rhel_release_name': rhel_release,
             'brew_tags': brew_tags,
             'is_server_only': self.is_server_only,
+            'use_quay_for_containers': self.use_quay_for_containers,
             'push_targets': [
                 str(target['name'])
                 for target in self.relationships['push_targets']
