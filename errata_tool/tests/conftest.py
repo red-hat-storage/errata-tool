@@ -2,6 +2,8 @@ import json
 import os
 from errata_tool import ErrataConnector, Erratum
 from errata_tool.build import Build
+from errata_tool.bug import Bug
+from errata_tool.jira_issue import JiraIssue
 from errata_tool.products import ProductList
 from errata_tool.product import Product
 from errata_tool.product_version import ProductVersion
@@ -183,3 +185,19 @@ def rhacm_variant(monkeypatch, mock_get):
     monkeypatch.setattr(ErrataConnector, '_auth', None)
     monkeypatch.setattr(requests, 'get', mock_get)
     return Variant(name='7Server-RHACM-2.0')
+
+
+@pytest.fixture
+def bug(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return Bug(1578936)
+
+
+@pytest.fixture
+def jiraissue(monkeypatch, mock_get):
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    return JiraIssue("OCPBUGS-1590")
