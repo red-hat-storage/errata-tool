@@ -15,4 +15,4 @@ class TestGet(object):
 
     def test_url(self, jiraissue):
         assert jiraissue.url.endswith(
-            '/jira_issues/%d/advisories.json' % jiraissue.id)
+            '/jira_issues/%s/advisories.json' % jiraissue.id)
