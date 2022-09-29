@@ -1,3 +1,12 @@
+v1.29.0
+=======
+* Add new ``Bug`` and ``JiraIssue`` classes to represent Bugzilla and Jira
+  tickets. Use the new ``bug`` and ``jiraissue`` CLI sub-commands to access
+  the data in these classes from shell scripts.
+* The ``render()`` method on the ``ProductVersion`` class now displays the
+  ``use_quay_for_containers`` value for each Product Version. The
+  ``dump-config`` command now prints this setting.
+
 v1.28.1
 =======
 * Fix a ``TypeError`` when adding Jira and RHBZ issues together in the same
