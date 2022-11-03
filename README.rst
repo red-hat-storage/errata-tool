@@ -116,7 +116,88 @@ query information from the Errata Tool or create new releases (releng)::
       --stage               use staging ET instance
       --dry-run             show what would happen, but don't do it
 
+errata-tool command-line interface examples
+-------------------------------------------
 
+Waiting and conditionally pushing an advisory:
+
+As a release engineer one often checks the status of an advisory if it is ready
+to be pushed. To avoid human polling of the state and to automate the advisory
+push two options are provided under the ``errata-tool advisory push`` option::
+
+    errata-tool advisory push --help
+    usage: errata-tool advisory push [-h] [--target {stage,live}]
+    [--wait-for-state {SHIPPED_LIVE,PUSH_READY}] [--push-when-ready]
+    [--verbose] errata_id
+
+    positional arguments:
+      errata_id             advisory id, "12345"
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --target {stage,live}
+                            stage (default) or live
+      --wait-for-state {SHIPPED_LIVE,PUSH_READY}
+                            state : PUSH_READY or SHIPPED_LIVE
+      --push-when-ready     Push if the advisory enters state PUSH_READY
+      --verbose             print current state of the advisory
+
+The ``--wait-for-state`` option polls at regular interval for the advisory to
+enter one of the two desired states - PUSH_READY or SHIPPED_LIVE
+
+when the advisory reaches that state the polling stops and the script exits with
+a successful exit code ``$? eq 0``.
+
+Caveat: The script will wait forever until that state is reached or interrupted
+by the user. The option to have a cap on the wait time was dropped to keep the
+usage simple and for the lack of a compelling use case.
+
+
+The ``--push-when-ready`` option pushes the advisory if it is in  PUSH_READY
+state. The ``--push-when-ready`` option can be used with ``--wait-for-state``
+option to repeatedly poll the advisory until it reaches PUSH_READY state before
+pushing it.
+Here are some usecases:
+
+- usecase 1: Push advisory if it is in state PUSH_READY state
+
+
+.. code-block:: bash
+
+    errata-tool --stage advisory push --target live --push-when-ready 12345
+
+
+- usecase 2: Wait for advisory to enter PUSH_READY state and push the advisory
+
+
+.. code-block:: bash
+
+    errata-tool --stage advisory push --target live  --push-when-ready \
+    --wait-for-state PUSH_READY 12345
+
+
+- usecase 3: Wait for advisory to enter SHIPPED_LIVE, push the advisory if
+               it enters PUSH_READY state while waiting.
+
+
+.. code-block:: bash
+
+    errata-tool --stage advisory push --target live  --push-when-ready \
+    --wait-for-state SHIPPED_LIVE 12345
+
+
+- usecase 4: Push independent advisories before pushing those which are
+           dependent on the independent advisories
+
+           See: https://issues.redhat.com/browse/SPMM-9887
+
+.. code-block:: bash
+
+    # Ship advisory 12346 after shipping 12345
+    errata-tool --stage advisory push --target live  --push-when-ready \
+    --wait-for-state SHIPPED_LIVE 12345 && \
+    errata-tool --stage advisory push --target live  --push-when-ready \
+    --wait-for-state PUSH_READY 12346
 
 More Python Examples
 --------------------
