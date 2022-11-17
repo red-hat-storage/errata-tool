@@ -393,6 +393,29 @@ https://access.redhat.com/articles/11258")
         """
         return self._cdn_repos('text_only_repos', enable, disable)
 
+    def comments(self):
+        """Get all comments for this advisory
+
+        :returns: a list of dicts containg each comment for this advisory,
+                  ordered from newest to oldest
+        """
+        url = '/api/v1/comments?filter[errata_id]=%s' % self.errata_id
+        result = self._get(url)
+        return result['data']
+
+    def addComment(self, comment):
+        """Add a comment to this advisory
+
+        :param comment: Comment string to be added to advisory
+        :returns: a dict containing the response body of the updated or
+                  unmodified state of this advisory
+        """
+        url = '/api/v1/erratum/%s/add_comment' % self.errata_id
+        payload = {'comment': comment}
+        result = self._post(url, json=payload)
+        result.raise_for_status()
+        return result.json()
+
     def _cdn_repos(self, endpoint, enable=[], disable=[]):
         """Get or set the repos for this advisory.
 
