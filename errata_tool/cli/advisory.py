@@ -1,4 +1,5 @@
 from errata_tool.erratum import Erratum
+from time import sleep
 
 
 def add_parser(subparsers):
@@ -53,6 +54,18 @@ def add_parser(subparsers):
     push_parser.add_argument('--target', choices=('stage', 'live'),
                              default='stage',
                              help='stage (default) or live')
+    push_parser.add_argument(
+        '--wait-for-state',
+        choices=(
+            'SHIPPED_LIVE',
+            'PUSH_READY'),
+        help='state : PUSH_READY or SHIPPED_LIVE')
+    push_parser.add_argument(
+        '--push-when-ready',
+        action='store_true',
+        help='Push if the advisory enters state PUSH_READY')
+    push_parser.add_argument('--verbose', action='store_true',
+                             help='print current state of the advisory')
     push_parser.set_defaults(func=push)
 
     # TODO:
@@ -70,7 +83,44 @@ def get(args):
 
 def push(args):
     e = Erratum(errata_id=args.errata_id)
-    e.push(target=args.target)
+
+    if args.push_when_ready:
+        push_when_ready(args)
+    if args.wait_for_state:
+        wait_for_state(args)
+    else:
+        e.push(target=args.target)
+
+
+def wait_for_state(args):
+    # Check every 5 minutes for the state of the advisory
+    wait_interval = 60*5
+    e = Erratum(errata_id=args.errata_id)
+
+    if args.wait_for_state == 'PUSH_READY':
+        while e.errata_state not in ('PUSH_READY', 'IN_PUSH', 'SHIPPED_LIVE'):
+            sleep(wait_interval)
+            # Get current state upon re-creating the object
+            e = Erratum(errata_id=args.errata_id)
+            if args.verbose:
+                print(e.errata_id, 'is in state:', e.errata_state)
+        if args.push_when_ready:
+            push_when_ready(args)
+
+    if args.wait_for_state == 'SHIPPED_LIVE':
+        if args.push_when_ready:
+            push_when_ready(args)
+        while e.errata_state != 'SHIPPED_LIVE':
+            sleep(wait_interval)
+            e = Erratum(errata_id=args.errata_id)
+            if args.verbose:
+                print(e.errata_id, 'is in state:', e.errata_state)
+
+
+def push_when_ready(args):
+    e = Erratum(errata_id=args.errata_id)
+    if e.errata_state in ('PUSH_READY'):
+        e.push(target=args.target)
 
 
 def create(args):
