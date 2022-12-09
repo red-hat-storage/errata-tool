@@ -1,3 +1,13 @@
+v1.30.0
+=======
+* The errata-tool CLI ``push`` sub-command has two new options:
+  ``--wait-for-state`` and ``--push-when-ready``. These allow release
+  engineers to wait and push advisories based on state.
+
+* The ``Errataum`` class has two new methods: ``comments()`` retrieves all
+  comments for an advisory, and ``addComment()`` adds a new comment to
+  advisories.
+
 v1.29.0
 =======
 * Add new ``Bug`` and ``JiraIssue`` classes to represent Bugzilla and Jira
