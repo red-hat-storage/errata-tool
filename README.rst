@@ -221,6 +221,8 @@ Adding bugs:
 
     e.commit()
 
+    # You can read the current list of bugs with the "e.errata_bugs" property.
+
 Removing bugs:
 
 .. code-block:: python
