@@ -1,4 +1,5 @@
 from errata_tool.erratum import Erratum
+from errata_tool.bug import Bug
 from time import sleep
 
 
@@ -68,12 +69,38 @@ def add_parser(subparsers):
                              help='print current state of the advisory')
     push_parser.set_defaults(func=push)
 
+    add_bugs_parser = sub.add_parser('add-bugs')
+    add_bugs_parser.add_argument('errata_id', help='advisory id, "12345"')
+    add_bugs_parser.add_argument(
+        '--bug-ids', required=True, help='bugzilla bug ids, "12345"', nargs='+'
+    )
+    add_bugs_parser.set_defaults(func=add_bugs)
+
     # TODO:
     # "new-state"           Change erratum state
-    # "add-bugs"            Add bugs to erratum
     # "remove-bugs"         Provide a list of bugs to remove from erratum
     # "add-builds"          Add build to erratum (you may specify nvr)
     # "remove-builds"       Remove build from erratum
+
+
+def add_bugs(args):
+    e = Erratum(errata_id=args.errata_id)
+    bugs_to_attach = []
+    for bug_id in args.bug_ids:
+        bug = Bug(bug_id)
+        if args.errata_id in bug.all_advisory_ids:
+            continue
+        bugs_to_attach.append(bug)
+
+    e.addBugs([b.id for b in bugs_to_attach])
+    if args.dry_run:
+        print(
+            "DRY RUN: would add the following Bugs to advisory "
+            + "'{}': {}".format(args.errata_id, bugs_to_attach))
+        return
+
+    e.commit()
+    print(e)
 
 
 def get(args):
