@@ -1,7 +1,8 @@
 import sys
 import pytest
+import requests
 from errata_tool.cli import main
-
+from errata_tool import ErrataConnector
 
 class FakeErratum(object):
 
@@ -14,6 +15,12 @@ class FakeErratum(object):
         pass
 
     def push(self, **kwargs):
+        pass
+
+
+class FakeBug(object):
+
+    def __init__(self, id):
         pass
 
 
@@ -124,3 +131,41 @@ def test_create(monkeypatch):
             '--manager-email', 'ohno@redhat.com']
     monkeypatch.setattr(sys, 'argv', argv)
     main.main()
+
+
+def test_add_bugs_dry_run(capsys, monkeypatch, mock_get, mock_put):
+    # Mock all external calls
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+
+    # Errata ID and Bug ID are reused from some fixtures already present
+    argv = ['errata-tool', '--dry-run', 'advisory', 'add-bugs', '33840', '--bug-ids', '1578936']
+    monkeypatch.setattr(sys, 'argv', argv)
+
+    main.main()
+
+    # We output 'DRY_RUN' and make no modification calls
+    captured = capsys.readouterr()
+    assert 'DRY RUN' in captured.out
+    assert '1578936' in captured.out
+
+    assert not hasattr(mock_put, 'kwargs')
+
+
+def test_add_bugs(monkeypatch, mock_get, mock_post, mock_put):
+    # Mock all external calls
+    monkeypatch.delattr('requests.sessions.Session.request')
+    monkeypatch.setattr(ErrataConnector, '_auth', None)
+    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(requests, 'post', mock_post)
+    monkeypatch.setattr(requests, 'put', mock_put)
+
+    # Errata ID and Bug ID are reused from some fixtures already present
+    argv = ['errata-tool', 'advisory', 'add-bugs', '33840', '--bug-ids', '1578936']
+    monkeypatch.setattr(sys, 'argv', argv)
+
+    main.main()
+
+    # Our bug is added to the request
+    assert '1578936' in mock_put.kwargs['data']['advisory[idsfixed]']
