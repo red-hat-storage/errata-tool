@@ -140,7 +140,8 @@ def test_add_bugs_dry_run(capsys, monkeypatch, mock_get, mock_put):
     monkeypatch.setattr(requests, 'get', mock_get)
 
     # Errata ID and Bug ID are reused from some fixtures already present
-    argv = ['errata-tool', '--dry-run', 'advisory', 'add-bugs', '33840', '--bug-ids', '1578936']
+    argv = ['errata-tool', '--dry-run', 'advisory',
+            'add-bugs', '33840', '--bug-ids', '1578936']
     monkeypatch.setattr(sys, 'argv', argv)
 
     main.main()
@@ -162,7 +163,8 @@ def test_add_bugs(monkeypatch, mock_get, mock_post, mock_put):
     monkeypatch.setattr(requests, 'put', mock_put)
 
     # Errata ID and Bug ID are reused from some fixtures already present
-    argv = ['errata-tool', 'advisory', 'add-bugs', '33840', '--bug-ids', '1578936']
+    argv = ['errata-tool', 'advisory', 'add-bugs',
+            '33840', '--bug-ids', '1578936']
     monkeypatch.setattr(sys, 'argv', argv)
 
     main.main()
