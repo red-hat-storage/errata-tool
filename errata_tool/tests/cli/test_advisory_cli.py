@@ -147,9 +147,9 @@ def test_add_bugs_dry_run(capsys, monkeypatch, mock_get, mock_put):
     main.main()
 
     # We output 'DRY_RUN' and make no modification calls
-    captured = capsys.readouterr()
-    assert 'DRY RUN' in captured.out
-    assert '1578936' in captured.out
+    out, _ = capsys.readouterr()
+    assert 'DRY RUN' in out
+    assert '1578936' in out
 
     assert not hasattr(mock_put, 'kwargs')
 
