@@ -1,3 +1,8 @@
+v1.31.0
+=======
+* The errata-tool CLI has a new ``add-bugs`` sub-command that allows users to
+  add bugs to an advisory.
+
 v1.30.0
 =======
 * The errata-tool CLI ``push`` sub-command has two new options:
