@@ -25,6 +25,7 @@ class Release(ErrataConnector):
         self.attributes = self.data['attributes']
         self.relationships = self.data['relationships']
         self.id = self.data['id']
+        self.name = self.attributes['name']
         self.program_manager = \
             self.relationships['program_manager']['login_name'] if \
             self.relationships.get('program_manager') else None
