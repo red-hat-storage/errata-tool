@@ -44,7 +44,7 @@ class Erratum(ErrataConnector):
         # primarily for debugging/printing by user apps
         self.errata_type = None
         self.text_only = False
-        self.text_only_cpe = None
+        self.non_rpm_cpe = None
         self.publish_date_override = None
         self.publish_date = None
         self.creation_date = None
@@ -80,8 +80,8 @@ class Erratum(ErrataConnector):
         if 'text_only' in kwargs:
             self.text_only = kwargs['text_only']
             self._update = True
-        if 'text_only_cpe' in kwargs:
-            self.text_only_cpe = kwargs['text_only_cpe']
+        if 'non_rpm_cpe' in kwargs:
+            self.non_rpm_cpe = kwargs['non_rpm_cpe']
             self._update = True
         if 'date' in kwargs:
             try:
@@ -294,7 +294,7 @@ https://access.redhat.com/articles/11258")
             self.text_only = erratum['text_only']
             self.synopsis = erratum['synopsis']
             content = advisory['content']['content']
-            self.text_only_cpe = content['text_only_cpe']
+            self.non_rpm_cpe = content['non_rpm_cpe']
             self.topic = content['topic']
             self.description = content['description']
             self.solution = content['solution']
@@ -860,8 +860,8 @@ https://access.redhat.com/articles/11258")
         # POST/PUT a 1 or 0 value for this text_only boolean
         pdata['advisory[text_only]'] = int(self.text_only)
 
-        if self.text_only_cpe:
-            pdata['advisory[text_only_cpe]'] = self.text_only_cpe
+        if self.non_rpm_cpe:
+            pdata['advisory[non_rpm_cpe]'] = self.non_rpm_cpe
 
         if self.publish_date_override:
             pdata['advisory[publish_date_override]'] = \
