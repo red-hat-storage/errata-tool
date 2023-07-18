@@ -3,14 +3,42 @@ name: tests
 on: [push, pull_request]
 
 jobs:
+  tox27:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.access.redhat.com/rhel7:latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Add CentOS Yum repos
+        run: |
+          cat <<EOF > /etc/yum.repos.d/centos.repo
+          [base]
+          name=CentOS-7 - Base
+          #mirrorlist=http://mirrorlist.centos.org/?release=7&arch=\$basearch&repo=os
+          baseurl=http://mirror.centos.org/centos/7/os/\$basearch/
+          gpgcheck=1
+          gpgkey=https://vault.centos.org/RPM-GPG-KEY-CentOS-7
+
+          [updates]
+          name=CentOS-7 - Updates
+          #mirrorlist=http://mirrorlist.centos.org/?release=7&arch=\$basearch&repo=updates
+          baseurl=http://mirror.centos.org/centos/7/updates/\$basearch/
+          gpgcheck=1
+          gpgkey=https://vault.centos.org/RPM-GPG-KEY-CentOS-7
+          EOF
+          yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      - name: Install dependencies
+        run: |
+          yum --setopt=skip_missing_names_on_install=False -y install krb5-devel python2-devel python2-pip python-tox git-core gcc
+      - name: Test with tox
+        run: |
+          tox -e py27 -- errata_tool/tests
   tox:
     runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 5
       matrix:
         include:
-          - python-version: 2.7
-            os: ubuntu-20.04
           - python-version: 3.6
             os: ubuntu-20.04
           - python-version: 3.9
