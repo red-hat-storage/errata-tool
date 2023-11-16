@@ -39,7 +39,6 @@ def test_product_version_pretty_print(product_version):
  'push_targets': ['ftp', 'cdn_stage', 'cdn_docker_stage', 'cdn_docker', 'cdn'],
  'rhel_release_name': 'RHEL-7',
  'sig_key_name': 'redhatrelease2',
- 'use_quay_for_containers': False,
  'variants': [{'description': 'Red Hat Ceph Storage 3.1 MON',
                'enabled': True,
                'name': '7Server-RHEL-7-RHCEPH-3.1-MON',
