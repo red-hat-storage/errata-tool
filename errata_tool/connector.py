@@ -281,7 +281,11 @@ class ErrataConnector(object):
         # pages yet, but if we do, we could raise this limit.
         PAGE_LIMIT = 50
         page_number = 1
-        tmpl = api_url + '&page[number]=%d'
+        # If 'page' is the first API parameter, it must start with '?'
+        if api_url.find('?') < 0:
+            tmpl = api_url + '?page[number]=%d'
+        else:
+            tmpl = api_url + '&page[number]=%d'
         data = []
         paged_data = []
         while(page_number == 1 or paged_data):
