@@ -1,3 +1,13 @@
+v1.32.0
+=======
+* The Errata Tool developers have removed the ``use_quay_for_containers``
+  attribute on Product Versions. This update removes any processing for that
+  field.
+
+* The ``Release`` class now correctly populates the ``.name`` attribute on
+  objects that you create with the ``id`` keyword argument. This allows users
+  to look up a release's name using its ID number.
+
 v1.31.0
 =======
 * The errata-tool CLI has a new ``add-bugs`` sub-command that allows users to
