@@ -35,6 +35,7 @@ def test_staging_connector(monkeypatch):
     argv = ['errata-tool', '--stage', 'release', 'get', 'rhceph-2.4']
     monkeypatch.setattr(sys, 'argv', argv)
     monkeypatch.setattr(errata_tool.cli.release, 'get', lambda x: None)
+    monkeypatch.setattr(ErrataConnector, '_url', 'https://fake.com')
     main.main()
     expected = 'https://errata.stage.engineering.redhat.com'
     assert ErrataConnector._url == expected
