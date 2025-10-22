@@ -14,6 +14,22 @@ class ProductVersion(ErrataConnector):
         self.data = data
         self.url = self._url + '/product_versions/%s' % self.id_or_name
 
+    def releasedBuild(self, package_name):
+        """Get the released build for this package of this Product Version.
+
+        :param package_name: This will be package name (str), for example "ceph".
+        :returns: a (possibly-empty) dict. And the dict represents a
+                  build, for example::
+
+                    {'build': u'ceph-12.2.5-42.el7cp',
+                     'created_at': '2018-09-26T18:17:33Z',
+                     'errata_id': 33840,
+                     'updated_at': '2018-09-26T18:17:33Z'},
+        """
+        url = '/api/v1/product_versions/%d/released_builds/%s' % (self.id, package_name)
+        result = self._get(url)
+        return result
+
     def releasedBuilds(self):
         """Get the list of released builds for this Product Version.
 

@@ -27,6 +27,18 @@ def test_released_builds(product_version):
                         }
 
 
+def test_released_build(product_version):
+    build = product_version.releasedBuild('ceph')
+    assert isinstance(build, dict)
+    # Check for an expected ceph NVR.
+    expected = 'ceph-12.2.5-42.el7cp'
+    assert build == {'build': expected,
+                        'errata_id': 33840,
+                        'created_at': "2018-09-26T18:17:33Z",
+                        'updated_at': "2018-09-26T18:17:33Z",
+                        }
+
+
 def test_product_version_pretty_print(product_version):
     pretty_printer = pprint.PrettyPrinter()
     output = """{'allow_rhn_debuginfo': False,
