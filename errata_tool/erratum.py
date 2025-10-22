@@ -121,6 +121,10 @@ class Erratum(ErrataConnector):
         if 'solution' in kwargs:
             self.solution = self.fmt(kwargs['solution'])
             self._update = True
+        if 'batch_id' in kwargs:
+            self.batch_id = kwargs['batch_id']
+            self._update = True
+
 
     def __init__(self, **kwargs):
 
@@ -840,6 +844,8 @@ https://access.redhat.com/articles/11258")
             pdata['advisory[assigned_to_email]'] = self.qe_email
         if self.qe_group is not None and self.qe_group != '':
             pdata['advisory[quality_responsibility_name]'] = self.qe_group
+        if self.batch_id is not None:
+            pdata['batch[id]'] = self.batch_id
 
         if self.synopsis is None:
             raise ErrataException("Can't write erratum without synopsis")

@@ -31,7 +31,7 @@ class MockResponse(object):
         """Return path to our static fixture file. """
         fdir = os.path.join(FIXTURES_DIR, 'errata.devel.redhat.com/')
         filename = self._url_with_params.replace(
-            'https://errata.devel.redhat.com/', fdir)
+            'https://errata.devel.redhat.com/', fdir).replace('https://errata.stage.engineering.redhat.com/', fdir)
         # If we need to represent this API endpoint as both a directory and a
         # file, check for a ".body" file.
         if os.path.isdir(filename):
