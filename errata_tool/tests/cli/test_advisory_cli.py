@@ -1,6 +1,5 @@
 import sys
 import pytest
-import requests
 from errata_tool.cli import main
 from errata_tool import ErrataConnector
 
@@ -135,9 +134,8 @@ def test_create(monkeypatch):
 
 def test_add_bugs_dry_run(capsys, monkeypatch, mock_get, mock_put):
     # Mock all external calls
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(requests, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
 
     # Errata ID and Bug ID are reused from some fixtures already present
     argv = ['errata-tool', '--dry-run', 'advisory',
@@ -156,11 +154,10 @@ def test_add_bugs_dry_run(capsys, monkeypatch, mock_get, mock_put):
 
 def test_add_bugs(monkeypatch, mock_get, mock_post, mock_put):
     # Mock all external calls
-    monkeypatch.delattr('requests.sessions.Session.request')
     monkeypatch.setattr(ErrataConnector, '_auth', None)
-    monkeypatch.setattr(requests, 'get', mock_get)
-    monkeypatch.setattr(requests, 'post', mock_post)
-    monkeypatch.setattr(requests, 'put', mock_put)
+    monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
+    monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
+    monkeypatch.setattr(ErrataConnector.session, 'put', mock_put)
 
     # Errata ID and Bug ID are reused from some fixtures already present
     argv = ['errata-tool', 'advisory', 'add-bugs',

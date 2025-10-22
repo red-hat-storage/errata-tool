@@ -1,6 +1,6 @@
 from datetime import date
-import requests
 from errata_tool.release import Release
+from errata_tool.connector import ErrataConnector
 
 
 class TestGet(object):
@@ -41,7 +41,7 @@ class TestGet(object):
 
 class TestAdvisories(object):
     def test_advisories(self, release, monkeypatch, mock_get):
-        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
         result = release.advisories()
         # Validate URL
         expected_url = 'https://errata.devel.redhat.com/release/860/advisories.json'  # NOQA: E501
@@ -85,15 +85,15 @@ class TestCreate(object):
     )
 
     def test_create_url(self, monkeypatch, mock_get, mock_post):
-        monkeypatch.setattr(requests, 'get', mock_get)
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         Release.create(**self.create_kwargs)
         expected = 'https://errata.devel.redhat.com/release/create'
         assert mock_post.response.url == expected
 
     def test_create_data(self, monkeypatch, mock_get, mock_post):
-        monkeypatch.setattr(requests, 'get', mock_get)
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         Release.create(**self.create_kwargs)
         today = date.today()
         ship_date = today.strftime("%Y-%b-%d")
@@ -123,7 +123,7 @@ class TestSpecialCharacters(object):
     expected_url = 'https://errata.devel.redhat.com/api/v1/releases'
 
     def test_plus(self, monkeypatch, mock_get):
-        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
         release = Release(name='RHEL-8.4.0.Z.MAIN+EUS')
         assert release.name == 'RHEL-8.4.0.Z.MAIN+EUS'
         assert mock_get.response.url == self.expected_url
@@ -131,7 +131,7 @@ class TestSpecialCharacters(object):
             'RHEL-8.4.0.Z.MAIN+EUS'
 
     def test_plus_encoded(self, monkeypatch, mock_get, recwarn):
-        monkeypatch.setattr(requests, 'get', mock_get)
+        monkeypatch.setattr(ErrataConnector.session, 'get', mock_get)
         release = Release(name='RHEL-8.4.0.Z.MAIN%2BEUS')
         assert release.name == 'RHEL-8.4.0.Z.MAIN+EUS'
         assert mock_get.response.url == self.expected_url

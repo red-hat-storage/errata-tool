@@ -1,4 +1,4 @@
-import requests
+from errata_tool import ErrataConnector
 
 
 class TestComments(object):
@@ -12,13 +12,13 @@ class TestComments(object):
                 {'advisory_state', 'created_at', 'errata_id', 'text', 'who'}
 
     def test_comment_argument(self, monkeypatch, mock_post, advisory):
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         advisory.addComment('test')
         expected = {'comment': 'test'}
         assert mock_post.kwargs['json'] == expected
 
     def test_comment_user(self, monkeypatch, mock_post, advisory):
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         advisory.addComment('test')
         expected = {'user': {'id': 3002896, 'login_name': 'jdoe@redhat.com',
                              'realname': 'John Doe', 'preferences': {},
@@ -28,7 +28,7 @@ class TestComments(object):
         assert mock_post.response.json()['who'] == expected
 
     def test_comment_response(self, monkeypatch, mock_post, advisory):
-        monkeypatch.setattr(requests, 'post', mock_post)
+        monkeypatch.setattr(ErrataConnector.session, 'post', mock_post)
         comment = 'test'
         advisory.addComment(comment)
         expected = {'comment': comment, 'format': 'json',
