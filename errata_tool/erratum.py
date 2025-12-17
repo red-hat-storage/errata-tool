@@ -580,6 +580,8 @@ https://access.redhat.com/articles/11258")
                 self.errata_state = 'NEW_FILES'
             if state.upper() == 'QE':
                 self.errata_state = 'QE'
+            if state.upper() == 'PUSH_READY':
+                self.errata_state = 'PUSH_READY'
         else:
             raise ErrataException('Cannot change state from ' +
                                   self.errata_state.upper() + " to " +
